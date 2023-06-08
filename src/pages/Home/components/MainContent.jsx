@@ -61,8 +61,7 @@ export default function MainContent() {
             <div className="top-space"></div>
             <h1 className="etan-cohn-title">ETAN COHN</h1>
             <p className="etan-description-text">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit explicabo nulla quidem facere repellendus id, 
-                maxime nostrum ipsam doloremque dolorem qui tempore sit! Repellendus at nam quod illum nisi qui.
+                Welcome to my personal website! Check out some projects and my resumes below.
             </p>
             <div className="resume-btns">
                 <DarkGreenButton text="Software Resume" width="10rem" />

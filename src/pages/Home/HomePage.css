@@ -31,16 +31,17 @@
 
 .etan-cohn-title {
     color: var(--darkgreen);
-    font-size: 3.5rem;
+    font-size: 4rem;
     padding: 0;
     margin: 0;
     margin-bottom: 0.5rem;
 }
 
 .etan-description-text {
-    width: 75%;
+    width: 70%;
     text-align: center;
     margin-bottom: 3rem;
+    font-size: 1.5rem;
 }
 
 .resume-btns {
@@ -90,6 +91,9 @@
 
     .horizontal-line {
         margin-bottom: 1.5rem;
+    }
+    .etan-cohn-title {
+        font-size: 3rem;
     }
 }
 
