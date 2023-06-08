@@ -1,0 +1,20 @@
+.under-construction {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    font-size: 1.5rem;
+}
+
+.construction-text {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 7rem;
+    align-items: center;
+}
+
+.back-btn {
+    width: 10rem;
+}

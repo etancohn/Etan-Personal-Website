@@ -1,0 +1,134 @@
+
+* {
+  --darkgreen: rgb(9, 81, 9);
+  --green1: rgb(165, 246, 165);
+  --green2: rgb(75, 200, 75);
+  --red: rgb(255, 60, 60);
+}
+
+.shopping-list {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* .navbar {
+  background-color: darkgreen;
+  padding: 10px;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  color: white;
+}
+
+.nav-menu > li {
+  cursor: pointer;
+} */
+
+.title {
+  color: var(--darkgreen);
+  margin-top: 2rem;
+  font-size: 4rem;
+  margin-left: 10px;
+  margin-bottom: 1rem;
+}
+
+.shopping-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.shopping-list-items {
+  margin-top: 1rem;
+  list-style: none;
+  width: 100%;
+  border: 1.5px solid;
+  }
+  
+.shopping-list-item {
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr;
+  height: 2rem;
+  width: 100%;
+}
+
+.add-button {
+  margin-top: 0.5rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  background-color: var(--darkgreen);
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  font-size: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  cursor: pointer;
+}
+
+.check-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.check {
+  height: 75%;
+  width: 75%;
+}
+
+.text-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.item-text {
+  background-color: transparent;
+  border: 0;
+  height: 80%;
+}
+
+.delete-btn {
+  background-color: var(--red);
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  max-width: 6rem;
+  margin-left: 0.1rem;
+  margin-right: 0.5rem;
+  height: 75%;
+}
+
+.delete-btn-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.odd-item {
+  background-color: var(--green1);
+}
+
+.even-item {
+  background-color: var(--green2);
+}
+
+.no-items {
+  text-align: center;
+}
+
+.text-crossed-out {
+  text-decoration: line-through;
+}

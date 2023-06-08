@@ -1,0 +1,9 @@
+
+.dark-green-btn {
+    background-color: var(--darkgreen);
+    border: none;
+    color: white;
+    border-radius: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
