@@ -92,8 +92,13 @@
     .horizontal-line {
         margin-bottom: 1.5rem;
     }
+
     .etan-cohn-title {
         font-size: 3rem;
+    }
+
+    .etan-description-text {
+        font-size: 1.1rem;
     }
 }
 
