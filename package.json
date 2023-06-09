@@ -17,6 +17,7 @@
     "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
     "react-multi-carousel": "^2.8.4",
+    "react-pdf": "^7.1.1",
     "react-router-dom": "^6.12.0",
     "webpack": "^5.86.0"
   },

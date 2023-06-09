@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import UnderConstruction from './pages/UnderConstruction/UnderConstruction.jsx'
 import ShoppingList from './pages/Projects/ShoppingList/ShoppingList.jsx'
 import MusicGenres from './pages/Projects/MusicGenres/MusicGenres.jsx'
+import SoftwareResume from './pages/SoftwareResume/SoftwareResume.jsx'
 
 const router = createBrowserRouter([
   {
@@ -14,17 +15,21 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: "/pages/under-construction",
+    path: "pages/under-construction",
     element: <UnderConstruction />
   },
   {
-    path: "/pages/Projects/ShoppingList",
+    path: "pages/Projects/ShoppingList",
     element: <ShoppingList />
   },
   {
     path: "pages/Projects/MusicGenres",
     element: <MusicGenres />
-  }
+  },
+   {
+    path: "pages/software-resume",
+    element: <SoftwareResume />
+   }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

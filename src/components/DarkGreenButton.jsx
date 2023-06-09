@@ -4,7 +4,8 @@ import './DarkGreenButton.css'
 import { useNavigate, redirect } from "react-router-dom"
 
 export default function DarkGreenButton(
-    { text = '<Text>', width='auto', height='auto', padding='1rem 2rem', fontSize='1rem' }) {
+    { text = '<Text>', width='auto', height='auto', padding='1rem 2rem', fontSize='1rem',
+     url="pages/under-construction" }) {
         
     const navigate = useNavigate()
 
@@ -15,7 +16,7 @@ export default function DarkGreenButton(
         fontSize: fontSize
     }
     return (
-        <button className="dark-green-btn" style={buttonStyle} onClick={() => navigate("/pages/under-construction")}>
+        <button className="dark-green-btn" style={buttonStyle} onClick={() => navigate(url)}>
         {/* // <button className="dark-green-btn" style={buttonStyle} onClick={() => redirect(`/components/under-construction`)}> */}
             <span className="btn-txt">{text}</span>
         </button>

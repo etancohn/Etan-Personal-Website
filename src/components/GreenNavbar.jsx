@@ -20,10 +20,10 @@ export default function GreenNavbar() {
                 <Nav className="me-auto nav-clickable-items">
                     <Nav.Link href="/">Home</Nav.Link>
                     <NavDropdown title="Resumes" id="collasible-nav-dropdown">
-                        <NavDropdown.Item href="/pages/under-construction">Software Resume</NavDropdown.Item>
-                        <NavDropdown.Item href="/pages/under-construction">Music Resume</NavDropdown.Item>
+                        <NavDropdown.Item href="pages/software-resume">Software Resume</NavDropdown.Item>
+                        <NavDropdown.Item href="pages/under-construction">Music Resume</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link href="/pages/under-construction">Projects</Nav.Link>
+                    <Nav.Link href="pages/under-construction">Projects</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

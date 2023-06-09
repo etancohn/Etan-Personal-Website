@@ -2,8 +2,6 @@
 import React from 'react'
 import '../../../global.css'
 import DarkGreenButton from '../../../components/DarkGreenButton.jsx'
-// import Card from 'react-bootstrap/Card'
-// import Button from 'react-bootstrap/Button'
 import Carousel from 'react-bootstrap/Carousel'
 import CarouselCard from './CarouselCard.jsx'
 import { websitesData } from '../../../data/website-data.js'
@@ -64,7 +62,7 @@ export default function MainContent() {
                 Welcome to my personal website! Check out some projects and my resumes below.
             </p>
             <div className="resume-btns">
-                <DarkGreenButton text="Software Resume" width="10rem" />
+                <DarkGreenButton text="Software Resume" width="10rem" url="pages/software-resume" />
                 <DarkGreenButton text="Music Resume" width="10rem" />
             </div>
             <p className="horizontal-line"></p>
