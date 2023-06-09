@@ -7,6 +7,7 @@ import UnderConstruction from './pages/UnderConstruction/UnderConstruction.jsx'
 import ShoppingList from './pages/Projects/ShoppingList/ShoppingList.jsx'
 import MusicGenres from './pages/Projects/MusicGenres/MusicGenres.jsx'
 import SoftwareResume from './pages/SoftwareResume/SoftwareResume.jsx'
+import ProjectsPage from './pages/ProjectsPage/ProjectsPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
    {
     path: "pages/software-resume",
     element: <SoftwareResume />
+   },
+   {
+    path: "pages/projects-page",
+    element: <ProjectsPage />
    }
 ])
 

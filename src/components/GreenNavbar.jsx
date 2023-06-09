@@ -24,7 +24,7 @@ export default function GreenNavbar() {
                         <NavDropdown.Item onClick={() => navigate("/pages/software-resume")}>Software Resume</NavDropdown.Item>
                         <NavDropdown.Item onClick={() => navigate("/pages/under-construction")}>Music Resume</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link onClick={() => navigate("/pages/under-construction")}>Projects</Nav.Link>
+                    <Nav.Link onClick={() => navigate("/pages/projects-page")}>Projects</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

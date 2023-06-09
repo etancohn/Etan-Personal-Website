@@ -85,7 +85,7 @@ export default function MainContent() {
             </div>
 
             {/* 'Projects' button */}
-            <DarkGreenButton text="Projects" width="35%" />
+            <DarkGreenButton text="Projects" width="35%" url="pages/projects-page" />
             <div className="bottom"></div>
             
         </div>
