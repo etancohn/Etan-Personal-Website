@@ -5,6 +5,7 @@ import DarkGreenButton from '../../../components/DarkGreenButton.jsx'
 import Carousel from 'react-bootstrap/Carousel'
 import CarouselCard from './CarouselCard.jsx'
 import { websitesData } from '../../../data/website-data.js'
+import etanGradPhoto from '../../../pics/etan-grad-photo.png'
 
 
 export default function MainContent() {
@@ -56,7 +57,7 @@ export default function MainContent() {
         <div className="main-content-container">
             {/* <img src="/src/pics/etan.png" alt="A picture of Etan Cohn." className="etan-photo" /> */}
             {/* <span className="etan-photo"></span> */}
-            <img src="/src/pics/etan-grad-photo.png" alt="A picture of Etan Cohn." className="etan-grad-photo" />
+            <img src={etanGradPhoto} alt="A picture of Etan Cohn." className="etan-grad-photo" />
             {/* <div className="top-space"></div> */}
             <h1 className="etan-cohn-title">ETAN COHN</h1>
             <p className="etan-description-text">
