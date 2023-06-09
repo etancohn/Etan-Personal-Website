@@ -4,9 +4,11 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./GreenNavbar.css"
-import { redirect } from 'react-router-dom';
+import { useNavigate, redirect } from "react-router-dom";
 
 export default function GreenNavbar() {
+    const navigate = useNavigate()
+    const url = "/pages/software-resume"
   return (
     <nav>
         <Navbar collapseOnSelect expand="lg">
@@ -20,7 +22,8 @@ export default function GreenNavbar() {
                 <Nav className="me-auto nav-clickable-items">
                     <Nav.Link href="/">Home</Nav.Link>
                     <NavDropdown title="Resumes" id="collasible-nav-dropdown">
-                        <NavDropdown.Item href="/pages/software-resume">Software Resume</NavDropdown.Item>
+                        {/* <NavDropdown.Item href="/pages/software-resume">Software Resume</NavDropdown.Item> */}
+                        <NavDropdown.Item onClick={() => navigate(url)}>Software Resume</NavDropdown.Item>
                         <NavDropdown.Item href="/pages/under-construction">Music Resume</NavDropdown.Item>
                     </NavDropdown>
                     <Nav.Link href="/pages/under-construction">Projects</Nav.Link>

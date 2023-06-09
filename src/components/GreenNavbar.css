@@ -63,16 +63,16 @@
 
 .logo-letter-e {
     margin-bottom: 1.5rem;
-    transform: rotate(30deg);
+    /* transform: rotate(30deg); */
 }
 
-.logo-letter-r {
+/* .logo-letter-r {
     transform: rotate(-10deg);
-}
+} */
 
 .logo-letter-c {
     margin-top: 1.5rem;
-    transform: rotate(15deg);
+    /* transform: rotate(15deg); */
 }
 
 @media (max-width:992px) {
