@@ -56,7 +56,8 @@ export default function MainContent() {
         <div className="main-content-container">
             {/* <img src="/src/pics/etan.png" alt="A picture of Etan Cohn." className="etan-photo" /> */}
             {/* <span className="etan-photo"></span> */}
-            <div className="top-space"></div>
+            <img src="/src/pics/etan-grad-photo.png" alt="A picture of Etan Cohn." className="etan-grad-photo" />
+            {/* <div className="top-space"></div> */}
             <h1 className="etan-cohn-title">ETAN COHN</h1>
             <p className="etan-description-text">
                 Welcome to my personal website! Check out some projects and my resumes below.

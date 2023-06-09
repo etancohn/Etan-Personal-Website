@@ -21,12 +21,18 @@
     grid-area: content;
 }
 
-.etan-photo {
-    /* background-color: gray; */
+/* .etan-photo {
     width: 5rem;
     height: 5rem;
     margin-top: 3rem;
     margin-bottom: 0.5rem;
+} */
+
+.etan-grad-photo {
+    margin-top: 1rem;
+    width: 9rem;
+    height: 10rem;
+    margin-bottom: 0.7rem;
 }
 
 .etan-cohn-title {
@@ -34,13 +40,13 @@
     font-size: 4rem;
     padding: 0;
     margin: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
 }
 
 .etan-description-text {
     width: 70%;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
     font-size: 1.5rem;
 }
 
@@ -48,14 +54,14 @@
     display: flex;
     column-gap: 2rem;
     justify-content: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
 }
 
 .horizontal-line {
     border: 1.4px solid rgb(132, 169, 119);
     width: 75%;
     border-radius: 5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
 }
 
 .website-carousel {
