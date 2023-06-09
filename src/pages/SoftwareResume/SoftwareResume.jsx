@@ -8,7 +8,7 @@ function SoftwareResume() {
         <GreenNavbar />
         <div className="software-page-content">
             <h1 className="software-resume-title">Software Resume</h1>
-            <img src="/src/pics/etan-resume.jpg" alt="Etan's resume" 
+            <img src="/src/pics/software_resume.jpg" alt="Etan's software resume" 
                 className="resume-img"/>
         </div>
     </div>
