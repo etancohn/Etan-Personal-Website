@@ -8,11 +8,10 @@ import { useNavigate, redirect } from "react-router-dom";
 
 export default function GreenNavbar() {
     const navigate = useNavigate()
-    const url = "/pages/software-resume"
   return (
     <nav>
         <Navbar collapseOnSelect expand="lg">
-            <Navbar.Brand href="/" className="erc-logo">
+            <Navbar.Brand onClick={() => navigate("/")} className="erc-logo">
                 <span className="logo-letter-e">E</span>
                 <span className="logo-letter-r">R</span>
                 <span className="logo-letter-c">C</span>
@@ -20,13 +19,12 @@ export default function GreenNavbar() {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto nav-clickable-items">
-                    <Nav.Link href="/">Home</Nav.Link>
+                    <Nav.Link onClick={() => navigate("/")}>Home</Nav.Link>
                     <NavDropdown title="Resumes" id="collasible-nav-dropdown">
-                        {/* <NavDropdown.Item href="/pages/software-resume">Software Resume</NavDropdown.Item> */}
-                        <NavDropdown.Item onClick={() => navigate(url)}>Software Resume</NavDropdown.Item>
-                        <NavDropdown.Item href="/pages/under-construction">Music Resume</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => navigate("/pages/software-resume")}>Software Resume</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => navigate("/pages/under-construction")}>Music Resume</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link href="/pages/under-construction">Projects</Nav.Link>
+                    <Nav.Link onClick={() => navigate("/pages/under-construction")}>Projects</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
