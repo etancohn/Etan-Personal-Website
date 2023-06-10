@@ -47,14 +47,14 @@ function SlangTranslator() {
     return (
         <div className="slang-translator">
             <GreenNavbar />
-            <h1 className="title">Slang Translator</h1>
-            <p className="description">
+            <h1 className="slang-translator-title">Slang Translator</h1>
+            <p className="slang-translator-description">
                 Enter a slang phrase, and we will give you back an intellectual sounding translation.
             </p>
 
             <div className="slang-translator-example-inputs">
                 <h4>Example inputs:</h4>
-                <ul>
+                <ul className="slang-translator-example-items">
                     <li>"Bruh, that's cringe. I can't even"</li>
                     <li>"omg slay!! Pop off bestie queeeennn"</li>
                     <li>"Yooooo that's fire. Based af, my dudes"</li>
