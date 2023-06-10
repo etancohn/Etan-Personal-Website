@@ -49,7 +49,7 @@ function SlangTranslator() {
             <GreenNavbar />
             <h1 className="slang-translator-title">Slang Translator</h1>
             <p className="slang-translator-description">
-                Enter a slang phrase, and we will give you back an intellectual sounding translation.
+                Enter a slang phrase, and we will give you a translation.
             </p>
 
             <div className="slang-translator-example-inputs">

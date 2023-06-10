@@ -9,6 +9,7 @@ import MusicGenres from './pages/Projects/MusicGenres/MusicGenres.jsx'
 import SoftwareResume from './pages/SoftwareResume/SoftwareResume.jsx'
 import ProjectsPage from './pages/ProjectsPage/ProjectsPage.jsx'
 import SlangTranslator from './pages/Projects/SlangTranslator/SlangTranslator.jsx'
+import EmojiGenerator from './pages/Projects/EmojiGenerator/EmojiGenerator.jsx'
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,10 @@ const router = createBrowserRouter([
    {
     path: "/pages/Projects/SlangTranslator",
     element: <SlangTranslator />
-
+   },
+   {
+    path: "pages/Projects/EmojiGenerator",
+    element: <EmojiGenerator />
    }
 ])
 

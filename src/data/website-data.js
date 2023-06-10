@@ -15,5 +15,10 @@ export const websitesData = [
         title: "Slang Translator",
         description: "Translate slang phrases.",
         link: "/pages/Projects/SlangTranslator"
+    },
+    {
+        title: "Emoji Generator",
+        description: "Generate emojis that convey your text meaning.",
+        link: "pages/Projects/EmojiGenerator"
     }
 ]
