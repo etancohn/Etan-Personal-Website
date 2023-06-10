@@ -10,5 +10,10 @@ export const websitesData = [
         title: "Song Genres",
         description: "Display the genres of your favorite songs!",
         link: "pages/Projects/MusicGenres"
+    },
+    {
+        title: "Slang Translator",
+        description: "Translate slang phrases.",
+        link: "pages/Projects/SlangTranslator"
     }
 ]

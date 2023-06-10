@@ -2,8 +2,6 @@ import { useState } from 'react';
 import './MusicGenres.css';
 import GreenNavbar from '../../../components/GreenNavbar';
 import React from 'react';
-// require('dotenv').config();
-// import 'dotenv/config';
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
