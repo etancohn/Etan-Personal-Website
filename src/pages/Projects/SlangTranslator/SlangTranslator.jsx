@@ -51,6 +51,17 @@ function SlangTranslator() {
             <p className="description">
                 Enter a slang phrase, and we will give you back an intellectual sounding translation.
             </p>
+
+            <div className="slang-translator-example-inputs">
+                <h4>Example inputs:</h4>
+                <ul>
+                    <li>"Bruh, that's cringe. I can't even"</li>
+                    <li>"omg slay!! Pop off bestie queeeennn"</li>
+                    <li>"Yooooo that's fire. Based af, my dudes"</li>
+                    <li>"F in the chat"</li>
+                </ul>
+            </div>
+
             <input 
                 type="text" 
                 className="input-box"

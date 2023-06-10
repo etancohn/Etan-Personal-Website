@@ -10,20 +10,26 @@
     --green2: rgb(75, 200, 75);    /* used in shopping list items */
   }
 
-  .slang-translator {
+.slang-translator {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     /* background-color: blue; */
-  }
+}
 
-  .input-box {
+.slang-translator-example-inputs {
+    background-color: rgba(128, 128, 128, 50%);
+    margin-bottom: 2rem;
+    padding: 1rem 1rem;
+}
+
+.input-box {
     width: 60%;
     margin-bottom: 1rem;
     padding: 1rem 0;
-  }
+}
 
 .slang-translator-submit-btn {
     width: 15rem;
@@ -39,6 +45,8 @@
 .slang-translator-output {
     background-color: var(--lightgreen);
     width: 80%;
-    padding: 3rem 0;
+    min-height: 5rem;
+    padding: 1rem 0;
     text-align: center;
+    margin-bottom: 3rem;
 }
