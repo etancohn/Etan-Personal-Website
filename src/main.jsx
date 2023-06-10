@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     element: <ProjectsPage />
    },
    {
-    path: "pages/Projects/SlangTranslator",
+    path: "/pages/Projects/SlangTranslator",
     element: <SlangTranslator />
 
    }

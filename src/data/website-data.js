@@ -14,6 +14,6 @@ export const websitesData = [
     {
         title: "Slang Translator",
         description: "Translate slang phrases.",
-        link: "pages/Projects/SlangTranslator"
+        link: "/pages/Projects/SlangTranslator"
     }
 ]
