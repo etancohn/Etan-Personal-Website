@@ -30,7 +30,8 @@ async function getResults(song, artist, setOutputText, setOutputValidationStr) {
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
       messages: [{ role: "user", content: query }],
-      max_tokens: 100
+      max_tokens: 100,
+      temperature: 0   // makes it more deterministic
     })
   };
 
