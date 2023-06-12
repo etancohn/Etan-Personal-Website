@@ -18,7 +18,7 @@ export const websitesData = [
     },
     {
         title: "Emoji Generator",
-        description: "Generate emojis that convey your text meaning.",
+        description: "Generate emojis representing your text.",
         link: "pages/Projects/EmojiGenerator"
     }
 ]

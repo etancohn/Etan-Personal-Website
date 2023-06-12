@@ -42,7 +42,7 @@ export default function MainContent() {
             setL((prevL) => {
                 let updatedL = [...prevL]
                 const websiteCard = 
-                    <CarouselCard width="10rem" height="10rem" 
+                    <CarouselCard 
                     title={website.title} 
                     description={website.description} 
                     link={website.link}
@@ -55,13 +55,10 @@ export default function MainContent() {
 
     return (
         <div className="main-content-container">
-            {/* <img src="/src/pics/etan.png" alt="A picture of Etan Cohn." className="etan-photo" /> */}
-            {/* <span className="etan-photo"></span> */}
             <img src={etanGradPhoto} alt="A picture of Etan Cohn." className="etan-grad-photo" />
-            {/* <div className="top-space"></div> */}
             <h1 className="etan-cohn-title">ETAN COHN</h1>
             <p className="etan-description-text">
-                Welcome to my personal website! Check out some projects and my resumes below.
+                Welcome to my personal website! Check out my resume and some web app projects below.
             </p>
             <div className="resume-btns">
                 <DarkGreenButton text="Software Resume" width="10rem" url="pages/software-resume" />
