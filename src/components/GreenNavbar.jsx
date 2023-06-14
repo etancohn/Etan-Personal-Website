@@ -25,10 +25,6 @@ export default function GreenNavbar( {white=false} ) {
                         <NavDropdown.Item onClick={() => navigate("/pages/under-construction")}>Music Resume</NavDropdown.Item>
                     </NavDropdown>
                     <Nav.Link onClick={() => navigate("/pages/projects-page")}>Projects</Nav.Link>
-                    <NavDropdown title="Contact">
-                        <NavDropdown.Item onClick={() => navigate("https://www.instagram.com/etan_cohn/")}>Instagram</NavDropdown.Item>
-                        <NavDropdown.Item onClick={() => navigate("/pages/under-construction")}>Music Resume</NavDropdown.Item>
-                    </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
