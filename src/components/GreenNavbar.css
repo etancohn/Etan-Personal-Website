@@ -9,7 +9,6 @@
     --green1: rgb(165, 246, 165); 
     --green2: rgb(75, 200, 75);  
   }
-  
 
 .navbar {
     background-color: var(--darkgreen);
@@ -18,6 +17,11 @@
     padding-right: 1rem!important;
     padding-left: 2rem!important;
 }
+
+.white-navbar {
+    background-color: white!important;
+    width: auto;
+  }
 
 .navbar-brand {
     position: absolute;
@@ -62,6 +66,10 @@
     cursor: pointer;
 }
 
+.remove-logo {
+    display: none;
+}
+
 .logo-letter-e {
     margin-bottom: 1.5rem;
     /* transform: rotate(30deg); */
@@ -74,6 +82,13 @@
 .logo-letter-c {
     margin-top: 1.5rem;
     /* transform: rotate(15deg); */
+}
+
+.black-txt > * {
+    color: black!important;
+}
+.black-txt > * > * {
+    color: black!important;
 }
 
 @media (max-width:992px) {

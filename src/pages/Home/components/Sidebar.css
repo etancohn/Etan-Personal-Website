@@ -26,17 +26,24 @@
     align-items: center;
 }
 
+.erc > * {
+    position: fixed;
+}
+
 .letter-e {
+    left: 9%;
     padding-bottom: 10rem;
     /* transform: rotate(30deg); */
 }
 
-/* .letter-r {
-    transform: rotate(-10deg);
-} */
+.letter-r {
+    /* transform: rotate(-10deg); */
+    left: 12.25%;
+}
 
 .letter-c {
     padding-top: 10rem;
+    left: 15.5%;
     /* transform: rotate(15deg); */
 }
 

@@ -1,4 +1,8 @@
 
+.homepage-navbar {
+    background-color: white!important;
+}
+
 .homepage-div {
     width: 100vw;
     display: grid;
