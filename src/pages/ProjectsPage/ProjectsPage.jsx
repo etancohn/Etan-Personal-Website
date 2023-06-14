@@ -3,6 +3,7 @@ import './ProjectsPage.css'
 import GreenNavbar from '../../components/GreenNavbar'
 import { websitesData } from '../../data/website-data.js'
 import { useNavigate } from "react-router-dom"
+import Footer from '../../components/Footer'
 
 function ProjectsPage() {
   let navigate = useNavigate()
@@ -24,6 +25,7 @@ function ProjectsPage() {
               ))}
             </div>
       </div>
+      <Footer />
     </div>
   )
 }

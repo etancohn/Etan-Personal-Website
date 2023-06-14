@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './MusicGenres.css';
 import GreenNavbar from '../../../components/GreenNavbar';
 import React from 'react';
+import Footer from '../../../components/Footer';
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -56,6 +57,7 @@ export default function MusicGenres() {
   const [outputValidationStr, setOutputValidationStr] = useState("");
 
   return (
+    <>
     <div className="music-genres-content">
       <GreenNavbar />
       <h1 className="title">Song Genres</h1>
@@ -96,5 +98,8 @@ export default function MusicGenres() {
         </div>
       </div>
     </div>
+
+    <Footer />
+    </>
   );
 }

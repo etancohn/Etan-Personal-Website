@@ -1,6 +1,7 @@
 import React from 'react'
 import './SlangTranslator.css'
 import GreenNavbar from '../../../components/GreenNavbar'
+import Footer from '../../../components/Footer'
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -45,6 +46,7 @@ function SlangTranslator() {
     const [outputText, setOutputText] = React.useState("")
     const [outputValidationStr, setOutputValidationStr] = React.useState("")
     return (
+        <>
         <div className="slang-translator">
             <GreenNavbar />
             <h1 className="slang-translator-title">Slang Translator</h1>
@@ -83,6 +85,9 @@ function SlangTranslator() {
             </div>
 
         </div>
+
+        <Footer />
+        </>
     )
 }
 

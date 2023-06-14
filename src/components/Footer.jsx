@@ -4,9 +4,9 @@ import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-k
 
 export default function Footer() {
     return (
-      <MDBFooter bgColor='secondary' className='text-center text-lg-start text-muted bg-opacity-25'>
+      <MDBFooter bgColor='secondary' className='text-center text-lg-start text-muted bg-opacity-25 w-100'>
   
-        <MDBContainer className='text-center text-md-start mt-3 border-top' style={{ borderTopWidth: '5px' }}>
+        <MDBContainer className='text-center text-md-start border-top' style={{ borderTopWidth: '5px' }}>
         <MDBRow className='mt-3'>
             {/* contact info */}
             <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
@@ -36,14 +36,14 @@ export default function Footer() {
                     </p>
 
                     <p>
-                        <a href='' className='me-4 text-reset'>
+                        <a href='https://www.instagram.com/etan_cohn/' className='me-4 text-reset'>
                         <MDBIcon fab icon="instagram me-3" />
                         Instagram
                         </a>
                     </p>
 
                     <p>
-                        <a href='' className='me-4 text-reset'>
+                        <a href='https://www.linkedin.com/in/etan-cohn/' className='me-4 text-reset'>
                         <MDBIcon fab icon="linkedin me-3" />
                         LinkedIn
                         </a>

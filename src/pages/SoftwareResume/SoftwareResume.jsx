@@ -2,6 +2,7 @@ import React from 'react'
 import './SoftwareResume.css'
 import GreenNavbar from '../../components/GreenNavbar'
 import softwareResumePhoto from '../../pics/software_resume.jpg'
+import Footer from '../../components/Footer'
 
 function SoftwareResume() {
   return (
@@ -12,6 +13,7 @@ function SoftwareResume() {
             <img src={softwareResumePhoto} alt="Etan's software resume" 
                 className="resume-img"/>
         </div>
+        <Footer />
     </div>
   )
 }

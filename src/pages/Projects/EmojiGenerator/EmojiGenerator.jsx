@@ -3,6 +3,7 @@ import './EmojiGenerator.css'
 import GreenNavbar from '../../../components/GreenNavbar'
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+import Footer from '../../../components/Footer';
 
 // settings for emoji count
 const EMOJIS_LOW = "2"
@@ -110,6 +111,7 @@ function EmojiGenerator() {
                     </ToggleButton>
                 </ToggleButtonGroup>
             </div>
+            <Footer />
         </>
     )
 }
