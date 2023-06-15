@@ -57,6 +57,30 @@ export default function MusicGenres() {
   const [artistName, setArtistName] = useState("");
   const [outputText, setOutputText] = useState("Enter a song above!");
   const [outputValidationStr, setOutputValidationStr] = useState("");
+  const [songInputFocussed, setSongInputFocussed] = useState(false);
+  const [artistInputFocussed, setArtistInputFocussed] = useState(false);
+
+  const songInputRef = React.useRef(null)
+  const artistInputRef = React.useRef(null)
+
+  const handleKeyPressed = (e) => {
+    // if enter is pushed, either change focus to second input or make API call
+    if (e.key === 'Enter') {
+      if (songInputFocussed) {   
+        artistInputRef.current.focus()
+      } else if (artistInputFocussed) {
+        getResults(songName, artistName, setOutputText, setOutputValidationStr)
+      }
+    }
+
+  }
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleKeyPressed)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyPressed)
+    }
+  }, [songName, artistName])
 
   return (
     <>
@@ -75,6 +99,9 @@ export default function MusicGenres() {
               type="text" 
               placeholder="ex: The Pretender" 
               value={songName}
+              ref={songInputRef}
+              onFocus={() => setSongInputFocussed(true)}
+              onBlur={() => setSongInputFocussed(false)}
               onChange={(e) => setSongName(e.target.value)}>
             </input>
           </div>
@@ -85,6 +112,9 @@ export default function MusicGenres() {
               type="text" 
               placeholder="ex: Foo Fighters" 
               value={artistName}
+              ref={artistInputRef}
+              onFocus={() => setArtistInputFocussed(true)}
+              onBlur={() => setArtistInputFocussed(false)}
               onChange={(e) => setArtistName(e.target.value)}>
             </input>
           </div>
@@ -103,11 +133,6 @@ export default function MusicGenres() {
             outputText={outputText} />
         </div>
 
-        {/* <div className="output">
-          <span className="output-title">{outputValidationStr !== "" && `${outputValidationStr}`}</span>
-          <span className="no-output-title">{outputValidationStr === "" && "Enter a song above!"}</span>
-          <p className="output-text">{outputText}</p>
-        </div> */}
       </div>
 
     </div>

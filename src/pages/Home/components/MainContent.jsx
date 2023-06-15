@@ -11,19 +11,20 @@ import etanGradPhoto from '../../../pics/etan-grad-photo.png'
 export default function MainContent() {
     
     const [L, setL] = React.useState([])
-    const [x, setX] = React.useState(3)
+    const [numCards, setNumCards] = React.useState(3)  // num of carousel cards displayed at one time
 
+    // Change how many carousel cards are displayed when screen size changes
     const handleResize = () => {
-        setX(3)
+        setNumCards(3)
         if (window.innerWidth < 950) {
-            setX(2)
+            setNumCards(2)
         } 
         if (window.innerWidth < 775) {
-            setX(1)
+            setNumCards(1)
         }
-        
     }
-    
+
+    // Listen for window resize event
     React.useEffect(() => {
         window.addEventListener('resize', handleResize)
 
@@ -33,10 +34,11 @@ export default function MainContent() {
     })
 
 
+    // Create carousel cards for each website
     React.useEffect(() => {
         setL([])
         websitesData.forEach((website, i) => {
-            if (i % x === 0) {
+            if (i % numCards === 0) {
                 setL(prevL => [...prevL, []])
             }
             setL((prevL) => {
@@ -51,21 +53,28 @@ export default function MainContent() {
                 return updatedL
             }) 
         })
-    }, [x])
+    }, [numCards])
 
     return (
         <div className="main-content-container">
+
+            {/* Picture and Title */}
             <img src={etanGradPhoto} alt="A picture of Etan Cohn." className="etan-grad-photo" />
             <h1 className="etan-cohn-title">ETAN COHN</h1>
             <p className="etan-description-text">
                 Welcome to my personal website! Check out my resume and some web app projects below.
             </p>
+
+            {/* Resumes */}
             <div className="resume-btns">
                 <DarkGreenButton text="Software Resume" width="10rem" url="pages/software-resume" />
                 <DarkGreenButton text="Music Resume" width="10rem" />
             </div>
+
+            {/* Line Separation */}
             <p className="horizontal-line"></p>
 
+            {/* Projects carousel */}
             <div className="website-carousel">
                 <Carousel 
                     variant='dark' 
@@ -83,7 +92,7 @@ export default function MainContent() {
                 </Carousel>
             </div>
 
-            {/* 'Projects' button */}
+            {/* Projects button */}
             <DarkGreenButton text="Projects" width="35%" url="pages/projects-page" />
             <div className="bottom"></div>
             
