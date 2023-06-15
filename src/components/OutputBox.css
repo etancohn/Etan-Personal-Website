@@ -9,7 +9,6 @@
     align-items: center;
     height: 100%;
     background-color: rgba(9, 81, 9, 0.4);
-
     border-radius: 0.2rem;
     border: 1px solid var(--darkgreen);
 }

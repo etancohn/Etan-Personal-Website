@@ -72,12 +72,14 @@ export default function MusicGenres() {
         getResults(songName, artistName, setOutputText, setOutputValidationStr)
       }
     }
-
   }
+
+  // Add event listener to check if a key is pressed
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeyPressed)
 
     return () => {
+      // cleanup
       document.removeEventListener('keydown', handleKeyPressed)
     }
   }, [songName, artistName])
@@ -118,7 +120,6 @@ export default function MusicGenres() {
               onChange={(e) => setArtistName(e.target.value)}>
             </input>
           </div>
-
         </div>
 
         <button 
@@ -134,7 +135,6 @@ export default function MusicGenres() {
         </div>
 
       </div>
-
     </div>
 
     <Footer />

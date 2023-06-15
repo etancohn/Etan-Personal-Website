@@ -19,15 +19,11 @@
     /* background-color: blue; */
 }
 
-.slang-translator-title {
-    margin-top: 0.5rem;
-    color: var(--darkgreen);
-    font-size: 3rem;
-}
-
-.slang-translator-description {
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
+.slang-translator-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75%;
 }
 
 .slang-translator-example-inputs {
@@ -35,7 +31,7 @@
     margin-bottom: 1rem;
     padding: 0rem 1rem;
     padding-top: 0.5rem;
-    width: 50%;
+    width: 60%;
     text-align: center;
 }
 
@@ -52,10 +48,23 @@
     text-align: left;
 }
 
-.input-box {
+/* .input-box {
     width: 60%;
     margin-bottom: 1rem;
     padding: 1rem 0;
+} */
+
+.slang-translator-input-box {
+    width: 65%;
+    min-width: 22rem;
+    margin-bottom: 1rem;
+}
+
+.slang-translator-input-container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .slang-translator-submit-btn {
@@ -69,11 +78,8 @@
     margin-bottom: 1rem;
 }
 
-.slang-translator-output {
-    background-color: var(--lightgreen);
-    width: 80%;
-    min-height: 5rem;
-    padding: 1rem 0;
-    text-align: center;
-    margin-bottom: 3rem;
+.slang-translator-output-container {
+    width: 85%;
+    min-width: 10rem;
+    margin-bottom: 2rem;
 }

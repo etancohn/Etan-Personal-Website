@@ -2,6 +2,8 @@ import React from 'react'
 import './SlangTranslator.css'
 import GreenNavbar from '../../../components/GreenNavbar'
 import Footer from '../../../components/Footer'
+import OutputBox from '../../../components/OutputBox'
+import '../../../global.css'
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -43,14 +45,42 @@ async function makeQuery(slangInput, setOutputText, setOutputValidationStr) {
 
 function SlangTranslator() {
     const [slangInput, setSlangInput] = React.useState("")
-    const [outputText, setOutputText] = React.useState("")
+    const [outputText, setOutputText] = React.useState("Drop that slang above, fam! It'll be lit.")
     const [outputValidationStr, setOutputValidationStr] = React.useState("")
-    return (
+    const [slangInputFocussed, setSlangInputFocussed] = React.useState(false);
+
+    const slangInputRef = React.useRef(null)
+
+    const handleKeyPressed = (e) => {
+        // if enter is pushed, either change focus to second input or make API call
+        if (e.key === 'Enter') {
+          if (!slangInputFocussed) {   
+            slangInputRef.current.focus()
+          } else {
+            makeQuery(slangInput, setOutputText, setOutputValidationStr)
+          }
+        }
+    }
+
+    // Add event listener to check if a key is pressed
+    React.useEffect(() => {
+        document.addEventListener('keydown', handleKeyPressed)
+
+        return () => {
+        // cleanup
+        document.removeEventListener('keydown', handleKeyPressed)
+        }
+    }, [slangInput])
+
+    return ( 
         <>
         <div className="slang-translator">
             <GreenNavbar />
-            <h1 className="slang-translator-title">Slang Translator</h1>
-            <p className="slang-translator-description">
+
+            <div className="slang-translator-content-container">
+
+            <h1 className="project-title">Slang Translator</h1>
+            <p className="project-description">
                 Enter a slang phrase, and we will give you a translation.
             </p>
 
@@ -64,13 +94,20 @@ function SlangTranslator() {
                 </ul>
             </div>
 
-            <input 
-                type="text" 
-                className="input-box"
-                placeholder="ex: omg slay!! Pop off bestie queen" 
-                value={slangInput}
-                onChange={(e) => setSlangInput(e.target.value)}>
-            </input>
+            <div className="slang-translator-input-container">
+                <h4 className="project-mini-title">Slang Input:</h4>
+                <input 
+                    type="text" 
+                    className="slang-translator-input-box"
+                    placeholder="ex: omg slay!! Pop off bestie queen" 
+                    value={slangInput}
+                    ref={slangInputRef}
+                    onFocus={() => setSlangInputFocussed(true)}
+                    onBlur={() => setSlangInputFocussed(false)}
+                    onChange={(e) => setSlangInput(e.target.value)}>
+                </input>
+
+            </div>
 
             <button 
                 className="slang-translator-submit-btn"
@@ -78,10 +115,12 @@ function SlangTranslator() {
                     Submit
             </button>
 
-            <div className="slang-translator-output">
-                <span className="output-title">{outputValidationStr !== "" && `${outputValidationStr}`}</span>
-                <span className="no-output-title">{outputValidationStr === "" && "Drop that slang above, fam! It'll be lit, my dude"}</span>
-                <p className="output-text">{outputText}</p>
+            <div className="slang-translator-output-container">
+                <OutputBox 
+                    titleText={"input: " + `${outputValidationStr}`}
+                    outputText={outputText} />
+            </div>
+
             </div>
 
         </div>
