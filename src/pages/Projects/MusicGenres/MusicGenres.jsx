@@ -55,7 +55,7 @@ export default function MusicGenres() {
   // State variables for song name, artist name, and output text
   const [songName, setSongName] = useState("");
   const [artistName, setArtistName] = useState("");
-  const [outputText, setOutputText] = useState("");
+  const [outputText, setOutputText] = useState("Enter a song above!");
   const [outputValidationStr, setOutputValidationStr] = useState("");
 
   return (

@@ -102,8 +102,8 @@ input {
 
 .output-box-container {
     grid-area: output;
-    background-color: blue;
-    width: 100%;
+    width: 85%;
+    min-width: 10rem;
 }
 
 @media (max-width: 500px) {
