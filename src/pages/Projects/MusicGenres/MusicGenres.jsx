@@ -3,6 +3,8 @@ import './MusicGenres.css';
 import GreenNavbar from '../../../components/GreenNavbar';
 import React from 'react';
 import Footer from '../../../components/Footer';
+import OutputBox from '../../../components/OutputBox';
+import '../../../global.css';
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -43,7 +45,7 @@ async function getResults(song, artist, setOutputText, setOutputValidationStr) {
     
     // Updating the output text with the received response
     setOutputText(data.choices[0].message.content);
-    setOutputValidationStr(`'${song}' by '${artist}':`)
+    setOutputValidationStr(`'${song}' by '${artist}'`)
   } catch(error) {
     console.error(error);
   }
@@ -60,29 +62,33 @@ export default function MusicGenres() {
     <>
     <div className="music-genres-content">
       <GreenNavbar />
-      <h1 className="title">Song Genres</h1>
-      <p className="description">
-        Enter a song and the artist below, then press submit to display the song's genres.
-      </p>
-      <div className="grid-container">
-        <div className="song-input">
-          <h4>Song</h4>
-          <input 
-            type="text" 
-            placeholder="ex: The Pretender" 
-            value={songName}
-            onChange={(e) => setSongName(e.target.value)}>
-          </input>
-        </div>
+      <div className="music-genres-content-container">
+        <h1 className="project-title">Song Genres</h1>
+        <p className="project-description">
+          Enter a song and the artist below, then press submit to display the song's genres.
+        </p>
 
-        <div className="artist-input">
-          <h4>Artist</h4>
-          <input 
-            type="text" 
-            placeholder="ex: Foo Fighters" 
-            value={artistName}
-            onChange={(e) => setArtistName(e.target.value)}>
-          </input>
+        <div className="music-genres-inputs-container">
+          <div className="song-input">
+            <h4 className='project-mini-title'>Song</h4>
+            <input 
+              type="text" 
+              placeholder="ex: The Pretender" 
+              value={songName}
+              onChange={(e) => setSongName(e.target.value)}>
+            </input>
+          </div>
+
+          <div className="artist-input">
+            <h4 className="project-mini-title">Artist</h4>
+            <input 
+              type="text" 
+              placeholder="ex: Foo Fighters" 
+              value={artistName}
+              onChange={(e) => setArtistName(e.target.value)}>
+            </input>
+          </div>
+
         </div>
 
         <button 
@@ -91,12 +97,19 @@ export default function MusicGenres() {
             Submit
         </button>
 
-        <div className="output">
+        <div className="output-box-container">
+          <OutputBox 
+            titleText={"input: " + `${outputValidationStr}`}
+            outputText={outputText} />
+        </div>
+
+        {/* <div className="output">
           <span className="output-title">{outputValidationStr !== "" && `${outputValidationStr}`}</span>
           <span className="no-output-title">{outputValidationStr === "" && "Enter a song above!"}</span>
           <p className="output-text">{outputText}</p>
-        </div>
+        </div> */}
       </div>
+
     </div>
 
     <Footer />

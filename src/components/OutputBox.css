@@ -1,0 +1,18 @@
+
+.output-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: red;
+}
+
+.output-box-title {
+    text-align: center;
+    text-decoration: underline;
+    font-style: italic;
+    font-size: 1.2rem;
+}
+
+.output-box-text {
+    font-size: 1.5rem;
+}
