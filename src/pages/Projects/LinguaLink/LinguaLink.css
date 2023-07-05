@@ -25,14 +25,41 @@
     margin-bottom: 0.75rem;
 }
 
-.output-box-container {
-    width: 60%;
-    min-width: 25rem;
+.even-item {
+    margin-left: 5rem;
+}
 
+.output-box-container {
+    background-color: pink;
+    margin-bottom: 2rem;
+}
+
+.output-box-item-container {
+    background-color: red;
+    margin-bottom: 0.5rem;
     display: flex;
-    flex-direction: column;
-    /* align-items: center; */
-    background-color: plum;
-    margin-bottom: 3rem;
-    padding: 1rem 0;
+    align-items: center;
+    font-family: 'Raleway', sans-serif;
+}
+
+.output-box-logo {
+    width: 9rem;
+    z-index: 2;
+}
+
+.output-box-item {
+    position: absolute;
+    background-color: white;
+    margin-left: 4.5rem;
+    width: 70%;
+    z-index: 1;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.item-title {
+    font-weight: bold;
+}
+
+.item-text {
+    margin-left: 8rem;
 }

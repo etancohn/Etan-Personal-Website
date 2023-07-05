@@ -3,6 +3,11 @@ import GreenNavbar from '../../../components/GreenNavbar'
 import Footer from '../../../components/Footer'
 import './LinguaLink.css'
 import OutputBox from '../../../components/OutputBox'
+import logo1 from '../../../pics/LinguaLink/logo_1.png'
+import logo2 from '../../../pics/LinguaLink/logo_2.png'
+import logo3 from '../../../pics/LinguaLink/logo_3.png'
+import logo4 from '../../../pics/LinguaLink/logo_4.png'
+import logo5 from '../../../pics/LinguaLink/logo_5.png'
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -45,7 +50,7 @@ async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr) {
         
         // Updating the output text with the received response
         setOutputText(data.choices[0].message.content);
-        setOutputValidationStr(`'${vocabWord}'`)
+        setOutputValidationStr(`${vocabWord}`)
       } catch(error) {
         console.error(error);
       }
@@ -97,10 +102,21 @@ function extractValues(outputText, setTranslation, setAssociation, setMentalImag
     setAssociation(association);
     setMentalImage(mentalImage);
     setExplanation(explanation);
-    // console.log('Translation:', translation);
-    // console.log('Association:', association);
-    // console.log('Mental Image:', mentalImage);
-    // console.log('Explanation:', explanation);
+}
+
+// html for a single row of output
+function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="text.", isEven=false} ) {
+    return (
+        <div className={`output-box-item-container ${isEven ? "even-item" : "odd-item"}`}>
+            <img className="output-box-logo" src={logo} />
+            <div className="output-box-item">
+                <div className="item-text">
+                    <h4 className="item-title">{`${title}`}</h4>
+                    <p className="output-text">{`${outputText}`}</p>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 function LinguaLink() {
@@ -112,6 +128,8 @@ function LinguaLink() {
   const [mentalImage, setMentalImage] = React.useState("");
   const [explanation, setExplanation] = React.useState("");
   const [url, setUrl] = React.useState("");
+  const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false);
+  const vocabWordInputRef = React.useRef(null);
 
   React.useEffect(() => {
     extractValues(outputText, setTranslation, setAssociation, setMentalImage, setExplanation);
@@ -121,6 +139,27 @@ function LinguaLink() {
     console.log(url);
   }, [url])
 
+  // handle user pushing 'Enter'
+  const handleKeyPressed = (e) => {
+    // if enter is pushed, either change focus to vocab word input or make API call
+    if (e.key === 'Enter') {
+      if (vocabWordInputFocussed) {   
+        makeGPTCall(vocabWord, setOutputText, setOutputValidationStr)
+        vocabWordInputRef.current.blur()   // unfocus
+      } else  {
+        vocabWordInputRef.current.focus()
+      }
+    }
+  }
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleKeyPressed)
+
+    return () => {
+      // cleanup
+      document.removeEventListener('keydown', handleKeyPressed)
+    }
+  })
+
   return (
     <>
     <div className="lingua-link-content">
@@ -129,7 +168,7 @@ function LinguaLink() {
 
             {/* title and description */}
             <h1 className="project-title">Lingua Link</h1>
-            <p className="project-description">Tool for learning new Spanish vocab words.</p>
+            <p className="project-description">Elevate your Spanish vocabulary learning experience! Lingua Link employs powerful memory techniques to enhance your ability to learn, remember, and effortlessly recall new Spanish vocab words.</p>
 
             {/* user input for vocab word */}
             <div className="vocab-input-container">
@@ -139,6 +178,9 @@ function LinguaLink() {
                     type="text" 
                     placeholder="ex: invierno" 
                     value={vocabWord}
+                    ref={vocabWordInputRef}
+                    onFocus={() => setVocabWordInputFocussed(true)}
+                    onBlur={() => setVocabWordInputFocussed(false)}
                     onChange={(e) => setVocabWord(e.target.value)}>
                 </input>
                 <button 
@@ -149,14 +191,11 @@ function LinguaLink() {
             </div>
 
             <div className="output-box-container">
-                <h4>{`input: ${outputValidationStr}`}</h4>
-                <p>{`Translation: ${translation}`}</p>
-                <p>{`Association: ${association}`}</p>
-                <p>{`Mental Image: ${mentalImage}`}</p>
-                <p>{`Explanation: ${explanation}`}</p>
-                {/* <OutputBox 
-                    titleText={"input: " + `${outputValidationStr}`}
-                    outputText={outputText} /> */}
+                <LinguaSingleOutput logo={logo1} title="YOUR WORD" outputText={outputValidationStr} isEven={true} />
+                <LinguaSingleOutput logo={logo2} title="TRANSLATION" outputText={translation} />
+                <LinguaSingleOutput logo={logo3} title="ASSOCIATION" outputText={association} isEven={true} />
+                <LinguaSingleOutput logo={logo4} title="MENTAL IMAGE" outputText={mentalImage} />
+                <LinguaSingleOutput logo={logo5} title="EXPLANATION" outputText={explanation} isEven={true} />
             </div>
 
             <button 
