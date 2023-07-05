@@ -105,14 +105,14 @@ function extractValues(outputText, setTranslation, setAssociation, setMentalImag
 }
 
 // html for a single row of output
-function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="text.", isEven=false} ) {
+function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="text.", isEven=false, num=0} ) {
     return (
-        <div className={`output-box-item-container ${isEven ? "even-item" : "odd-item"}`}>
+        <div className={`output-box-item-container ${isEven ? "even-output-item" : "odd-output-item"} num-${num}`}>
             <img className="output-box-logo" src={logo} />
             <div className="output-box-item">
-                <div className="item-text">
-                    <h4 className="item-title">{`${title}`}</h4>
-                    <p className="output-text">{`${outputText}`}</p>
+                <div className="ll-item-text">
+                    <h4 className={`ll-item-title title-${num}`}>{`${title}`}</h4>
+                    <p className="ll-output-text">{`${outputText}`}</p>
                 </div>
             </div>
         </div>
@@ -191,11 +191,11 @@ function LinguaLink() {
             </div>
 
             <div className="output-box-container">
-                <LinguaSingleOutput logo={logo1} title="YOUR WORD" outputText={outputValidationStr} isEven={true} />
-                <LinguaSingleOutput logo={logo2} title="TRANSLATION" outputText={translation} />
-                <LinguaSingleOutput logo={logo3} title="ASSOCIATION" outputText={association} isEven={true} />
-                <LinguaSingleOutput logo={logo4} title="MENTAL IMAGE" outputText={mentalImage} />
-                <LinguaSingleOutput logo={logo5} title="EXPLANATION" outputText={explanation} isEven={true} />
+                <LinguaSingleOutput logo={logo1} title="YOUR WORD" outputText={outputValidationStr} isEven={true} num="1" />
+                <LinguaSingleOutput logo={logo2} title="TRANSLATION" outputText={translation} num="2" />
+                <LinguaSingleOutput logo={logo3} title="ASSOCIATION" outputText={association} isEven={true} num="3" />
+                <LinguaSingleOutput logo={logo4} title="MENTAL IMAGE" outputText={mentalImage} num="4" />
+                <LinguaSingleOutput logo={logo5} title="EXPLANATION" outputText={explanation} isEven={true} num="5" />
             </div>
 
             <button 
