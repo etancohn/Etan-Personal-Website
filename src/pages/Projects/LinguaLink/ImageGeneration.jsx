@@ -7,7 +7,10 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 // image size (either 256, 512, or 1024)
 const SIZE = "256x256"
 
-async function generateImage(currentWord, setCurrentWord) {
+async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft) {
+    if (imagesLeft <= 0) {
+        return
+    }
     const options = {
         method: 'POST',
         headers: {
@@ -31,6 +34,9 @@ async function generateImage(currentWord, setCurrentWord) {
             ...prevCurrentWord,
             url: url
         }))
+        if (imagesLeft > 0) {
+            setImagesLeft(imagesLeft - 1)
+        }
         // setUrl(url);
         
       } catch(error) {
@@ -39,6 +45,19 @@ async function generateImage(currentWord, setCurrentWord) {
 }
 
 function ImageGeneration( {currentWord, setCurrentWord} ) {
+    const [imagesLeft, setImagesLeft] = React.useState(2)
+
+    // Load state from local storage on component mount
+    React.useEffect(() => {
+        const storedImagesLeft = window.localStorage.getItem('imagesLeft');
+        if (storedImagesLeft) {
+        setImagesLeft(JSON.parse(storedImagesLeft));
+        }
+    }, []);
+
+    React.useEffect(() => {
+        window.localStorage.setItem('imagesLeft', JSON.stringify(imagesLeft))
+    }, [imagesLeft])
 
     
     // const [url, setUrl] = React.useState("");
@@ -52,9 +71,11 @@ function ImageGeneration( {currentWord, setCurrentWord} ) {
             </div>
             <button 
                 className="submit-btn get-img-btn ll-btn"
-                onClick={() => generateImage(currentWord, setCurrentWord)}>
+                onClick={() => generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft)}>
                     Get Image
             </button>
+            <div>{`(Images Left: ${imagesLeft})`}</div>
+            <div>{imagesLeft <= 0 && <p className="ll-no-imgs-left">Sorry, you are out of your image allotment!</p>}</div>
         </div>
     )
 }

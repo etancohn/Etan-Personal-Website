@@ -63,7 +63,7 @@ function LinguaLink() {
                 <div className="white-space-container"></div>
 
                 <div className="image-generation-container">
-                    {/* <ImageGeneration currentWord={currentWord} setCurrentWord={setCurrentWord} /> */}
+                    <ImageGeneration currentWord={currentWord} setCurrentWord={setCurrentWord} />
                 </div>
 
                 <div className="language-container"></div>

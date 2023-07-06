@@ -26,3 +26,7 @@
 .get-img-btn {
     margin-top: 2rem;
 }
+
+.ll-no-imgs-left {
+    color: red;
+}
