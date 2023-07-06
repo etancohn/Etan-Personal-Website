@@ -48,7 +48,7 @@ function LinguaLink() {
                 <SideBar history={history} setCurrentWord={setCurrentWord} />
             </div>
 
-            <div className="main-content">
+            <div className="ll-main-content">
                 {/* logo and description */}
                 {/* <DescriptionHeader /> */}
                 <div className="description-header-container">

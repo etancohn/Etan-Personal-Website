@@ -7,7 +7,7 @@
     --green5: rgb(36, 84, 89);
 }
 
-.main-content {
+.ll-main-content {
     display: grid;
     min-height: 100vh;
     width: 100%;
@@ -59,10 +59,10 @@
     background-color: var(--green4);
 }
 
-.non-sidebar {
+/* .non-sidebar {
     width: 100%;
     display: flex;
-}
+} */
 
 .lingua-link-columns {
     display: flex;

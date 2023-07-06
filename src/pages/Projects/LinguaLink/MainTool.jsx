@@ -81,7 +81,7 @@ function setNewCurrentWord(outputText, setCurrentWord, word) {
 
 function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="text.", isEven=false, num=0} ) {
     return (
-      <div className={`output-box-item-container ${isEven ? "even-output-item" : "odd-output-item"} num-${num}`}>
+      <div className={`ll-output-box-item-container ${isEven ? "even-output-item" : "odd-output-item"} num-${num}`}>
           <img className="output-box-logo" src={logo} />
           <div className="output-box-item">
               <div className="ll-item-text">
