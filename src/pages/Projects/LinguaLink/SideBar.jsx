@@ -8,58 +8,50 @@ import {
   CDBSidebarHeader,
 } from 'cdbreact';
 
-function LLHistoryItem (item, i, updateOutput) {
+function LLHistoryItem (item, i, history, setCurrentWord) {
     return (
         <div className="ll-history-item" key={i}>
             <div className="square-container">
                 <div className={`square square-${i % 5}`}></div>
             </div>
             <div className="ll-history-item-container">
-                <span onClick={() => updateOutput(i)}><div className="ll-history-item-text">{item.word}</div></span>
+                <span onClick={() => setCurrentWord(history[i])}><div className="ll-history-item-text">{item.word}</div></span>
             </div>
         </div>
     )
 }
 
-const Sidebar = ( {history=[], updateOutput} ) => {
-  return (
-    <div className="ll-sidebar">
-      <CDBSidebar>
-        <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
-          <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
-            History
-          </a>
-        </CDBSidebarHeader>
+const Sidebar = ( {history=[], setCurrentWord} ) => {
 
-        <CDBSidebarContent className="sidebar-content">
-            <div className="ll-history-sidebar">
-                {history.slice().reverse().map((item, i) => (
-                    LLHistoryItem(item, history.length - i - 1, updateOutput)
-                ))}
+    return (
+        <div className="ll-sidebar">
+        <CDBSidebar>
+            <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
+            <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
+                History
+            </a>
+            </CDBSidebarHeader>
 
-                {/* <div className="ll-history-item">
-                    <div className="square-container">
-                        <div className="square"></div>
-                    </div>
-                    <div className="ll-history-item-container">
-                        <div className="ll-history-item-text">One</div>
-                    </div>
-                </div> */}
+            <CDBSidebarContent className="sidebar-content">
+                <div className="ll-history-sidebar">
+                    {history.slice().reverse().map((item, i) => (
+                        LLHistoryItem(item, history.length - i - 1, history, setCurrentWord)
+                    ))}
+                </div>
+            </CDBSidebarContent>
+
+            <CDBSidebarFooter style={{ textAlign: 'center' }}>
+            <div
+                style={{
+                padding: '20px 5px',
+                }}
+            >
+                {/* Sidebar Footer */}
             </div>
-        </CDBSidebarContent>
-
-        <CDBSidebarFooter style={{ textAlign: 'center' }}>
-          <div
-            style={{
-              padding: '20px 5px',
-            }}
-          >
-            {/* Sidebar Footer */}
-          </div>
-        </CDBSidebarFooter>
-      </CDBSidebar>
-    </div>
-  );
+            </CDBSidebarFooter>
+        </CDBSidebar>
+        </div>
+    );
 };
 
 export default Sidebar;

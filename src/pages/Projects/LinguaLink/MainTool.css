@@ -1,0 +1,96 @@
+
+.main-tool {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vocab-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 18rem;
+}
+
+.vocab-word-input {
+    margin-bottom: 0.75rem;
+}
+
+.ll-output-box-container {
+    width: 90%;
+}
+
+.output-box-item-container {
+    width: 100%;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    font-family: 'Raleway', sans-serif;
+    z-index: 2;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* .even-output-item {
+    margin-left: 2.5rem;
+}
+
+.odd-output-item {
+    margin-left: -2.5rem;
+} */
+.num-1 {
+    background-color: var(--green1);
+}
+.num-2 {
+    background-color: var(--green2);
+}
+.num-3 {
+    background-color: var(--green3);
+}
+.num-4 {
+    background-color: var(--green4);
+}
+.num-5 {
+    background-color: var(--green5);
+}
+
+.output-box-logo {
+    position: absolute;
+    width: 9rem;
+    z-index: 3;
+}
+
+.output-box-item {
+    background-color: white;
+    min-height: 6rem;
+    width: 100%;
+    z-index: 1;
+    margin-left: 4.5rem;
+}
+
+.ll-item-text {
+    margin-left: 5rem;
+    padding: 1rem 0;
+    margin-right: 1rem;
+}
+
+.ll-item-title {
+    font-weight: bold;
+}
+
+.title-1 {
+    color: var(--green1);
+}
+.title-2 {
+    color: var(--green2);
+}
+.title-3 {
+    color: var(--green3);
+}
+.title-4 {
+    color: var(--green4);
+}
+.title-5 {
+    color: var(--green5);
+}

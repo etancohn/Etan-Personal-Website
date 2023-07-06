@@ -1,0 +1,28 @@
+
+
+.image-generation {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+}
+
+.ll-img-container {
+    margin-top: 1rem;
+    width: 16rem;
+    height: 16rem;
+    background-color: lightgray;
+    display: flex;
+    align-items: center;
+}
+
+.ll-img-msg {
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.get-img-btn {
+    margin-top: 2rem;
+}
