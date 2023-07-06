@@ -22,39 +22,34 @@
 }
 
 .description-header-container {
-    background-color: red;
+    /* background-color: red; */
     grid-area: header;
 }
 
 .main-tool-container {
-    background-color: yellow;
+    /* background-color: yellow; */
     grid-area: tool;
 }
 
 .white-space-container {
-    background-color: white;
+    /* background-color: white; */
     grid-area: space;
 }
 
 .image-generation-container {
-    background-color: orange;
+    /* background-color: orange; */
     grid-area: image;
 }
 
 .language-container {
-    background-color: green;
+    /* background-color: green; */
     grid-area: language;
 }
 
 .info-container {
-    background-color: blueviolet;
+    /* background-color: blueviolet; */
     grid-area: info;
 }
-
-
-
-
-
 
 .ll-title {
     color: var(--green4);

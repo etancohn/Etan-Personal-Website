@@ -24,6 +24,20 @@ function LinguaLink() {
     }
   }, [currentWord])
 
+  // Load state from local storage on component mount
+  React.useEffect(() => {
+    const storedHistory = window.localStorage.getItem('history');
+    if (storedHistory) {
+      setHistory(JSON.parse(storedHistory));
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if( history !== []) {
+        window.localStorage.setItem('history', JSON.stringify(history))
+    }
+  }, [history])
+
   return (
     <>
     <div className="lingua-link-content">
@@ -49,7 +63,7 @@ function LinguaLink() {
                 <div className="white-space-container"></div>
 
                 <div className="image-generation-container">
-                    <ImageGeneration currentWord={currentWord} setCurrentWord={setCurrentWord} />
+                    {/* <ImageGeneration currentWord={currentWord} setCurrentWord={setCurrentWord} /> */}
                 </div>
 
                 <div className="language-container"></div>
