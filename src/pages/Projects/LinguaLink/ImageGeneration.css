@@ -7,20 +7,25 @@
     flex-direction: column;
     align-items: center;
     justify-content: top;
+    margin-right: 4rem;
 }
 
 .ll-img-container {
     margin-top: 1rem;
     width: 16rem;
     height: 16rem;
+    position: relative;
     background-color: lightgray;
     display: flex;
     align-items: center;
 }
 
 .ll-img-msg {
+    position: absolute;
+    /* background-color: blue; */
     text-align: center;
     font-size: 1.2rem;
+    z-index: 0;
 }
 
 .get-img-btn {
@@ -31,3 +36,29 @@
     text-align: center;
     color: red;
 }
+
+.ll-img-is-loading-true {
+    opacity: 0.3;
+}
+
+/* .my-container {
+    width: 100%;
+    height: 100%;
+    background-color: yellow;
+} */
+
+.spinner-container {
+    position: absolute;
+    /* position: absolute; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    /* background-color: red; */
+    z-index: 1;
+}
+
+/* .my-spinner {
+    position: absolute;
+} */

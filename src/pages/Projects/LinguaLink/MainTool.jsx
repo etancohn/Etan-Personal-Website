@@ -10,8 +10,9 @@ import AudioButton from './AudioButton'
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
-async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr) {
+async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading) {
     // Query string for the API request
+    setIsLoading(true)
     const query = `
         I will give you a vocab word. Use psychology memory techniques to give me back a word/memory
         association to remember the Spanish vocab word. Use the Linkword Mnemonic technique for an
@@ -82,22 +83,21 @@ function setNewCurrentWord(outputText, setCurrentWord, word) {
 
 function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="text.", isEven=false, num=0} ) {
     return (
-        <div className="wrapper-test">
-            <div className={`ll-output-box-item-container ${isEven ? "even-output-item" : "odd-output-item"} ll-num-${num}`}>
-                <img className="ll-output-box-logo" src={logo} />
-                <div className="ll-output-box-item">
-                    <div className="ll-item-text">
-                        <div className={num === "1" ? `ll-item-title-with-audio-container` : "ignore"}>
-                            <h4 className={`ll-item-title ll-title-${num}`}>{`${title}`}</h4>
-                            {num === "1" && <AudioButton text={outputText} />}
-                        </div>
-                        <p className="ll-output-text">{`${outputText}`}</p>
+    <div className="wrapper-test">
+        <div className={`ll-output-box-item-container ${isEven ? "even-output-item" : "odd-output-item"} ll-num-${num}`}>
+            <img className="ll-output-box-logo" src={logo} />
+            <div className="ll-output-box-item">
+                <div className="ll-item-text">
+                    <div className={num === "1" ? `ll-item-title-with-audio-container` : "ignore"}>
+                        <h4 className={`ll-item-title ll-title-${num}`}>{`${title}`}</h4>
+                        {num === "1" && <AudioButton text={outputText} />}
                     </div>
+                    <p className="ll-output-text">{`${outputText}`}</p>
                 </div>
             </div>
         </div>
-    )
-  }
+    </div>
+)}
 
 function MainTool( {currentWord, setCurrentWord} ) {
     const [outputText, setOutputText] = React.useState("Enter a vocab word above!");
@@ -105,6 +105,8 @@ function MainTool( {currentWord, setCurrentWord} ) {
     const [vocabWord, setVocabWord] = React.useState("")
     const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false);
     const vocabWordInputRef = React.useRef(null);
+
+    const [isLoading, setIsLoading] = React.useState(false);
     
     React.useEffect(() => {
         setNewCurrentWord(outputText, setCurrentWord, vocabWord);
@@ -114,6 +116,7 @@ function MainTool( {currentWord, setCurrentWord} ) {
         if (currentWord !== null) {
             setVocabWord(currentWord.word)
         }
+        setIsLoading(false)
     }, [currentWord])
 
     // handle user pushing 'Enter'
@@ -121,7 +124,7 @@ function MainTool( {currentWord, setCurrentWord} ) {
         // if enter is pushed, either change focus to vocab word input or make API call
         if (e.key === 'Enter') {
         if (vocabWordInputFocussed) {   
-            makeGPTCall(vocabWord, setOutputText, setOutputValidationStr)
+            makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading)
             vocabWordInputRef.current.blur()   // unfocus
         } else  {
             vocabWordInputRef.current.focus()
@@ -136,8 +139,6 @@ function MainTool( {currentWord, setCurrentWord} ) {
         document.removeEventListener('keydown', handleKeyPressed)
         }
     })
-
-
 
     return (
         <div className="main-tool">
@@ -157,13 +158,13 @@ function MainTool( {currentWord, setCurrentWord} ) {
                 </input>
                 <button 
                     className="submit-btn ll-btn"
-                    onClick={() => makeGPTCall(vocabWord, setOutputText, setOutputValidationStr)}>
+                    onClick={() => makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading)}>
                         Submit
                 </button>
             </div>
 
             {/* output boxes */}
-            <div className="ll-output-box-container">
+            <div className={`ll-output-box-container ll-output-is-loading-${isLoading}`}>
                 <LinguaSingleOutput logo={logo1} title="YOUR WORD" outputText={currentWord != null && currentWord.word} isEven={true} num="1" />
                 <LinguaSingleOutput logo={logo2} title="TRANSLATION" outputText={currentWord !== null && currentWord.translation} num="2" />
                 <LinguaSingleOutput logo={logo3} title="ASSOCIATION" outputText={currentWord !== null && currentWord.association} isEven={true} num="3" />

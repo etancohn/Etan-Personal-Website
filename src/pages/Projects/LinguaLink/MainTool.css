@@ -118,3 +118,7 @@
 .ll-title-5 {
     color: var(--green5);
 }
+
+.ll-output-is-loading-true {
+    opacity: 0.3;
+}

@@ -1,5 +1,6 @@
 import React from 'react'
 import './ImageGeneration.css'
+import Spinner from 'react-bootstrap/Spinner';
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -7,10 +8,11 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 // image size (either 256, 512, or 1024)
 const SIZE = "256x256"
 
-async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft) {
-    if (imagesLeft <= 0) {
+async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading) {
+    if (currentWord === null || currentWord.mentalImage === "" || imagesLeft <= 0) {
         return
     }
+    setIsLoading(true)
     const options = {
         method: 'POST',
         headers: {
@@ -46,6 +48,7 @@ async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesL
 
 function ImageGeneration( {currentWord, setCurrentWord} ) {
     const [imagesLeft, setImagesLeft] = React.useState(2)
+    const [isLoading, setIsLoading] = React.useState(false)
 
     // Load state from local storage on component mount
     React.useEffect(() => {
@@ -57,6 +60,7 @@ function ImageGeneration( {currentWord, setCurrentWord} ) {
 
     React.useEffect(() => {
         window.localStorage.setItem('imagesLeft', JSON.stringify(imagesLeft))
+        setIsLoading(false)
     }, [imagesLeft])
 
     
@@ -65,13 +69,16 @@ function ImageGeneration( {currentWord, setCurrentWord} ) {
     return (
         <div className="image-generation">
             <h4 className="project-mini-title img-gen-title ll-title">IMAGE GENERATION</h4>
-            <div className="ll-img-container">
-                {(currentWord === null || currentWord.url === "") && <p className='ll-img-msg'>Generate an image to help remember the association!</p>}
-                {currentWord !== null && currentWord.url !== "" && <img src={currentWord.url}></img>}
-            </div>
+                <div className={`ll-img-container ll-img-is-loading-${isLoading}`}>
+                    {(currentWord === null || currentWord.url === "") && <p className='ll-img-msg'>Generate an image to help remember the association!</p>}
+                    {currentWord !== null && currentWord.url !== "" && <img src={currentWord.url}></img>}
+                    <div className="spinner-container">
+                        {isLoading && <Spinner animation="border" className="my-spinner" />}
+                    </div>
+                </div>
             <button 
                 className="submit-btn get-img-btn ll-btn"
-                onClick={() => generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft)}>
+                onClick={() => generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading)}>
                     Get Image
             </button>
             <div>{`(Images Left: ${imagesLeft})`}</div>
