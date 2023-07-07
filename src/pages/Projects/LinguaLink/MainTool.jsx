@@ -5,6 +5,7 @@ import logo3 from '../../../pics/LinguaLink/logo_3.png'
 import logo4 from '../../../pics/LinguaLink/logo_4.png'
 import logo5 from '../../../pics/LinguaLink/logo_5.png'
 import './MainTool.css'
+import AudioButton from './AudioButton'
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -86,7 +87,10 @@ function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="text.", isE
                 <img className="ll-output-box-logo" src={logo} />
                 <div className="ll-output-box-item">
                     <div className="ll-item-text">
-                        <h4 className={`ll-item-title ll-title-${num}`}>{`${title}`}</h4>
+                        <div className={num === "1" ? `ll-item-title-with-audio-container` : "ignore"}>
+                            <h4 className={`ll-item-title ll-title-${num}`}>{`${title}`}</h4>
+                            {num === "1" && <AudioButton text={outputText} />}
+                        </div>
                         <p className="ll-output-text">{`${outputText}`}</p>
                     </div>
                 </div>

@@ -7,9 +7,6 @@ import DescriptionHeader from './DescriptionHeader'
 import MainTool from './MainTool'
 import ImageGeneration from './ImageGeneration'
 
-// // API Key for authentication
-// const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
-
 function LinguaLink() {
 
   const [history, setHistory] = React.useState([])
@@ -50,7 +47,6 @@ function LinguaLink() {
 
             <div className="ll-main-content">
                 {/* logo and description */}
-                {/* <DescriptionHeader /> */}
                 <div className="description-header-container">
                     <DescriptionHeader />
                 </div>
@@ -58,7 +54,6 @@ function LinguaLink() {
                 <div className="main-tool-container">
                     <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} />
                 </div>
-
                 
                 <div className="white-space-container"></div>
 

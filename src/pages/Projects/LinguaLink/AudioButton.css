@@ -1,0 +1,18 @@
+
+
+* {
+    --green1: rgb(169, 217, 131);
+    --green2: rgb(113, 191, 127);
+    --green3: rgb(87, 166, 120);
+    --green4: rgb(54, 140, 118);
+    --green5: rgb(36, 84, 89);
+}
+
+.ll-audio-btn {
+    width: 2.5rem;
+    height: 1.7rem;
+    background-color: var(--green1);
+    border: 0.5px solid black;
+    border-radius: 5rem;
+    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
+}
