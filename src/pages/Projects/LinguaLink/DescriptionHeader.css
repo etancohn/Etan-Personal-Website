@@ -1,9 +1,32 @@
 
 
+* {
+    --green1: rgb(169, 217, 131);
+    --green2: rgb(113, 191, 127);
+    --green3: rgb(87, 166, 120);
+    --green4: rgb(54, 140, 118);
+    --green5: rgb(36, 84, 89);
+}
+
 .logo-and-description {
     display: flex;
     align-items: center;
+    color: var(--green5);
     /* background-color: red; */
+}
+
+.ll-description-header-text {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Raleway', sans-serif;
+}
+
+.ll-main-title {
+    font-size: 1.9rem;
+}
+
+.title-bolded {
+    font-weight: bold;
 }
 
 .ll-main-logo {

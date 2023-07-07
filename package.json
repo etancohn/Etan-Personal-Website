@@ -10,9 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google-cloud/text-to-speech": "^4.2.3",
+    "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
     "cdbreact": "^1.5.18",
     "dotenv": "^16.1.4",
+    "fs": "^0.0.1-security",
+    "gapi-script": "^1.2.0",
+    "google-auth-library": "^8.9.0",
     "mdb-react-ui-kit": "^6.1.0",
     "mdbreact": "^5.2.0",
     "netlify": "^13.1.7",
@@ -23,6 +28,7 @@
     "react-multi-carousel": "^2.8.4",
     "react-pdf": "^7.1.1",
     "react-router-dom": "^6.12.0",
+    "util": "^0.12.5",
     "webpack": "^5.86.0"
   },
   "devDependencies": {
