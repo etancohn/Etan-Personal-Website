@@ -28,5 +28,6 @@
 }
 
 .ll-no-imgs-left {
+    text-align: center;
     color: red;
 }
