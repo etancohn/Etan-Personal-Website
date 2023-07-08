@@ -11,9 +11,26 @@ import GenerationText from './GenerationText'
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
-async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading) {
+const MAX_GPT_RUNS = 2
+
+async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading,
+                           numGPTRuns, setNumGPTRuns, setCurrentWord) {
     // Query string for the API request
+    if (numGPTRuns+1 > MAX_GPT_RUNS) { 
+        setIsLoading(false)
+        const newCurrent = {
+            word: "An error has occurred and no answer was found. Please try submitting again.",
+            translation: "",
+            association: "",
+            mentalImage: "",
+            explanation: "",
+            outputText: "",
+            url: ""
+        }
+    setCurrentWord(newCurrent)
+    }
     setIsLoading(true)
+    setNumGPTRuns(numGPTRuns+1)
     const query = `
         I will give you a vocab word. Use psychology memory techniques to give me back a word/memory
         association to remember the Spanish vocab word. Use the Linkword Mnemonic technique for an
@@ -53,12 +70,15 @@ async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, set
       }
 }
 
-function setNewCurrentWord(outputText, setCurrentWord, word) {
-    console.log(`outputText: ${outputText}`)
-    const translationRegex = /Translation:\s(.+)/i;
-    const associationRegex = /Association:\s(.+)/i;
-    const mentalImageRegex = /Mental Image:\s(.+)/i;
-    const explanationRegex = /Explanation:\s(.+)/i;
+function setNewCurrentWord(outputText, setCurrentWord, word, setOutputText, setOutputValidationStr, 
+                           setIsLoading, numGPTRuns, setNumGPTRuns) {
+    console.log(outputText)
+    if (word === "") { return }
+
+    const translationRegex = /Translation:\s+(.+)/i;
+    const associationRegex = /Association:\s+(.+)/i;
+    const mentalImageRegex = /Mental Image:\s+(.+)/i;
+    const explanationRegex = /Explanation:\s+(.+)/i;
     
     const translationMatch = outputText.match(translationRegex);
     const associationMatch = outputText.match(associationRegex);
@@ -69,6 +89,17 @@ function setNewCurrentWord(outputText, setCurrentWord, word) {
     const association = associationMatch ? associationMatch[1] : '';
     const mentalImage = mentalImageMatch ? mentalImageMatch[1] : '';
     const explanation = explanationMatch ? explanationMatch[1] : '';
+
+    const llOutputInvalid = (translation === '' || association === '' 
+                        || mentalImage === '' || explanation === '')
+
+    if (llOutputInvalid) {
+        console.log(`INVALID - RERUN ("${word}") (${numGPTRuns})`)
+        makeGPTCall(word, setOutputText, setOutputValidationStr, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord)
+        return
+    } else {
+        setNumGPTRuns(0)
+    }
     
     // Now you can use the extracted values as needed
     const newCurrent = {
@@ -111,11 +142,13 @@ function MainTool( {currentWord, setCurrentWord} ) {
     const [vocabWord, setVocabWord] = React.useState("")
     const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false);
     const vocabWordInputRef = React.useRef(null);
+    const [numGPTRuns, setNumGPTRuns] = React.useState(0)
 
     const [isLoading, setIsLoading] = React.useState(false);
     
     React.useEffect(() => {
-        setNewCurrentWord(outputText, setCurrentWord, vocabWord);
+        setNewCurrentWord(outputText, setCurrentWord, vocabWord, setOutputText, setOutputValidationStr, 
+                          setIsLoading, numGPTRuns, setNumGPTRuns);
         }, [outputText])
 
     React.useEffect(() => {
@@ -130,7 +163,7 @@ function MainTool( {currentWord, setCurrentWord} ) {
         // if enter is pushed, either change focus to vocab word input or make API call
         if (e.key === 'Enter') {
         if (vocabWordInputFocussed) {   
-            makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading)
+            makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord)
             vocabWordInputRef.current.blur()   // unfocus
         } else  {
             vocabWordInputRef.current.focus()
@@ -164,7 +197,8 @@ function MainTool( {currentWord, setCurrentWord} ) {
                 </input>
                 <button 
                     className="submit-btn ll-btn"
-                    onClick={() => makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading)}>
+                    onClick={() => makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading, 
+                                               numGPTRuns, setNumGPTRuns, setCurrentWord)}>
                         Submit
                 </button>
             </div>
