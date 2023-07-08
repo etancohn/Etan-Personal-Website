@@ -54,6 +54,7 @@ async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, set
 }
 
 function setNewCurrentWord(outputText, setCurrentWord, word) {
+    console.log(`outputText: ${outputText}`)
     const translationRegex = /Translation:\s(.+)/i;
     const associationRegex = /Association:\s(.+)/i;
     const mentalImageRegex = /Mental Image:\s(.+)/i;

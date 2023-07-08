@@ -20,6 +20,7 @@
     grid-template-columns: auto 7.5fr 2.5fr;
     /* grid-template-rows: 2fr 4fr 3fr 1fr; */
     grid-template-rows: min-content min-content min-content 1fr;
+    font-family: 'Raleway', sans-serif;
 }
 
 .lingua-link-sidebar {
