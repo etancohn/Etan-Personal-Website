@@ -26,10 +26,10 @@ const Sidebar = ( {history=[], setCurrentWord} ) => {
     return (
         <div className="ll-sidebar">
         <CDBSidebar>
-            <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
-            <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
-                History
-            </a>
+            <CDBSidebarHeader className="ll-sidebar-header" prefix={<i className="fa fa-bars fa-large"></i>}>
+                <div href="/" className="text-decoration-none ll-history-title" style={{ color: 'inherit' }}>
+                    History
+                </div>
             </CDBSidebarHeader>
 
             <CDBSidebarContent className="sidebar-content">

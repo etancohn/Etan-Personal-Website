@@ -39,13 +39,11 @@ function LinguaLink() {
     <>
     <div className="lingua-link-content">
         <GreenNavbar />
-
-        <div className="lingua-link-columns">
-            <div className="lingua-link-sidebar">
-                <SideBar history={history} setCurrentWord={setCurrentWord} />
-            </div>
-
             <div className="ll-main-content">
+                <div className="lingua-link-sidebar">
+                    <SideBar history={history} setCurrentWord={setCurrentWord} />
+                </div>
+
                 {/* logo and description */}
                 <div className="description-header-container">
                     <DescriptionHeader />
@@ -66,7 +64,6 @@ function LinguaLink() {
             </div>
 
         </div>
-    </div>
     <Footer />
     </>
   )

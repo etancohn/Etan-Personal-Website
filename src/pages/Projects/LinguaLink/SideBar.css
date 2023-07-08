@@ -12,18 +12,31 @@
     height: 100%;
 }
 
-/* .eETGfq {
-    overflow-y: hidden!important;
-} */
-
 .icon-suffix {
+    position: absolute;
+    right: 10px;
+    top: 10px;
     background-color: var(--green4);
 }
 
-/* .head-text {
+.head-text {
+    position: absolute;
+    left: 40px;
+    bottom: 10px;
     color: var(--green5);
-} */
+    font-weight: bold;
+    font-size: 1.4rem;
+}
 
+.ll-sidebar-header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 8.7rem;
+}
+
+/* toggle button */
 .fa {
     color: white;
     margin: 0.5rem 0.6rem;
@@ -37,6 +50,7 @@
 
 .ll-history-sidebar {
     width: 17rem;
+    max-height: 100vh;
 }
 
 .my-ul {
@@ -73,20 +87,10 @@
     word-wrap: break-word;
 }
 
-/* .head-div {
-    background-color: blue!important;
-} */
-
-/* .toggled {
-    background-color: white!important;
-} */
-
 .sidebar-content {
+    margin-top: 0.2rem;
     overflow-y: scroll!important;
 }
-
-/* .pro-sidebar-footer {
-} */
 
 .item-content {
     color: black;
