@@ -22,6 +22,7 @@ function initClient() {
 }
 
 async function makeApiRequest(text) {
+    if (text === "") { return }
     const request = {
       path: 'https://texttospeech.googleapis.com/v1/text:synthesize',
       method: 'POST',
@@ -66,16 +67,12 @@ function AudioButton( {text} ) {
         initClient();
       });
     }, []);
-    let audioText = text
-    if (text === "") {
-      audioText = "Submit your text first to listen to audio."
-    }
 
     return (
       <button 
-          className="ll-audio-btn"
-          onClick={() => makeApiRequest(audioText)}>
-              <FontAwesomeIcon icon={faVolumeUp} />
+          className={`ll-audio-btn ll-audio-btn-off-${text === ""}`}
+          onClick={() => makeApiRequest(text)}>
+              <FontAwesomeIcon icon={text === "" ? faVolumeMute : faVolumeUp} />
       </button>
     )
 }

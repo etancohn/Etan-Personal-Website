@@ -16,3 +16,8 @@
     border-radius: 5rem;
     /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
 }
+
+.ll-audio-btn-off-true {
+    opacity: 0.3;
+    cursor: not-allowed!important;
+}
