@@ -11,7 +11,7 @@ import GenerationText from './GenerationText'
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
-const MAX_GPT_RUNS = 2
+const MAX_GPT_RUNS = 10
 
 async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading,
                            numGPTRuns, setNumGPTRuns, setCurrentWord) {
@@ -19,15 +19,17 @@ async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, set
     if (numGPTRuns+1 > MAX_GPT_RUNS) { 
         setIsLoading(false)
         const newCurrent = {
-            word: "An error has occurred and no answer was found. Please try submitting again.",
-            translation: "",
-            association: "",
-            mentalImage: "",
-            explanation: "",
-            outputText: "",
+            word: vocabWord,
+            translation: "An error has occurred. Please try submitting again.",
+            association: " ",
+            mentalImage: " ",
+            explanation: " ",
+            outputText: " ",
             url: ""
         }
-    setCurrentWord(newCurrent)
+        setCurrentWord(newCurrent)
+        setNumGPTRuns(0)
+        return
     }
     setIsLoading(true)
     setNumGPTRuns(numGPTRuns+1)
