@@ -6,6 +6,7 @@ import logo4 from '../../../pics/LinguaLink/logo_4.png'
 import logo5 from '../../../pics/LinguaLink/logo_5.png'
 import './MainTool.css'
 import AudioButton from './AudioButton'
+import GenerationText from './GenerationText'
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -81,7 +82,7 @@ function setNewCurrentWord(outputText, setCurrentWord, word) {
     setCurrentWord(newCurrent)
 }
 
-function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="text.", isEven=false, num=0} ) {
+function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="", isEven=false, num=0} ) {
     return (
     <div className="wrapper-test">
         <div className={`ll-output-box-item-container ${isEven ? "even-output-item" : "odd-output-item"} ll-num-${num}`}>
@@ -92,7 +93,11 @@ function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="text.", isE
                         <h4 className={`ll-item-title ll-title-${num}`}>{`${title}`}</h4>
                         {num === "1" && <AudioButton text={outputText} />}
                     </div>
-                    <p className="ll-output-text">{`${outputText}`}</p>
+                    <div className="ll-my-wrapper">
+                        <p className={`ll-output-text ll-output-text-${num}`}>
+                            <GenerationText text={outputText} />
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

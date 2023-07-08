@@ -31,7 +31,10 @@ async function makeApiRequest(text) {
             languageCode: 'es-US',
             name: "es-US-Neural2-A",
         },
-        audioConfig: { audioEncoding: 'MP3' },
+        audioConfig: { 
+          audioEncoding: 'MP3',
+          speakingRate: 0.7,    // slowed down a little bit for the user
+        },
       },
     };
     gapi.client.request(request).then((response) => {
