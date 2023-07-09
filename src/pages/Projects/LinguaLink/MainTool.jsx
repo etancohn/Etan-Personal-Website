@@ -129,7 +129,7 @@ function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="", isEven=f
                     </div>
                     <div className="ll-my-wrapper">
                         <p className={`ll-output-text ll-output-text-${num}`}>
-                            <GenerationText text={outputText} />
+                            <GenerationText text={outputText} slowness={10} />
                         </p>
                     </div>
                 </div>
@@ -207,11 +207,16 @@ function MainTool( {currentWord, setCurrentWord} ) {
 
             {/* output boxes */}
             <div className={`ll-output-box-container ll-output-is-loading-${isLoading}`}>
-                <LinguaSingleOutput logo={logo1} title="YOUR WORD" outputText={currentWord != null && currentWord.word} isEven={true} num="1" />
-                <LinguaSingleOutput logo={logo2} title="TRANSLATION" outputText={currentWord !== null && currentWord.translation} num="2" />
-                <LinguaSingleOutput logo={logo3} title="ASSOCIATION" outputText={currentWord !== null && currentWord.association} isEven={true} num="3" />
-                <LinguaSingleOutput logo={logo4} title="MENTAL IMAGE" outputText={currentWord !== null && currentWord.mentalImage} num="4" />
-                <LinguaSingleOutput logo={logo5} title="EXPLANATION" outputText={currentWord !== null && currentWord.explanation} isEven={true} num="5" />
+                <LinguaSingleOutput logo={logo1} title="YOUR WORD" outputText={currentWord != null && currentWord.word} 
+                                    isEven={true} num="1"/>
+                <LinguaSingleOutput logo={logo2} title="TRANSLATION" outputText={currentWord !== null && currentWord.translation} 
+                                    num="2" />
+                <LinguaSingleOutput logo={logo3} title="ASSOCIATION" outputText={currentWord !== null && currentWord.association} 
+                                    isEven={true} num="3" />
+                <LinguaSingleOutput logo={logo4} title="MENTAL IMAGE" outputText={currentWord !== null && currentWord.mentalImage} 
+                                    num="4" />
+                <LinguaSingleOutput logo={logo5} title="EXPLANATION" outputText={currentWord !== null && currentWord.explanation} 
+                                    isEven={true} num="5" />
             </div>  
         </div>
     )
