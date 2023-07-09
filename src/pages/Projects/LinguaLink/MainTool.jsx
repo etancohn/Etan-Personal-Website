@@ -11,7 +11,9 @@ import GenerationText from './GenerationText'
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
+// changeable constants
 const MAX_GPT_RUNS = 10
+const TEXT_GENERATION_SLOWNESS = 8
 
 async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading,
                            numGPTRuns, setNumGPTRuns, setCurrentWord) {
@@ -129,7 +131,7 @@ function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="", isEven=f
                     </div>
                     <div className="ll-my-wrapper">
                         <p className={`ll-output-text ll-output-text-${num}`}>
-                            <GenerationText text={outputText} slowness={10} />
+                            <GenerationText text={outputText} slowness={TEXT_GENERATION_SLOWNESS} />
                         </p>
                     </div>
                 </div>

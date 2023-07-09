@@ -6,6 +6,7 @@ import SideBar from './SideBar.jsx'
 import DescriptionHeader from './DescriptionHeader'
 import MainTool from './MainTool'
 import ImageGeneration from './ImageGeneration'
+import InfoModal from './InfoModal'
 
 function LinguaLink() {
 
@@ -57,10 +58,15 @@ function LinguaLink() {
 
                 <div className="image-generation-container">
                     <ImageGeneration currentWord={currentWord} setCurrentWord={setCurrentWord} />
+                    <div className="ll-separation-horizontal-line-container">
+                        <div className="ll-separation-horizontal-line"></div>
+                    </div>
                 </div>
 
+                <div className="info-container">
+                    <InfoModal />
+                </div>
                 <div className="language-container"></div>
-                <div className="info-container"></div>
             </div>
 
         </div>

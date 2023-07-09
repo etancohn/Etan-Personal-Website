@@ -68,7 +68,7 @@ function ImageGeneration( {currentWord, setCurrentWord} ) {
 
     return (
         <div className="image-generation">
-            <h4 className="project-mini-title img-gen-title ll-title">IMAGE GENERATION</h4>
+            <h4 className="project-mini-title ll-img-gen-title ll-title">IMAGE GENERATION</h4>
                 <div className={`ll-img-container ll-img-is-loading-${isLoading}`}>
                     {(currentWord === null || currentWord.url === "") && <p className='ll-img-msg'>Generate an image to help remember the association!</p>}
                     {currentWord !== null && currentWord.url !== "" && <img src={currentWord.url}></img>}
@@ -76,13 +76,15 @@ function ImageGeneration( {currentWord, setCurrentWord} ) {
                         {isLoading && <Spinner animation="border" className="my-spinner" />}
                     </div>
                 </div>
+            <div className='ll-no-images-left'>{imagesLeft <= 0 && 
+                <p>Sorry, you are out of your image allotment!</p>}
+            </div>
             <button 
-                className="submit-btn get-img-btn ll-btn"
+                className={`submit-btn ll-get-img-btn ll-btn ll-img-btn-out-${imagesLeft <= 0}`}
                 onClick={() => generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading)}>
                     Get Image
             </button>
-            <div>{`(Images Left: ${imagesLeft})`}</div>
-            <div>{imagesLeft <= 0 && <p className="ll-no-imgs-left">Sorry, you are out of your image allotment!</p>}</div>
+            <div className='ll-images-left'>{`(Images Left: ${imagesLeft})`}</div>
         </div>
     )
 }

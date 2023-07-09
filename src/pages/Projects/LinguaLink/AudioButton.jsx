@@ -62,6 +62,10 @@ async function makeApiRequest(text) {
 }
 
 function AudioButton( {text} ) {
+  let audioText = text
+  if (text === false) {
+    audioText = ""
+  }
     React.useEffect(() => {
       gapi.load('client:auth2', () => {
         initClient();
@@ -70,9 +74,9 @@ function AudioButton( {text} ) {
 
     return (
       <button 
-          className={`ll-audio-btn ll-audio-btn-off-${text === ""}`}
-          onClick={() => makeApiRequest(text)}>
-              <FontAwesomeIcon icon={text === "" ? faVolumeMute : faVolumeUp} />
+          className={`ll-audio-btn ll-audio-btn-off-${audioText === ""}`}
+          onClick={() => makeApiRequest(audioText)}>
+              <FontAwesomeIcon icon={audioText === "" ? faVolumeMute : faVolumeUp} />
       </button>
     )
 }

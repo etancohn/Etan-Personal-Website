@@ -28,7 +28,7 @@ const Sidebar = ( {history=[], setCurrentWord} ) => {
         <CDBSidebar>
             <CDBSidebarHeader className="ll-sidebar-header" prefix={<i className="fa fa-bars fa-large"></i>}>
                 <div href="/" className="text-decoration-none ll-history-title" style={{ color: 'inherit' }}>
-                    History
+                    HISTORY
                 </div>
             </CDBSidebarHeader>
 

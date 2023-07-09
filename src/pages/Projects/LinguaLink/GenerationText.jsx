@@ -17,7 +17,6 @@ function GenerationText( { text="", slowness=8 } ) {
                 setContent(newContent)
             }, delay)
         });
-        // onCompletion()
     }, [text])
 
   return (

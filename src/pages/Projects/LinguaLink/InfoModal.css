@@ -1,0 +1,28 @@
+
+* {
+    --green1: rgb(169, 217, 131);
+    --green2: rgb(113, 191, 127);
+    --green3: rgb(87, 166, 120);
+    --green4: rgb(54, 140, 118);
+    --green5: rgb(36, 84, 89);
+}
+
+.ll-info-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.ll-info-modal-btn {
+    background-color: var(--green5)!important;
+}
+
+.ll-info-modal-title {
+    color: var(--green5)!important;
+}
+
+.ll-info-modal-continue-btn {
+    background-color: var(--green5)!important;
+    border: none!important;
+}
