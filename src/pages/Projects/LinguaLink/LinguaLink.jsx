@@ -14,7 +14,6 @@ function LinguaLink() {
 
   const [history, setHistory] = React.useState([])
   const [numHistoryClicks, setNumHistoryClicks] = React.useState(0)
-//   const [currentWord, setCurrentWord] = React.useState(null)
   const initialWord = {
     word: "",
     translation: "",
@@ -24,18 +23,6 @@ function LinguaLink() {
     url: ""
   }
   const [currentWord, setCurrentWord] = React.useState(initialWord)
-
-//   React.useEffect(() => {
-//     // if (history.length > 0 && currentWord.word === history[history.length - 1].word) {
-//     //     return
-//     // }
-//     if (currentWord.word !== "") {
-//         setHistory(prevHistory => [...prevHistory, currentWord])
-//         // setHistory(prevHistory => {
-//         //     let updated = prevHistory
-//         // })
-//     }
-//   }, [currentWord])
 
   // Load state from local storage on component mount
   React.useEffect(() => {

@@ -14,6 +14,7 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
 // changeable constants
 const MAX_GPT_RUNS = 10
+const MAX_HISTORY_LENGTH = 3
 // const TEXT_GENERATION_SLOWNESS = 20
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
@@ -119,7 +120,14 @@ function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, numGPTRu
         outputText: outputText,
         url: ""
     }
-    setHistory(prevHistory => [...prevHistory, newCurrent])
+    // setHistory(prevHistory => [...prevHistory, newCurrent])
+    setHistory(prevHistory => {
+        let updatedHistory = [...prevHistory, newCurrent]
+        if (updatedHistory.length > MAX_HISTORY_LENGTH) {
+            updatedHistory = updatedHistory.slice(updatedHistory.length - MAX_HISTORY_LENGTH, updatedHistory.length)
+        }
+        return updatedHistory
+    })
     setCurrentWord(newCurrent)
     setTriggerBlank(true)
     setTriggerGeneration1(true)
