@@ -96,3 +96,9 @@
     opacity: 0.3;
 }
 
+
+@media (max-width: 775px) {
+    .ll-item-text {
+        margin-left: 4rem;
+    }
+}

@@ -12,7 +12,7 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
 // changeable constants
 const MAX_GPT_RUNS = 10
-const MAX_HISTORY_LENGTH = 100
+const MAX_HISTORY_LENGTH = 60
 const TEXT_GENERATION_SLOWNESS = 1
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 

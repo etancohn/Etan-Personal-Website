@@ -38,3 +38,21 @@
     text-align: left;
     width: 85%;
 }
+
+@media (max-width: 775px) {
+    .logo-and-description {
+        margin-left: 1rem;
+    }
+    .ll-main-logo {
+        width: 8rem;
+        height: 8rem;
+    }
+
+    .ll-main-title {
+        font-size: 1.5rem;
+    }
+
+    .ll-project-description {
+        display: none;
+    }
+}

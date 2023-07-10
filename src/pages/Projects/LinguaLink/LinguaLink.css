@@ -97,3 +97,22 @@
     width: 75%;
     border-radius: 3rem;
 }
+
+@media (max-width: 775px) {
+    .ll-main-content {
+        grid-template-areas: 
+        "header"
+        "tool"
+        "image"
+        "language"
+        "info";
+    }
+
+    .lingua-link-sidebar {
+        display: none;
+    }
+
+    .main-tool-container {
+        font-size: 0.7rem;
+    }
+}

@@ -18,3 +18,10 @@
 .vocab-word-input {
     margin-bottom: 0.75rem;
 }
+
+@media (max-width: 775px) {
+    .vocab-word-input {
+        font-size: 1rem;
+        width: 70%;
+    }
+}
