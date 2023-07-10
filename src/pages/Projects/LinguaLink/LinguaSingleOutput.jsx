@@ -3,10 +3,9 @@ import AudioButton from './AudioButton'
 import GenerationText from './GenerationText'
 import './LinguaSingleOutput.css'
 
-const TEXT_GENERATION_SLOWNESS = 2
-
 function LinguaSingleOutput( {logo, title="TITLE", text="", isEven=false, num="0",
-                              triggerGeneration, onCompletion, triggerBlank, numHistoryClicks} ) {
+                              triggerGeneration, onCompletion, triggerBlank, numHistoryClicks,
+                              TEXT_GENERATION_SLOWNESS} ) {
     return (
         <div className={`ll-output-box-item-container ${isEven ? "even-output-item" : "odd-output-item"} ll-num-${num}`}>
             <img className="ll-output-box-logo" src={logo} />
