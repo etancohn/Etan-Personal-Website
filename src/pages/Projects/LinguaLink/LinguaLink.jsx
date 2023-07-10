@@ -8,17 +8,32 @@ import MainTool from './MainTool'
 import ImageGeneration from './ImageGeneration'
 import InfoModal from './InfoModal'
 
+// const MAX_HISTORY_STORED = 100
+
 function LinguaLink() {
 
   const [history, setHistory] = React.useState([])
-  const [currentWord, setCurrentWord] = React.useState(null)
+  const [numHistoryClicks, setNumHistoryClicks] = React.useState(0)
+//   const [currentWord, setCurrentWord] = React.useState(null)
+  const initialWord = {
+    word: "",
+    translation: "",
+    association: "",
+    mentalImage: "",
+    explanation: "",
+    url: ""
+  }
+  const [currentWord, setCurrentWord] = React.useState(initialWord)
 
   React.useEffect(() => {
-    if (history.length > 0 && currentWord.word === history[history.length - 1].word) {
-        return
-    }
-    if (currentWord !== null && currentWord.word !== "") {
+    // if (history.length > 0 && currentWord.word === history[history.length - 1].word) {
+    //     return
+    // }
+    if (currentWord.word !== "") {
         setHistory(prevHistory => [...prevHistory, currentWord])
+        // setHistory(prevHistory => {
+        //     let updated = prevHistory
+        // })
     }
   }, [currentWord])
 
@@ -42,7 +57,8 @@ function LinguaLink() {
         <GreenNavbar />
             <div className="ll-main-content">
                 <div className="lingua-link-sidebar">
-                    <SideBar history={history} setCurrentWord={setCurrentWord} />
+                    <SideBar history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks} 
+                             setNumHistoryClicks={setNumHistoryClicks} />
                 </div>
 
                 {/* logo and description */}
@@ -51,7 +67,7 @@ function LinguaLink() {
                 </div>
 
                 <div className="main-tool-container">
-                    <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} />
+                    <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks} />
                 </div>
                 
                 <div className="white-space-container"></div>

@@ -26,3 +26,25 @@
     background-color: var(--green5)!important;
     border: none!important;
 }
+
+.ll-bolded {
+    font-weight: bold;
+}
+
+.ll-info-modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ll-info-modal-body p {
+    text-indent: 30px;
+}
+
+.ll-info-modal-scenario {
+    font-style: italic;
+    width: 80%;
+    font-size: 0.9rem;
+    text-align: center;
+    /* text-indent: 0; */
+}

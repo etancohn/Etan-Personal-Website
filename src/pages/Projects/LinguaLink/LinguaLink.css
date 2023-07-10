@@ -92,7 +92,7 @@
 }
 
 .ll-separation-horizontal-line {
-    height: 2px;
+    height: 1px;
     background-color: var(--green5);
     width: 75%;
     border-radius: 3rem;

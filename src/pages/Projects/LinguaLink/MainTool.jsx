@@ -5,19 +5,20 @@ import logo3 from '../../../pics/LinguaLink/logo_3.png'
 import logo4 from '../../../pics/LinguaLink/logo_4.png'
 import logo5 from '../../../pics/LinguaLink/logo_5.png'
 import './MainTool.css'
-import AudioButton from './AudioButton'
-import GenerationText from './GenerationText'
+// import AudioButton from './AudioButton'
+// import GenerationText from './GenerationText'
+import LinguaSingleOutput from './LinguaSingleOutput'
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
 // changeable constants
 const MAX_GPT_RUNS = 10
-const TEXT_GENERATION_SLOWNESS = 8
+// const TEXT_GENERATION_SLOWNESS = 20
 
-async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading,
-                           numGPTRuns, setNumGPTRuns, setCurrentWord) {
-    // Query string for the API request
+async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
+                          setTriggerGeneration1, setTriggerBlank) {
+    // max re-runs of GPT hit
     if (numGPTRuns+1 > MAX_GPT_RUNS) { 
         setIsLoading(false)
         const newCurrent = {
@@ -35,6 +36,7 @@ async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, set
     }
     setIsLoading(true)
     setNumGPTRuns(numGPTRuns+1)
+    // Query string for the API request
     const query = `
         I will give you a vocab word. Use psychology memory techniques to give me back a word/memory
         association to remember the Spanish vocab word. Use the Linkword Mnemonic technique for an
@@ -67,15 +69,17 @@ async function makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, set
         const data = await response.json();
         
         // Updating the output text with the received response
-        setOutputText(data.choices[0].message.content);
-        setOutputValidationStr(`${vocabWord}`)
+        const outputText = data.choices[0].message.content
+        parseGPTOutput(outputText, setCurrentWord, vocabWord, 
+            setIsLoading, numGPTRuns, setNumGPTRuns, setTriggerGeneration1, setTriggerBlank)
       } catch(error) {
         console.error(error);
       }
 }
 
-function setNewCurrentWord(outputText, setCurrentWord, word, setOutputText, setOutputValidationStr, 
-                           setIsLoading, numGPTRuns, setNumGPTRuns) {
+function parseGPTOutput(outputText, setCurrentWord, word, 
+                        setIsLoading, numGPTRuns, setNumGPTRuns, 
+                        setTriggerGeneration1, setTriggerBlank) {
     console.log(outputText)
     if (word === "") { return }
 
@@ -99,7 +103,7 @@ function setNewCurrentWord(outputText, setCurrentWord, word, setOutputText, setO
 
     if (llOutputInvalid) {
         console.log(`INVALID - RERUN ("${word}") (${numGPTRuns})`)
-        makeGPTCall(word, setOutputText, setOutputValidationStr, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord)
+        makeGPTCall(word, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank)
         return
     } else {
         setNumGPTRuns(0)
@@ -116,49 +120,35 @@ function setNewCurrentWord(outputText, setCurrentWord, word, setOutputText, setO
         url: ""
     }
     setCurrentWord(newCurrent)
+    setTriggerBlank(true)
+    setTriggerGeneration1(true)
 }
 
-function LinguaSingleOutput( {logo=logo1, title="TITLE", outputText="", isEven=false, num=0} ) {
-    return (
-    <div className="wrapper-test">
-        <div className={`ll-output-box-item-container ${isEven ? "even-output-item" : "odd-output-item"} ll-num-${num}`}>
-            <img className="ll-output-box-logo" src={logo} />
-            <div className="ll-output-box-item">
-                <div className="ll-item-text">
-                    <div className={num === "1" ? `ll-item-title-with-audio-container` : "ignore"}>
-                        <h4 className={`ll-item-title ll-title-${num}`}>{`${title}`}</h4>
-                        {num === "1" && <AudioButton text={outputText} />}
-                    </div>
-                    <div className="ll-my-wrapper">
-                        <p className={`ll-output-text ll-output-text-${num}`}>
-                            <GenerationText text={outputText} slowness={TEXT_GENERATION_SLOWNESS} />
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-)}
+function resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerGeneration3, setTriggerGeneration4, 
+                       setTriggerGeneration5, setTriggerBlank) {
+    setTriggerGeneration1(false)
+    setTriggerGeneration2(false)
+    setTriggerGeneration3(false)
+    setTriggerGeneration4(false)
+    setTriggerGeneration5(false)
+    setTriggerBlank(false)
+}
 
-function MainTool( {currentWord, setCurrentWord} ) {
-    const [outputText, setOutputText] = React.useState("Enter a vocab word above!");
-    const [outputValidationStr, setOutputValidationStr] = React.useState("");
+function MainTool( {currentWord, setCurrentWord, numHistoryClicks} ) {
     const [vocabWord, setVocabWord] = React.useState("")
     const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false);
     const vocabWordInputRef = React.useRef(null);
     const [numGPTRuns, setNumGPTRuns] = React.useState(0)
+    const [isLoading, setIsLoading] = React.useState(false)
+    const [triggerGeneration1, setTriggerGeneration1] = React.useState(false)
+    const [triggerGeneration2, setTriggerGeneration2] = React.useState(false)
+    const [triggerGeneration3, setTriggerGeneration3] = React.useState(false)
+    const [triggerGeneration4, setTriggerGeneration4] = React.useState(false)
+    const [triggerGeneration5, setTriggerGeneration5] = React.useState(false)
+    const [triggerBlank, setTriggerBlank] = React.useState(false)
 
-    const [isLoading, setIsLoading] = React.useState(false);
-    
     React.useEffect(() => {
-        setNewCurrentWord(outputText, setCurrentWord, vocabWord, setOutputText, setOutputValidationStr, 
-                          setIsLoading, numGPTRuns, setNumGPTRuns);
-        }, [outputText])
-
-    React.useEffect(() => {
-        if (currentWord !== null) {
-            setVocabWord(currentWord.word)
-        }
+        setVocabWord(currentWord.word)
         setIsLoading(false)
     }, [currentWord])
 
@@ -167,7 +157,7 @@ function MainTool( {currentWord, setCurrentWord} ) {
         // if enter is pushed, either change focus to vocab word input or make API call
         if (e.key === 'Enter') {
         if (vocabWordInputFocussed) {   
-            makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord)
+            makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank)
             vocabWordInputRef.current.blur()   // unfocus
         } else  {
             vocabWordInputRef.current.focus()
@@ -201,24 +191,35 @@ function MainTool( {currentWord, setCurrentWord} ) {
                 </input>
                 <button 
                     className="submit-btn ll-btn"
-                    onClick={() => makeGPTCall(vocabWord, setOutputText, setOutputValidationStr, setIsLoading, 
-                                               numGPTRuns, setNumGPTRuns, setCurrentWord)}>
+                    onClick={() => makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
+                                               setTriggerGeneration1, setTriggerBlank)}>
                         Submit
                 </button>
             </div>
 
             {/* output boxes */}
             <div className={`ll-output-box-container ll-output-is-loading-${isLoading}`}>
-                <LinguaSingleOutput logo={logo1} title="YOUR WORD" outputText={currentWord != null && currentWord.word} 
-                                    isEven={true} num="1"/>
-                <LinguaSingleOutput logo={logo2} title="TRANSLATION" outputText={currentWord !== null && currentWord.translation} 
-                                    num="2" />
-                <LinguaSingleOutput logo={logo3} title="ASSOCIATION" outputText={currentWord !== null && currentWord.association} 
-                                    isEven={true} num="3" />
-                <LinguaSingleOutput logo={logo4} title="MENTAL IMAGE" outputText={currentWord !== null && currentWord.mentalImage} 
-                                    num="4" />
-                <LinguaSingleOutput logo={logo5} title="EXPLANATION" outputText={currentWord !== null && currentWord.explanation} 
-                                    isEven={true} num="5" />
+                <LinguaSingleOutput logo={logo1} title="YOUR WORD" text={currentWord.word} 
+                                    isEven={true} num="1" triggerGeneration={triggerGeneration1}
+                                    onCompletion={() => setTriggerGeneration2(true) } triggerBlank={triggerBlank} 
+                                    numHistoryClicks={numHistoryClicks}/>
+                <LinguaSingleOutput logo={logo2} title="TRANSLATION" text={currentWord.translation} 
+                                    num="2" triggerGeneration={triggerGeneration2}
+                                    onCompletion={() => setTriggerGeneration3(true)} triggerBlank={triggerBlank}
+                                    numHistoryClicks={numHistoryClicks} />
+                <LinguaSingleOutput logo={logo3} title="ASSOCIATION" text={currentWord.association} 
+                                    isEven={true} num="3" triggerGeneration={triggerGeneration3}
+                                    onCompletion={() => setTriggerGeneration4(true)} triggerBlank={triggerBlank}
+                                    numHistoryClicks={numHistoryClicks} />
+                <LinguaSingleOutput logo={logo4} title="MENTAL IMAGE" text={currentWord.mentalImage} 
+                                    num="4" triggerGeneration={triggerGeneration4} 
+                                    onCompletion={() => setTriggerGeneration5(true)} triggerBlank={triggerBlank}
+                                    numHistoryClicks={numHistoryClicks} />
+                <LinguaSingleOutput logo={logo5} title="EXPLANATION" text={currentWord.explanation} 
+                                    isEven={true} num="5" triggerGeneration={triggerGeneration5}
+                                    onCompletion={() => resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerGeneration3,
+                                                        setTriggerGeneration4, setTriggerGeneration5, setTriggerBlank)} triggerBlank={triggerBlank} 
+                                                        numHistoryClicks={numHistoryClicks} />
             </div>  
         </div>
     )
