@@ -21,3 +21,17 @@
     opacity: 0.3;
     cursor: not-allowed!important;
 }
+
+.ll-audio-btn > * {
+    color: black;
+}
+
+@media (max-width: 775px) {
+    .ll-audio-btn {
+        width: 2rem;
+        height: 1.5rem;
+    }
+    .ll-audio-btn > * {
+        width: 0.8rem;
+    }
+}
