@@ -14,6 +14,9 @@
     background-color: var(--green1);
     border: 0.5px solid black;
     border-radius: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
 }
 
