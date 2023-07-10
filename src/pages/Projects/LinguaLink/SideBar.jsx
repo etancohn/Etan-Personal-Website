@@ -23,7 +23,6 @@ function LLHistoryItem (item, i, history, setCurrentWord, numHistoryClicks, setN
                 <span onClick={() => handleHistoryItemClicked(setCurrentWord, history[i], numHistoryClicks, setNumHistoryClicks)}>
                     <div className="ll-history-item-text">{item.word}</div>
                 </span>
-                {/* <span onClick={() => setCurrentWord(history[i])}><div className="ll-history-item-text">{item.word}</div></span> */}
             </div>
         </div>
     )

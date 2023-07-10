@@ -25,17 +25,17 @@ function LinguaLink() {
   }
   const [currentWord, setCurrentWord] = React.useState(initialWord)
 
-  React.useEffect(() => {
-    // if (history.length > 0 && currentWord.word === history[history.length - 1].word) {
-    //     return
-    // }
-    if (currentWord.word !== "") {
-        setHistory(prevHistory => [...prevHistory, currentWord])
-        // setHistory(prevHistory => {
-        //     let updated = prevHistory
-        // })
-    }
-  }, [currentWord])
+//   React.useEffect(() => {
+//     // if (history.length > 0 && currentWord.word === history[history.length - 1].word) {
+//     //     return
+//     // }
+//     if (currentWord.word !== "") {
+//         setHistory(prevHistory => [...prevHistory, currentWord])
+//         // setHistory(prevHistory => {
+//         //     let updated = prevHistory
+//         // })
+//     }
+//   }, [currentWord])
 
   // Load state from local storage on component mount
   React.useEffect(() => {
@@ -67,7 +67,8 @@ function LinguaLink() {
                 </div>
 
                 <div className="main-tool-container">
-                    <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks} />
+                    <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks}
+                              setHistory={setHistory} />
                 </div>
                 
                 <div className="white-space-container"></div>

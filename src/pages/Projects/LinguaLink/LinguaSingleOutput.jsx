@@ -3,7 +3,7 @@ import AudioButton from './AudioButton'
 import GenerationText from './GenerationText'
 import './LinguaSingleOutput.css'
 
-const TEXT_GENERATION_SLOWNESS = 5
+const TEXT_GENERATION_SLOWNESS = 2
 
 function LinguaSingleOutput( {logo, title="TITLE", text="", isEven=false, num="0",
                               triggerGeneration, onCompletion, triggerBlank, numHistoryClicks} ) {

@@ -17,7 +17,7 @@ const MAX_GPT_RUNS = 10
 // const TEXT_GENERATION_SLOWNESS = 20
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
-                          setTriggerGeneration1, setTriggerBlank) {
+                          setTriggerGeneration1, setTriggerBlank, setHistory) {
     // max re-runs of GPT hit
     if (numGPTRuns+1 > MAX_GPT_RUNS) { 
         setIsLoading(false)
@@ -70,16 +70,15 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
         
         // Updating the output text with the received response
         const outputText = data.choices[0].message.content
-        parseGPTOutput(outputText, setCurrentWord, vocabWord, 
-            setIsLoading, numGPTRuns, setNumGPTRuns, setTriggerGeneration1, setTriggerBlank)
+        parseGPTOutput(outputText, setCurrentWord, vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, 
+                      setTriggerGeneration1, setTriggerBlank, setHistory)
       } catch(error) {
         console.error(error);
       }
 }
 
-function parseGPTOutput(outputText, setCurrentWord, word, 
-                        setIsLoading, numGPTRuns, setNumGPTRuns, 
-                        setTriggerGeneration1, setTriggerBlank) {
+function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, numGPTRuns, setNumGPTRuns, 
+                        setTriggerGeneration1, setTriggerBlank, setHistory) {
     console.log(outputText)
     if (word === "") { return }
 
@@ -103,7 +102,8 @@ function parseGPTOutput(outputText, setCurrentWord, word,
 
     if (llOutputInvalid) {
         console.log(`INVALID - RERUN ("${word}") (${numGPTRuns})`)
-        makeGPTCall(word, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank)
+        makeGPTCall(word, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
+                    setHistory)
         return
     } else {
         setNumGPTRuns(0)
@@ -119,6 +119,7 @@ function parseGPTOutput(outputText, setCurrentWord, word,
         outputText: outputText,
         url: ""
     }
+    setHistory(prevHistory => [...prevHistory, newCurrent])
     setCurrentWord(newCurrent)
     setTriggerBlank(true)
     setTriggerGeneration1(true)
@@ -134,7 +135,7 @@ function resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerG
     setTriggerBlank(false)
 }
 
-function MainTool( {currentWord, setCurrentWord, numHistoryClicks} ) {
+function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory} ) {
     const [vocabWord, setVocabWord] = React.useState("")
     const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false);
     const vocabWordInputRef = React.useRef(null);
@@ -157,7 +158,8 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks} ) {
         // if enter is pushed, either change focus to vocab word input or make API call
         if (e.key === 'Enter') {
         if (vocabWordInputFocussed) {   
-            makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank)
+            makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
+                        setHistory)
             vocabWordInputRef.current.blur()   // unfocus
         } else  {
             vocabWordInputRef.current.focus()
@@ -192,7 +194,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks} ) {
                 <button 
                     className="submit-btn ll-btn"
                     onClick={() => makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
-                                               setTriggerGeneration1, setTriggerBlank)}>
+                                               setTriggerGeneration1, setTriggerBlank, setHistory)}>
                         Submit
                 </button>
             </div>
