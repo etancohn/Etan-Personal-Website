@@ -118,7 +118,6 @@ function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, numGPTRu
         outputText: outputText,
         url: ""
     }
-    // setHistory(prevHistory => [...prevHistory, newCurrent])
     setHistory(prevHistory => {
         let updatedHistory = [...prevHistory, newCurrent]
         if (updatedHistory.length > MAX_HISTORY_LENGTH) {
@@ -157,6 +156,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory} )
     React.useEffect(() => {
         setVocabWord(currentWord.word)
         setIsLoading(false)
+        console.log(currentWord)
     }, [currentWord])
 
     // handle user pushing 'Enter'

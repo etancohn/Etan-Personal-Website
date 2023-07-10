@@ -8,8 +8,6 @@ import MainTool from './MainTool'
 import ImageGeneration from './ImageGeneration'
 import InfoModal from './InfoModal'
 
-// const MAX_HISTORY_STORED = 100
-
 function LinguaLink() {
 
   const [history, setHistory] = React.useState([])
@@ -61,7 +59,7 @@ function LinguaLink() {
                 <div className="white-space-container"></div>
 
                 <div className="image-generation-container">
-                    <ImageGeneration currentWord={currentWord} setCurrentWord={setCurrentWord} />
+                    <ImageGeneration currentWord={currentWord} setCurrentWord={setCurrentWord} setHistory={setHistory} />
                     <div className="ll-separation-horizontal-line-container">
                         <div className="ll-separation-horizontal-line"></div>
                     </div>

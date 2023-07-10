@@ -8,8 +8,8 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 // image size (either 256, 512, or 1024)
 const SIZE = "256x256"
 
-async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading) {
-    if (currentWord === null || currentWord.mentalImage === "" || imagesLeft <= 0) {
+async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory) {
+    if (currentWord.mentalImage === "" || imagesLeft <= 0) {
         return
     }
     setIsLoading(true)
@@ -36,17 +36,20 @@ async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesL
             ...prevCurrentWord,
             url: url
         }))
+        setHistory(prevHistory => {
+            let updatedHistory = [...prevHistory]
+            updatedHistory[prevHistory.length - 1].url = url
+            return updatedHistory
+        })
         if (imagesLeft > 0) {
             setImagesLeft(imagesLeft - 1)
-        }
-        // setUrl(url);
-        
+        }        
       } catch(error) {
         console.error(error);
       }
 }
 
-function ImageGeneration( {currentWord, setCurrentWord} ) {
+function ImageGeneration( {currentWord, setCurrentWord, setHistory} ) {
     const [imagesLeft, setImagesLeft] = React.useState(2)
     const [isLoading, setIsLoading] = React.useState(false)
 
@@ -63,15 +66,12 @@ function ImageGeneration( {currentWord, setCurrentWord} ) {
         setIsLoading(false)
     }, [imagesLeft])
 
-    
-    // const [url, setUrl] = React.useState("");
-
     return (
         <div className="image-generation">
             <h4 className="project-mini-title ll-img-gen-title ll-title">IMAGE GENERATION</h4>
                 <div className={`ll-img-container ll-img-is-loading-${isLoading}`}>
-                    {(currentWord === null || currentWord.url === "") && <p className='ll-img-msg'>Generate an image to help remember the association!</p>}
-                    {currentWord !== null && currentWord.url !== "" && <img src={currentWord.url}></img>}
+                    {currentWord.url === "" && <p className='ll-img-msg'>Generate an image to help remember the association!</p>}
+                    {currentWord.url !== "" && <img src={currentWord.url}></img>}
                     <div className="spinner-container">
                         {isLoading && <Spinner animation="border" className="my-spinner" />}
                     </div>
@@ -81,7 +81,7 @@ function ImageGeneration( {currentWord, setCurrentWord} ) {
             </div>
             <button 
                 className={`submit-btn ll-get-img-btn ll-btn ll-img-btn-out-${imagesLeft <= 0}`}
-                onClick={() => generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading)}>
+                onClick={() => generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory)}>
                     Get Image
             </button>
             <div className='ll-images-left'>{`(Images Left: ${imagesLeft})`}</div>
