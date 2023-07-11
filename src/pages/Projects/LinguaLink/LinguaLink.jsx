@@ -7,7 +7,6 @@ import MainTool from './MainTool'
 import ImageGeneration from './ImageGeneration'
 import InfoModal from './InfoModal'
 import PhoneHistory from './PhoneHistory'
-// import LinguaSideBar from './LinguaSideBar'
 import LLSidebar from './LLSidebar'
 
 
@@ -50,9 +49,6 @@ function LinguaLink() {
 
             <div className="ll-main-content">
                 <div className="lingua-link-sidebar">
-                    {/* <LinguaSideBar history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks} 
-                             setNumHistoryClicks={setNumHistoryClicks} currentWordIndex={currentWordIndex} 
-                             setCurrentWordIndex={setCurrentWordIndex} /> */}
                     <LLSidebar history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks} 
                              setNumHistoryClicks={setNumHistoryClicks} currentWordIndex={currentWordIndex} 
                              setCurrentWordIndex={setCurrentWordIndex} />
