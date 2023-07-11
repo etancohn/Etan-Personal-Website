@@ -1,5 +1,3 @@
-import './LinguaSideBar.css'
-
 import React from 'react';
 import {
   CDBSidebar,
@@ -8,12 +6,12 @@ import {
   CDBSidebarHeader,
 } from 'cdbreact';
 import LinguaHistoryContent from './LinguaHistoryContent';
+import './LLSidebar.css'
 
-const LinguaSideBar = ( {history, setCurrentWord, numHistoryClicks, setNumHistoryClicks, currentWordIndex,
-                   setCurrentWordIndex} ) => {
-
-    return (
-        <div className="ll-sidebar">
+function LLSidebar( {history, setCurrentWord, numHistoryClicks, setNumHistoryClicks, currentWordIndex,
+    setCurrentWordIndex} ) {
+  return (
+    <div className="ll-sidebar">
         <CDBSidebar>
             <CDBSidebarHeader className="ll-sidebar-header" prefix={<i className="fa fa-bars fa-large"></i>}>
                 <div href="/" className="text-decoration-none ll-history-title" style={{ color: 'inherit' }}>
@@ -28,8 +26,8 @@ const LinguaSideBar = ( {history, setCurrentWord, numHistoryClicks, setNumHistor
             </CDBSidebarContent>
             
         </CDBSidebar>
-        </div>
-    );
-};
+    </div>
+  )
+}
 
-export default LinguaSideBar;
+export default LLSidebar
