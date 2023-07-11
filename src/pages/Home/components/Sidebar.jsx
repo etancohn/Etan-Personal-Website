@@ -6,7 +6,7 @@ import './Sidebar.css'
 export default function Sidebar() {
     return (
         <>
-            <div className="sidebar-component background-darkgreen">
+            <div className="homepage-sidebar-component background-darkgreen">
                 <div className="erc">
                         <span className="letter-e">E</span>
                         <span className="letter-r">R</span>

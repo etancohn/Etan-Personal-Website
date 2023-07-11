@@ -17,7 +17,7 @@ function LinguaSingleOutput( {logo, title="TITLE", text="", isEven=false, num="0
                     </div>
                     <div className="ll-my-wrapper">
                         <p className={`ll-output-text ll-output-text-${num}`}>
-                            <GenerationText text={text} slowness={TEXT_GENERATION_SLOWNESS} triggerGeneration={triggerGeneration} 
+                            <GenerationText text={text.trim()} slowness={TEXT_GENERATION_SLOWNESS} triggerGeneration={triggerGeneration} 
                                             num={parseInt(num)} onCompletion={onCompletion} triggerBlank={triggerBlank}
                                             numHistoryClicks={numHistoryClicks} />
                         </p>

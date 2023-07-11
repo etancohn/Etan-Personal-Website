@@ -11,12 +11,13 @@ function HomePage() {
 
   return (
     <>
+      {/* <GreenNavbar white={true}/> */}
       <div className="homepage-div">
-        <div className="sidebar">
+        <div className="homepage-sidebar">
           <Sidebar />
         </div>
-        <div className="main-content">
-          <GreenNavbar white={true}/>
+        <div className="homepage-main-content">
+          <GreenNavbar white={true} className="homepage-navbar" />
           <MainContent />
           <Footer />
         </div>

@@ -1,4 +1,4 @@
-import './SideBar.css'
+import './LinguaSideBar.css'
 
 import React from 'react';
 import {
@@ -9,7 +9,7 @@ import {
 } from 'cdbreact';
 import LinguaHistoryContent from './LinguaHistoryContent';
 
-const Sidebar = ( {history=[], setCurrentWord, numHistoryClicks, setNumHistoryClicks, currentWordIndex,
+const LinguaSideBar = ( {history=[], setCurrentWord, numHistoryClicks, setNumHistoryClicks, currentWordIndex,
                    setCurrentWordIndex} ) => {
 
     return (
@@ -21,7 +21,7 @@ const Sidebar = ( {history=[], setCurrentWord, numHistoryClicks, setNumHistoryCl
                 </div>
             </CDBSidebarHeader>
 
-            <CDBSidebarContent className="sidebar-content">
+            <CDBSidebarContent className="ll-sidebar-content">
                 <LinguaHistoryContent history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks}
                                       setNumHistoryClicks={setNumHistoryClicks} currentWordIndex={currentWordIndex} 
                                       setCurrentWordIndex={setCurrentWordIndex} />
@@ -32,4 +32,4 @@ const Sidebar = ( {history=[], setCurrentWord, numHistoryClicks, setNumHistoryCl
     );
 };
 
-export default Sidebar;
+export default LinguaSideBar;

@@ -56,7 +56,7 @@ export default function MainContent() {
     }, [numCards])
 
     return (
-        <div className="main-content-container">
+        <div className="homepage-main-content-container">
 
             {/* Picture and Title */}
             <img src={etanGradPhoto} alt="A picture of Etan Cohn." className="etan-grad-photo" />

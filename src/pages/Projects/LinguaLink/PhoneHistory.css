@@ -1,4 +1,9 @@
 
+.ll-phone-history-modal-body {
+    max-height: 70vh;
+    overflow-y: scroll;
+}
+
 .ll-book-icon {
     display: none;
 }
@@ -18,7 +23,7 @@
         display: block;
         width: 1.8rem;
         height: 1.8rem;
-        right: 15px;
+        right: 20px;
         top: 20px;
         z-index: 100;
         cursor: pointer;

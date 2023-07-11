@@ -12,8 +12,8 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
 // changeable constants
 const MAX_GPT_RUNS = 10
-const MAX_HISTORY_LENGTH = 60
-const TEXT_GENERATION_SLOWNESS = 1
+const MAX_HISTORY_LENGTH = 50
+const TEXT_GENERATION_SLOWNESS = 4
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
                           setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex) {
@@ -45,7 +45,7 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
         \n
         <| endofprompt |>
         \n
-        Word: ${vocabWord}
+        Word: ${vocabWord.trim()}
         `;
 
     // Options for the API request

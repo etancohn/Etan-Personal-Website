@@ -38,6 +38,7 @@
     row-gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
+    margin-bottom: 2rem;
 }
 
 .project-card {

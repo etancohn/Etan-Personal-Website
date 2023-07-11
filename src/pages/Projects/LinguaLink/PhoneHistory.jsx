@@ -17,7 +17,7 @@ function PhoneHistory( {history, setCurrentWord, numHistoryClicks, setNumHistory
                 <Modal.Header closeButton>
                 <Modal.Title className="ll-phone-history-title">HISTORY</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="ll-phone-history-modal-body">
                 <LinguaHistoryContent history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks}
                                         setNumHistoryClicks={setNumHistoryClicks} currentWordIndex={currentWordIndex} 
                                         setCurrentWordIndex={setCurrentWordIndex} />
