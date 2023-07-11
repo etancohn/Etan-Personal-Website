@@ -157,7 +157,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     React.useEffect(() => {
         setVocabWord(currentWord.word)
         setIsLoading(false)
-        console.log(currentWord)
+        // console.log(currentWord)
     }, [currentWord])
 
     // handle user pushing 'Enter'

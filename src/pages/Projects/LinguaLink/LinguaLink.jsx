@@ -7,6 +7,12 @@ import DescriptionHeader from './DescriptionHeader'
 import MainTool from './MainTool'
 import ImageGeneration from './ImageGeneration'
 import InfoModal from './InfoModal'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBook } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import LinguaHistoryContent from './LinguaHistoryContent'
+
 
 function LinguaLink() {
 
@@ -22,6 +28,10 @@ function LinguaLink() {
     url: ""
   }
   const [currentWord, setCurrentWord] = React.useState(initialWord)
+
+  const [showHistory, setShowHistory] = React.useState(false);
+  const handleCloseHistory = () => setShowHistory(false);
+  const handleShowHistory = () => setShowHistory(true);
 
   // Load state from local storage on component mount
   React.useEffect(() => {
@@ -40,7 +50,27 @@ function LinguaLink() {
   return (
     <>
     <div className="lingua-link-content">
-        <GreenNavbar />
+        {/* <GreenNavbar white={true}/> */}
+            <FontAwesomeIcon className="ll-book-icon" icon={faBook} onClick={handleShowHistory} />
+            <Modal show={showHistory} onHide={handleCloseHistory}>
+              <Modal.Header closeButton>
+                <Modal.Title>HISTORY</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+              <LinguaHistoryContent history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks}
+                                      setNumHistoryClicks={setNumHistoryClicks} currentWordIndex={currentWordIndex} 
+                                      setCurrentWordIndex={setCurrentWordIndex} />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseHistory}>
+                  Close
+                </Button>
+                {/* <Button variant="primary" onClick={handleCloseHistory}>
+                  Save Changes
+                </Button> */}
+              </Modal.Footer>
+            </Modal>
+
             <div className="ll-main-content">
                 <div className="lingua-link-sidebar">
                     <SideBar history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks} 

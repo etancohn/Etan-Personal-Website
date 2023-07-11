@@ -1,0 +1,60 @@
+
+
+.ll-history-item {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0.2rem 0;
+}
+
+.square-container {
+    width: 30%;
+    display: flex;
+    align-items: top;
+    justify-content: right;
+}
+
+.square {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+    margin-top: 0.3rem;
+}
+
+.square-0 {
+    background-color: var(--green1);
+}
+.square-1 {
+    background-color: var(--green2);
+}
+.square-2 {
+    background-color: var(--green3);
+}
+.square-3 {
+    background-color: var(--green4);
+}
+.square-4 {
+    background-color: var(--green5);
+}
+
+.ll-history-item-container {
+    width: 70%;
+    word-wrap: break-word;
+    display: flex;
+}
+
+.ll-history-item-text {
+    cursor: pointer;
+}
+
+/* bold selected word */
+.ll-current-word-true {
+    font-weight: 1000;
+}
+
+.ll-image-icon {
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.3rem;
+    margin-left: 0.3rem;
+    /* background-color: green; */
+}

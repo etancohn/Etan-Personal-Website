@@ -9,7 +9,7 @@ import { useNavigate, redirect } from "react-router-dom";
 export default function GreenNavbar( {white=false} ) {
     const navigate = useNavigate()
   return (
-    <nav>
+    // <nav>
         <Navbar collapseOnSelect expand="lg" className={white && "white-navbar"}>
             <Navbar.Brand onClick={() => navigate("/")} className={`erc-logo ${white && "remove-logo"}`}>
                 <span className="logo-letter-e">E</span>
@@ -28,6 +28,6 @@ export default function GreenNavbar( {white=false} ) {
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
-    </nav>
+    // </nav>
   )
 }

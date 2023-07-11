@@ -98,6 +98,10 @@
     border-radius: 3rem;
 }
 
+.ll-book-icon {
+    display: none;
+}
+
 @media (max-width: 775px) {
     .ll-main-content {
         grid-template-areas: 
@@ -114,5 +118,16 @@
 
     .main-tool-container {
         font-size: 0.9rem;
+    }
+
+    .ll-book-icon {
+        position: fixed;
+        display: block;
+        width: 1.8rem;
+        height: 1.8rem;
+        right: 15px;
+        top: 20px;
+        z-index: 100;
+        cursor: pointer;
     }
 }
