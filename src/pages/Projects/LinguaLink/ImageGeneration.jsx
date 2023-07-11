@@ -5,8 +5,10 @@ import Spinner from 'react-bootstrap/Spinner';
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
-// image size (either 256, 512, or 1024)
-const SIZE = "256x256"
+// changeable constants
+const SIZE = "256x256"     // image size (either 256, 512, or 1024)
+const NUM_FREE_IMAGES = 5
+
 
 async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory, 
                              currentWordIndex) {
@@ -35,11 +37,13 @@ async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesL
         // update current word's url
         setCurrentWord(prevCurrentWord => ({
             ...prevCurrentWord,
-            url: url
+            url: url,
+            hasImage: true
         }))
         setHistory(prevHistory => {
             let updatedHistory = [...prevHistory]
             updatedHistory[currentWordIndex].url = url
+            updatedHistory[currentWordIndex].hasImage = true
             return updatedHistory
         })
         if (imagesLeft > 0) {
@@ -51,7 +55,7 @@ async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesL
 }
 
 function ImageGeneration( {currentWord, setCurrentWord, setHistory, currentWordIndex} ) {
-    const [imagesLeft, setImagesLeft] = React.useState(2)
+    const [imagesLeft, setImagesLeft] = React.useState(NUM_FREE_IMAGES)
     const [isLoading, setIsLoading] = React.useState(false)
 
     // Load state from local storage on component mount

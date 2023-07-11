@@ -1,4 +1,7 @@
 import './SideBar.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faImage } from '@fortawesome/free-regular-svg-icons';
+// import { faImage } from '@fortawesome/free-solid-svg-icons'
 
 import React from 'react';
 import {
@@ -17,6 +20,7 @@ function handleHistoryItemClicked (setCurrentWord, newWord, numHistoryClicks, se
 function LLHistoryItem (item, i, history, setCurrentWord, numHistoryClicks, setNumHistoryClicks, currentWordIndex,
                         setCurrentWordIndex) {
     const isCurrentWord = (currentWordIndex === i)
+    console.log(item.hasImage)
     return (
         <div className="ll-history-item" key={i}>
             <div className="square-container">
@@ -30,6 +34,7 @@ function LLHistoryItem (item, i, history, setCurrentWord, numHistoryClicks, setN
                         {item.word}
                     </div>
                 </span>
+                {item.hasImage && <FontAwesomeIcon className='ll-image-icon' icon={faImage} />}
             </div>
         </div>
     )

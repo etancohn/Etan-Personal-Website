@@ -115,17 +115,18 @@ function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, numGPTRu
         mentalImage: mentalImage,
         explanation: explanation,
         outputText: outputText,
-        url: ""
+        url: "",
+        hasImage: false
     }
     setHistory(prevHistory => {
         let updatedHistory = [...prevHistory, newCurrent]
         if (updatedHistory.length > MAX_HISTORY_LENGTH) {
             updatedHistory = updatedHistory.slice(updatedHistory.length - MAX_HISTORY_LENGTH, updatedHistory.length)
         }
+        setCurrentWordIndex(updatedHistory.length - 1)
         return updatedHistory
     })
     setCurrentWord(newCurrent)
-    setCurrentWordIndex(history.length-1)
     setTriggerBlank(true)
     setTriggerGeneration1(true)
 }
@@ -226,8 +227,9 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                 <LinguaSingleOutput logo={logo5} title="EXPLANATION" text={currentWord.explanation} 
                                     isEven={true} num="5" triggerGeneration={triggerGeneration5}
                                     onCompletion={() => resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerGeneration3,
-                                                        setTriggerGeneration4, setTriggerGeneration5, setTriggerBlank)} triggerBlank={triggerBlank} 
-                                                        numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} />
+                                                        setTriggerGeneration4, setTriggerGeneration5, setTriggerBlank)} 
+                                                        triggerBlank={triggerBlank} numHistoryClicks={numHistoryClicks} 
+                                                        TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} />
             </div>  
         </div>
     )
