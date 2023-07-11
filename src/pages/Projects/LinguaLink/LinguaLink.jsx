@@ -7,7 +7,7 @@ import MainTool from './MainTool'
 import ImageGeneration from './ImageGeneration'
 import InfoModal from './InfoModal'
 import PhoneHistory from './PhoneHistory'
-import LinguaSidebar from './LinguaSideBar'
+import LinguaSideBar from './LinguaSideBar'
 
 
 function LinguaLink() {
@@ -34,9 +34,9 @@ function LinguaLink() {
   }, []);
 
   React.useEffect(() => {
-    if( history !== []) {
+    // if (history !== []) {
         window.localStorage.setItem('history', JSON.stringify(history))
-    }
+    // }
   }, [history])
 
   return (
@@ -49,7 +49,7 @@ function LinguaLink() {
 
             <div className="ll-main-content">
                 <div className="lingua-link-sidebar">
-                    <LinguaSidebar history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks} 
+                    <LinguaSideBar history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks} 
                              setNumHistoryClicks={setNumHistoryClicks} currentWordIndex={currentWordIndex} 
                              setCurrentWordIndex={setCurrentWordIndex} />
                 </div>
