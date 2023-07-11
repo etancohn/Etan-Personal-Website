@@ -1,0 +1,26 @@
+
+.ll-book-icon {
+    display: none;
+}
+
+.ll-phone-history-title {
+    color: var(--green5)!important;
+    font-weight: bold!important;
+}
+
+.ll-phone-history-close-btn {
+    background-color: var(--green5)!important;
+}
+
+@media (max-width: 775px) {
+    .ll-book-icon {
+        position: fixed;
+        display: block;
+        width: 1.8rem;
+        height: 1.8rem;
+        right: 15px;
+        top: 20px;
+        z-index: 100;
+        cursor: pointer;
+    }
+}
