@@ -8,7 +8,8 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 // image size (either 256, 512, or 1024)
 const SIZE = "256x256"
 
-async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory) {
+async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory, 
+                             currentWordIndex) {
     if (currentWord.mentalImage === "" || imagesLeft <= 0) {
         return
     }
@@ -38,7 +39,7 @@ async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesL
         }))
         setHistory(prevHistory => {
             let updatedHistory = [...prevHistory]
-            updatedHistory[prevHistory.length - 1].url = url
+            updatedHistory[currentWordIndex].url = url
             return updatedHistory
         })
         if (imagesLeft > 0) {
@@ -49,7 +50,7 @@ async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesL
       }
 }
 
-function ImageGeneration( {currentWord, setCurrentWord, setHistory} ) {
+function ImageGeneration( {currentWord, setCurrentWord, setHistory, currentWordIndex} ) {
     const [imagesLeft, setImagesLeft] = React.useState(2)
     const [isLoading, setIsLoading] = React.useState(false)
 
@@ -81,7 +82,8 @@ function ImageGeneration( {currentWord, setCurrentWord, setHistory} ) {
             </div>
             <button 
                 className={`submit-btn ll-get-img-btn ll-btn ll-img-btn-out-${imagesLeft <= 0}`}
-                onClick={() => generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory)}>
+                onClick={() => generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory,
+                                             currentWordIndex)}>
                     Get Image
             </button>
             <div className='ll-images-left'>{`(Images Left: ${imagesLeft})`}</div>

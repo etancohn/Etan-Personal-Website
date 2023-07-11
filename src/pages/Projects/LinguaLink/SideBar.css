@@ -112,3 +112,8 @@
 .square-4 {
     background-color: var(--green5);
 }
+
+.ll-current-word-true {
+    /* color: gray; */
+    font-weight: 1000;
+}

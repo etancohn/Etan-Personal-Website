@@ -12,6 +12,7 @@ function LinguaLink() {
 
   const [history, setHistory] = React.useState([])
   const [numHistoryClicks, setNumHistoryClicks] = React.useState(0)
+  const [currentWordIndex, setCurrentWordIndex] = React.useState(-1)
   const initialWord = {
     word: "",
     translation: "",
@@ -43,7 +44,8 @@ function LinguaLink() {
             <div className="ll-main-content">
                 <div className="lingua-link-sidebar">
                     <SideBar history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks} 
-                             setNumHistoryClicks={setNumHistoryClicks} />
+                             setNumHistoryClicks={setNumHistoryClicks} currentWordIndex={currentWordIndex} 
+                             setCurrentWordIndex={setCurrentWordIndex} />
                 </div>
 
                 {/* logo and description */}
@@ -53,13 +55,14 @@ function LinguaLink() {
 
                 <div className="main-tool-container">
                     <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks}
-                              setHistory={setHistory} />
+                              setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex} />
                 </div>
                 
                 <div className="white-space-container"></div>
 
                 <div className="image-generation-container">
-                    <ImageGeneration currentWord={currentWord} setCurrentWord={setCurrentWord} setHistory={setHistory} />
+                    <ImageGeneration currentWord={currentWord} setCurrentWord={setCurrentWord} setHistory={setHistory}
+                                     currentWordIndex={currentWordIndex} />
                     <div className="ll-separation-horizontal-line-container">
                         <div className="ll-separation-horizontal-line"></div>
                     </div>
