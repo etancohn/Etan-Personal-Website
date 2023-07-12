@@ -18,7 +18,7 @@ function LinguaLink() {
   const [numHistoryClicks, setNumHistoryClicks] = React.useState(0)
   const [currentWordIndex, setCurrentWordIndex] = React.useState(-1)
   const [generatedWord, setGeneratedWord] = React.useState("")
-  const [language, setLanguage] = React.useState("spanish")
+  const [language, setLanguage] = React.useState("Spanish")
   const initialWord = {
     word: "",
     translation: "",
@@ -65,7 +65,8 @@ function LinguaLink() {
 
                 <div className="main-tool-container">
                     <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks}
-                              setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex} generatedWord={generatedWord} />
+                              setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex} generatedWord={generatedWord}
+                              language={language} />
                 </div>
                 
                 <div className="white-space-container"></div>
@@ -79,7 +80,7 @@ function LinguaLink() {
                 </div>
 
                 <div className="ll-generate-random-container">
-                  <LinguaGenerateRandom setGeneratedWord={setGeneratedWord} />
+                  <LinguaGenerateRandom setGeneratedWord={setGeneratedWord} language={language} />
                   <div className="ll-separation-horizontal-line-container">
                         <div className="ll-separation-horizontal-line"></div>
                   </div>

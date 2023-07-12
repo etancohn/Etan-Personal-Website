@@ -7,7 +7,7 @@ const NUM_WORDS_TO_GENERATE = 10
 const MAX_WORD_GENERATION_GPT_RUNS = 10 
 
 
-async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns)  {
+async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language)  {
     setNumGPTRuns(numGPTRuns+1)
     if (numGPTRuns > MAX_WORD_GENERATION_GPT_RUNS) {
         // too many GPT runs
@@ -16,7 +16,7 @@ async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGP
     }
     // Query string for the API request
     const query = ` 
-    Give me a list of ${NUM_WORDS_TO_GENERATE} Spanish vocabulary words of varying difficulty. Don't include beginner or easier 
+    Give me a list of ${NUM_WORDS_TO_GENERATE} ${language} vocabulary words of varying difficulty. Don't include beginner or easier 
     difficulty. Only include the word or phrase, without a definition or anything else.
     
     <| endofprompt |>
@@ -62,7 +62,7 @@ async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGP
     const generatedWordsInvalid = (wordsArray.length !== NUM_WORDS_TO_GENERATE || wordsArray.includes(""))
     if (generatedWordsInvalid) {
         console.log("ERROR: Generated words in invalid format.")
-        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns)
+        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language)
         return
     }
     // valid output
@@ -72,16 +72,16 @@ async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGP
     return
 }
 
-async function getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, setNumGPTRuns) {
+async function getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, setNumGPTRuns, language) {
     console.log(`getting random word. generatedWordsArr: ${generatedWordsArr}`)
     if (generatedWordsArr.length === 0) {
-        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns)
+        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language)
     }
     setTriggerNewRandomWord(true)
     return
 }
 
-function LinguaGenerateRandom( {setGeneratedWord} ) {
+function LinguaGenerateRandom( {setGeneratedWord, language} ) {
     const [generatedWordsArr, setGeneratedWordsArr] = React.useState([])
     const [triggerNewRandomWord, setTriggerNewRandomWord] = React.useState(false)
     const [numGPTRuns, setNumGPTRuns] = React.useState(0)
@@ -101,7 +101,7 @@ function LinguaGenerateRandom( {setGeneratedWord} ) {
             <button 
                 className="submit-btn ll-btn ll-generate-random-btn"
                 onClick={() => getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, 
-                                             setNumGPTRuns)} >
+                                             setNumGPTRuns, language)} >
                     Generate Word
             </button>
         </div>

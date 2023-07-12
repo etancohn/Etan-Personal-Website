@@ -16,7 +16,8 @@ const MAX_HISTORY_LENGTH = 40
 const TEXT_GENERATION_SLOWNESS = 5
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
-                          setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex) {
+                          setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
+                          language) {
     // max re-runs of GPT hit
     if (numGPTRuns+1 > MAX_GPT_RUNS) { 
         setIsLoading(false)
@@ -38,7 +39,7 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
     // Query string for the API request
     const query = `
         I will give you a vocab word. Use psychology memory techniques to give me back a word/memory
-        association to remember the Spanish vocab word. Use the Linkword Mnemonic technique for an
+        association to remember the ${language} vocab word. Use the Linkword Mnemonic technique for an
         association. Make a mental image that matches the association, utilizing elaborative encoding
         techniques. Give the answer in the form of <word>\n\n<translation>\n\n<association>\n\n<mental
         image>\n\n<explanation>.
@@ -70,14 +71,14 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
         // Updating the output text with the received response
         const outputText = data.choices[0].message.content
         parseGPTOutput(outputText, setCurrentWord, vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, 
-                      setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex)
+                      setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language)
       } catch(error) {
         console.error(error);
       }
 }
 
 function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, numGPTRuns, setNumGPTRuns, 
-                        setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex) {
+                        setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language) {
     // console.log(outputText)
     if (word === "") { return }
 
@@ -102,7 +103,7 @@ function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, numGPTRu
     if (llOutputInvalid) {
         console.log(`INVALID - RERUN ("${word}") (${numGPTRuns})`)
         makeGPTCall(word, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
-                    setHistory, setCurrentWordIndex)
+                    setHistory, setCurrentWordIndex, language)
         return
     } 
 
@@ -141,7 +142,8 @@ function resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerG
     setTriggerBlank(false)
 }
 
-function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, setCurrentWordIndex, generatedWord} ) {
+function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, setCurrentWordIndex, generatedWord,
+                    language} ) {
     const [vocabWord, setVocabWord] = React.useState("")
     const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false);
     const vocabWordInputRef = React.useRef(null);
@@ -162,7 +164,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     React.useEffect(() => {
         if (generatedWord.trim() === "") { return }
         makeGPTCall(generatedWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
-            setHistory, setCurrentWordIndex)
+            setHistory, setCurrentWordIndex, language)
     }, [generatedWord])
 
     // handle user pushing 'Enter'
@@ -171,7 +173,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
         if (e.key === 'Enter') {
         if (vocabWordInputFocussed) {   
             makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
-                        setHistory, setCurrentWordIndex)
+                        setHistory, setCurrentWordIndex, language)
             vocabWordInputRef.current.blur()   // unfocus
         } else  {
             vocabWordInputRef.current.focus()
@@ -207,7 +209,8 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                 <button 
                     className="submit-btn ll-btn"
                     onClick={() => makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
-                                               setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex)}>
+                                               setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
+                                               language)}>
                         Submit
                 </button>
             </div>
@@ -217,25 +220,29 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                 <LinguaSingleOutput logo={logo1} title="YOUR WORD" text={currentWord.word} 
                                     isEven={true} num="1" triggerGeneration={triggerGeneration1}
                                     onCompletion={() => setTriggerGeneration2(true) } triggerBlank={triggerBlank} 
-                                    numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} />
+                                    numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
+                                    language={language} />
                 <LinguaSingleOutput logo={logo2} title="TRANSLATION" text={currentWord.translation} 
                                     num="2" triggerGeneration={triggerGeneration2}
                                     onCompletion={() => setTriggerGeneration3(true)} triggerBlank={triggerBlank}
-                                    numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} />
+                                    numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
+                                    language={language} />
                 <LinguaSingleOutput logo={logo3} title="ASSOCIATION" text={currentWord.association} 
                                     isEven={true} num="3" triggerGeneration={triggerGeneration3}
                                     onCompletion={() => setTriggerGeneration4(true)} triggerBlank={triggerBlank}
-                                    numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} />
+                                    numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
+                                    language={language} />
                 <LinguaSingleOutput logo={logo4} title="MENTAL IMAGE" text={currentWord.mentalImage} 
                                     num="4" triggerGeneration={triggerGeneration4} 
                                     onCompletion={() => setTriggerGeneration5(true)} triggerBlank={triggerBlank}
-                                    numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} />
+                                    numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
+                                    language={language} />
                 <LinguaSingleOutput logo={logo5} title="EXPLANATION" text={currentWord.explanation} 
                                     isEven={true} num="5" triggerGeneration={triggerGeneration5}
                                     onCompletion={() => resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerGeneration3,
                                                         setTriggerGeneration4, setTriggerGeneration5, setTriggerBlank)} 
                                                         triggerBlank={triggerBlank} numHistoryClicks={numHistoryClicks} 
-                                                        TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} />
+                                                        TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} language={language} />
             </div>  
         </div>
     )
