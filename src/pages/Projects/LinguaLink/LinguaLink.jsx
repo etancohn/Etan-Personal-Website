@@ -9,6 +9,7 @@ import InfoModal from './InfoModal'
 import PhoneHistory from './PhoneHistory'
 import LLSidebar from './LLSidebar'
 import LinguaGenerateRandom from './LinguaGenerateRandom'
+import Languages from './Languages'
 
 
 function LinguaLink() {
@@ -17,6 +18,7 @@ function LinguaLink() {
   const [numHistoryClicks, setNumHistoryClicks] = React.useState(0)
   const [currentWordIndex, setCurrentWordIndex] = React.useState(-1)
   const [generatedWord, setGeneratedWord] = React.useState("")
+  const [language, setLanguage] = React.useState("spanish")
   const initialWord = {
     word: "",
     translation: "",
@@ -83,7 +85,12 @@ function LinguaLink() {
                   </div>
                 </div>
 
-                <div className="language-container"></div>
+                <div className="language-container">
+                  <Languages language={language} setLanguage={setLanguage} />
+                  <div className="ll-separation-horizontal-line-container">
+                        <div className="ll-separation-horizontal-line"></div>
+                  </div>
+                </div>
 
                 <div className="info-container">
                     <InfoModal />

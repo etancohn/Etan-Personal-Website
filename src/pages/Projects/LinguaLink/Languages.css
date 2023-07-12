@@ -1,0 +1,37 @@
+
+
+.ll-language-title {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.ll-languages-options {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    column-gap: 0.4rem;
+}
+
+.ll-language-btn {
+    /* background-color: var(--green2)!important; */
+    background-color: white!important;
+    border: none!important;
+    height: 1.7rem;
+    width: 6rem!important;
+    color: black!important;
+    font-size: 0.9rem!important;
+    display: flex!important;
+    justify-content: center!important;
+    align-items: center!important;
+    border-radius: 0!important;
+}
+
+.ll-language-btn:hover {
+    background-color: var(--green4)!important;
+    color: white!important;
+}
+
+.selected-language-true {
+    background-color: var(--green4)!important;
+    color: white!important;
+}
