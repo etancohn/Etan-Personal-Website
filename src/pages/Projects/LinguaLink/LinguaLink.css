@@ -111,8 +111,8 @@
         grid-template-areas: 
         "header"
         "tool"
-        "image"
         "generateRandom"
+        "image"
         "language"
         "info";
     }
