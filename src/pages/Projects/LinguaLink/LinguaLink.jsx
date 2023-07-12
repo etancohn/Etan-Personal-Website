@@ -19,6 +19,7 @@ function LinguaLink() {
   const [currentWordIndex, setCurrentWordIndex] = React.useState(-1)
   const [generatedWord, setGeneratedWord] = React.useState("")
   const [language, setLanguage] = React.useState(localStorage.getItem("language") || "Spanish")
+  const [isGenerating, setIsGenerating] = React.useState(false)
   const initialWord = {
     word: "",
     translation: "",
@@ -45,6 +46,7 @@ function LinguaLink() {
 
   return (
     <>
+    {isGenerating && <div className="wait-cursor"></div>}
     <div className="lingua-link-content">
         {/* <GreenNavbar white={true}/> */}
         <PhoneHistory history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks} 
@@ -80,7 +82,7 @@ function LinguaLink() {
                 </div>
 
                 <div className="ll-generate-random-container">
-                  <LinguaGenerateRandom setGeneratedWord={setGeneratedWord} language={language} />
+                  <LinguaGenerateRandom setGeneratedWord={setGeneratedWord} language={language} setIsGenerating={setIsGenerating} />
                   <div className="ll-separation-horizontal-line-container">
                         <div className="ll-separation-horizontal-line"></div>
                   </div>

@@ -7,16 +7,17 @@ const NUM_WORDS_TO_GENERATE = 10
 const MAX_WORD_GENERATION_GPT_RUNS = 10
 
 
-async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language)  {
+async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating)  {
     if (numGPTRuns > MAX_WORD_GENERATION_GPT_RUNS) {
         // too many GPT runs
         console.log("ERROR: Too many invalid GPT runs")
+        setIsGenerating(false)
         return
     }
     // Query string for the API request
     const query = ` 
-    Give me a list of ${NUM_WORDS_TO_GENERATE} ${language} vocabulary words of varying difficulty. Don't include too many
-    beginner words. Only include the word or phrase, without a definition or anything else.
+    Give me a list of ${NUM_WORDS_TO_GENERATE} ${language} vocabulary words of varying difficulty. Don't include more than 1 
+    beginner or easier difficulty. Only include the word or phrase, without a definition or anything else.
     
     <| endofprompt |>
     \n
@@ -45,14 +46,14 @@ async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGP
         // Updating the output text with the received response
         const outputText = data.choices[0].message.content
         console.log(`outputText: ${outputText}`)
-        await parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language)
+        await parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating)
         return
     } catch(error) {
         console.error(error);
     }
 }
 
-async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language) {
+async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating) {
     const randomWordsRegex = /\bWord \d+: /i
     let wordsArray = outputText.split(randomWordsRegex);
     wordsArray = wordsArray.map((vocabWord) => vocabWord.trim())
@@ -62,26 +63,29 @@ async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGP
     if (generatedWordsInvalid) {
         console.log(`ERROR: Generated words in invalid format. Re-run GPT ${numGPTRuns}`)
         setNumGPTRuns(numGPTRuns+1)
-        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns+1, setNumGPTRuns, language)
+        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns+1, setNumGPTRuns, language, setIsGenerating)
         return
     }
     // valid output
     console.log(`wordsArray: ${wordsArray}`)
     setGeneratedWordsArr(wordsArray)
     setNumGPTRuns(0)
+    setIsGenerating(false)
     return
 }
 
-async function getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, setNumGPTRuns, language) {
+async function getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, setNumGPTRuns, language,
+                             setIsGenerating) {
     console.log(`getting random word. generatedWordsArr: ${generatedWordsArr}`)
     if (generatedWordsArr.length === 0) {
-        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language)
+        setIsGenerating(true)
+        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating)
     }
     setTriggerNewRandomWord(true)
     return
 }
 
-function LinguaGenerateRandom( {setGeneratedWord, language} ) {
+function LinguaGenerateRandom( {setGeneratedWord, language, setIsGenerating} ) {
     const [generatedWordsArr, setGeneratedWordsArr] = React.useState([])
     const [triggerNewRandomWord, setTriggerNewRandomWord] = React.useState(false)
     const [numGPTRuns, setNumGPTRuns] = React.useState(0)
@@ -105,7 +109,7 @@ function LinguaGenerateRandom( {setGeneratedWord, language} ) {
             <button 
                 className="submit-btn ll-btn ll-generate-random-btn"
                 onClick={() => getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, 
-                                             setNumGPTRuns, language)} >
+                                             setNumGPTRuns, language, setIsGenerating)} >
                     Generate Word
             </button>
         </div>
