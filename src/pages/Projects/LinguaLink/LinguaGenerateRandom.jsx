@@ -4,11 +4,10 @@ import './LinguaGenerateRandom.css'
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 const NUM_WORDS_TO_GENERATE = 10
-const MAX_WORD_GENERATION_GPT_RUNS = 10 
+const MAX_WORD_GENERATION_GPT_RUNS = 10
 
 
 async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language)  {
-    setNumGPTRuns(numGPTRuns+1)
     if (numGPTRuns > MAX_WORD_GENERATION_GPT_RUNS) {
         // too many GPT runs
         console.log("ERROR: Too many invalid GPT runs")
@@ -16,8 +15,8 @@ async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGP
     }
     // Query string for the API request
     const query = ` 
-    Give me a list of ${NUM_WORDS_TO_GENERATE} ${language} vocabulary words of varying difficulty. Don't include beginner or easier 
-    difficulty. Only include the word or phrase, without a definition or anything else.
+    Give me a list of ${NUM_WORDS_TO_GENERATE} ${language} vocabulary words of varying difficulty. Don't include too many
+    beginner words. Only include the word or phrase, without a definition or anything else.
     
     <| endofprompt |>
     \n
@@ -46,14 +45,14 @@ async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGP
         // Updating the output text with the received response
         const outputText = data.choices[0].message.content
         console.log(`outputText: ${outputText}`)
-        await parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns)
+        await parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language)
         return
     } catch(error) {
         console.error(error);
     }
 }
 
-async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns) {
+async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language) {
     const randomWordsRegex = /\bWord \d+: /i
     let wordsArray = outputText.split(randomWordsRegex);
     wordsArray = wordsArray.map((vocabWord) => vocabWord.trim())
@@ -61,8 +60,9 @@ async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGP
     // test whether the output came out in the correct format. Re-run GPT if invalid
     const generatedWordsInvalid = (wordsArray.length !== NUM_WORDS_TO_GENERATE || wordsArray.includes(""))
     if (generatedWordsInvalid) {
-        console.log("ERROR: Generated words in invalid format.")
-        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language)
+        console.log(`ERROR: Generated words in invalid format. Re-run GPT ${numGPTRuns}`)
+        setNumGPTRuns(numGPTRuns+1)
+        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns+1, setNumGPTRuns, language)
         return
     }
     // valid output
@@ -95,6 +95,10 @@ function LinguaGenerateRandom( {setGeneratedWord, language} ) {
         setGeneratedWordsArr(generatedWordsArr.slice(1, generatedWordsArr.length))
         setGeneratedWord(firstWord)
     }, [triggerNewRandomWord])
+
+    React.useMemo(() => {
+        setGeneratedWordsArr([])
+    }, [language])
 
     return (
         <div className="ll-generate-random-container">

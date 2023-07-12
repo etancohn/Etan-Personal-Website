@@ -38,9 +38,7 @@ function LinguaLink() {
   }, []);
 
   React.useEffect(() => {
-    // if (history !== []) {
-        window.localStorage.setItem('history', JSON.stringify(history))
-    // }
+      window.localStorage.setItem('history', JSON.stringify(history))
   }, [history])
 
   return (

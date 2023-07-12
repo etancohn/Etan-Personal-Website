@@ -13,7 +13,7 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 // changeable constants
 const MAX_GPT_RUNS = 10
 const MAX_HISTORY_LENGTH = 40
-const TEXT_GENERATION_SLOWNESS = 5
+const TEXT_GENERATION_SLOWNESS = 4
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
                           setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
@@ -35,7 +35,7 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
         return
     }
     setIsLoading(true)
-    setNumGPTRuns(numGPTRuns+1)
+    // await setNumGPTRuns(numGPTRuns+1)
     // Query string for the API request
     const query = `
         I will give you a vocab word. Use psychology memory techniques to give me back a word/memory
@@ -70,14 +70,14 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
         
         // Updating the output text with the received response
         const outputText = data.choices[0].message.content
-        parseGPTOutput(outputText, setCurrentWord, vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, 
+        await parseGPTOutput(outputText, setCurrentWord, vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, 
                       setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language)
       } catch(error) {
         console.error(error);
       }
 }
 
-function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, numGPTRuns, setNumGPTRuns, 
+async function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, numGPTRuns, setNumGPTRuns, 
                         setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language) {
     // console.log(outputText)
     if (word === "") { return }
@@ -101,8 +101,9 @@ function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, numGPTRu
                         || mentalImage === '' || explanation === '')
 
     if (llOutputInvalid) {
-        console.log(`INVALID - RERUN ("${word}") (${numGPTRuns})`)
-        makeGPTCall(word, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
+        await setNumGPTRuns(numGPTRuns+1)
+        console.log(`INVALID - RERUN ("${word}") (${numGPTRuns+1})`)
+        await makeGPTCall(word, setIsLoading, numGPTRuns+1, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
                     setHistory, setCurrentWordIndex, language)
         return
     } 
