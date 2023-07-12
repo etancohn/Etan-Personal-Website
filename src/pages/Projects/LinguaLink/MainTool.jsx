@@ -28,7 +28,8 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
             mentalImage: " ",
             explanation: " ",
             outputText: " ",
-            url: ""
+            url: "",
+            language: ""
         }
         setCurrentWord(newCurrent)
         setNumGPTRuns(0)
@@ -118,7 +119,8 @@ async function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, nu
         explanation: explanation,
         outputText: outputText,
         url: "",
-        hasImage: false
+        hasImage: false,
+        language: language
     }
     setHistory(prevHistory => {
         let updatedHistory = [...prevHistory, newCurrent]
@@ -222,28 +224,28 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                                     isEven={true} num="1" triggerGeneration={triggerGeneration1}
                                     onCompletion={() => setTriggerGeneration2(true) } triggerBlank={triggerBlank} 
                                     numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
-                                    language={language} />
+                                    language={language} currentWord={currentWord} />
                 <LinguaSingleOutput logo={logo2} title="TRANSLATION" text={currentWord.translation} 
                                     num="2" triggerGeneration={triggerGeneration2}
                                     onCompletion={() => setTriggerGeneration3(true)} triggerBlank={triggerBlank}
                                     numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
-                                    language={language} />
+                                    language={language} currentWord={currentWord} />
                 <LinguaSingleOutput logo={logo3} title="ASSOCIATION" text={currentWord.association} 
                                     isEven={true} num="3" triggerGeneration={triggerGeneration3}
                                     onCompletion={() => setTriggerGeneration4(true)} triggerBlank={triggerBlank}
                                     numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
-                                    language={language} />
+                                    language={language} currentWord={currentWord} />
                 <LinguaSingleOutput logo={logo4} title="MENTAL IMAGE" text={currentWord.mentalImage} 
                                     num="4" triggerGeneration={triggerGeneration4} 
                                     onCompletion={() => setTriggerGeneration5(true)} triggerBlank={triggerBlank}
                                     numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
-                                    language={language} />
+                                    language={language} currentWord={currentWord} />
                 <LinguaSingleOutput logo={logo5} title="EXPLANATION" text={currentWord.explanation} 
                                     isEven={true} num="5" triggerGeneration={triggerGeneration5}
                                     onCompletion={() => resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerGeneration3,
                                                         setTriggerGeneration4, setTriggerGeneration5, setTriggerBlank)} 
-                                                        triggerBlank={triggerBlank} numHistoryClicks={numHistoryClicks} 
-                                                        TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} language={language} />
+                                    triggerBlank={triggerBlank} numHistoryClicks={numHistoryClicks} 
+                                    TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} language={language} currentWord={currentWord} />
             </div>  
         </div>
     )

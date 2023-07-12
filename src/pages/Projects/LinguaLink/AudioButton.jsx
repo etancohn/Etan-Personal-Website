@@ -82,16 +82,18 @@ function initClient() {
   });
 }
 
-async function makeApiRequest(text, language) {
+async function makeApiRequest(text, currentWord) {
     if (text === "") { return }
+    const regexRemoveParen = /\s*\([^)]*\)/
+    const updatedText = text.replace(regexRemoveParen, '');
     const request = {
       path: 'https://texttospeech.googleapis.com/v1/text:synthesize',
       method: 'POST',
       body: {
-        input: { text: text },
+        input: { text: updatedText },
         voice: { 
-            languageCode: getLanguageCode(language),
-            name: getVoiceName(language),
+            languageCode: getLanguageCode(currentWord.language),
+            name: getVoiceName(currentWord.language),
         },
         audioConfig: { 
           audioEncoding: 'MP3',
@@ -122,7 +124,7 @@ async function makeApiRequest(text, language) {
     });
 }
 
-function AudioButton( {text, language} ) {
+function AudioButton( {text, currentWord} ) {
   let audioText = text
   if (text === false) {
     audioText = ""
@@ -136,7 +138,7 @@ function AudioButton( {text, language} ) {
     return (
       <button 
           className={`ll-audio-btn ll-audio-btn-off-${audioText === ""}`}
-          onClick={() => makeApiRequest(audioText, language)}>
+          onClick={() => makeApiRequest(audioText, currentWord)}>
               <FontAwesomeIcon icon={audioText === "" ? faVolumeMute : faVolumeUp} />
       </button>
     )

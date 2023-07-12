@@ -18,14 +18,16 @@ function LinguaLink() {
   const [numHistoryClicks, setNumHistoryClicks] = React.useState(0)
   const [currentWordIndex, setCurrentWordIndex] = React.useState(-1)
   const [generatedWord, setGeneratedWord] = React.useState("")
-  const [language, setLanguage] = React.useState("Spanish")
+  const [language, setLanguage] = React.useState(localStorage.getItem("language") || "Spanish")
   const initialWord = {
     word: "",
     translation: "",
     association: "",
     mentalImage: "",
     explanation: "",
-    url: ""
+    url: "",
+    hasImage: false,
+    language: language
   }
   const [currentWord, setCurrentWord] = React.useState(initialWord)
 
