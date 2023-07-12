@@ -11,7 +11,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 1rem;
+    margin: 0 0!important;
+    /* margin-top: 1rem; */
 }
 
 .ll-info-modal-btn {

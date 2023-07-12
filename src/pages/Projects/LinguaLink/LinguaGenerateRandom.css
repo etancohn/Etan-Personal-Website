@@ -1,0 +1,17 @@
+
+
+.ll-generate-random-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ll-generate-random-btn {
+    background-color: var(--green5);
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin: 0 0;
+    margin-bottom: 1rem;
+}

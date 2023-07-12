@@ -10,6 +10,7 @@ import React from 'react'
 function GenerationText( { text="", slowness, triggerGeneration, num, onCompletion, triggerBlank, numHistoryClicks } ) {
     const [content, setContent] = React.useState('')
 
+    // set the content immediately to the word when a history item gets clicked
     React.useEffect(() => {
         setContent(text)
     }, [numHistoryClicks])

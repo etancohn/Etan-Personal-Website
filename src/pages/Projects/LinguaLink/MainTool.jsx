@@ -12,8 +12,8 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
 // changeable constants
 const MAX_GPT_RUNS = 10
-const MAX_HISTORY_LENGTH = 50
-const TEXT_GENERATION_SLOWNESS = 4
+const MAX_HISTORY_LENGTH = 40
+const TEXT_GENERATION_SLOWNESS = 6
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
                           setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex) {
@@ -141,7 +141,7 @@ function resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerG
     setTriggerBlank(false)
 }
 
-function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, setCurrentWordIndex} ) {
+function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, setCurrentWordIndex, generatedWord} ) {
     const [vocabWord, setVocabWord] = React.useState("")
     const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false);
     const vocabWordInputRef = React.useRef(null);
@@ -159,6 +159,13 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
         setIsLoading(false)
         // console.log(currentWord)
     }, [currentWord])
+
+    React.useEffect(() => {
+        console.log(`generatedWord: ${generatedWord}`)
+        if (generatedWord.trim() === "") { return }
+        makeGPTCall(generatedWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
+            setHistory, setCurrentWordIndex)
+    }, [generatedWord])
 
     // handle user pushing 'Enter'
     const handleKeyPressed = (e) => {
@@ -198,6 +205,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                     onBlur={() => setVocabWordInputFocussed(false)}
                     onChange={(e) => setVocabWord(e.target.value)}>
                 </input>
+                {/* Submit Button */}
                 <button 
                     className="submit-btn ll-btn"
                     onClick={() => makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 

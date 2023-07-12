@@ -7,7 +7,7 @@ import { faImage } from '@fortawesome/free-regular-svg-icons';
 
 function handleHistoryItemClicked (setCurrentWord, newWord, numHistoryClicks, setNumHistoryClicks, i, setCurrentWordIndex) {
     setCurrentWord(newWord)
-    setNumHistoryClicks(numHistoryClicks + 1)
+    setNumHistoryClicks(numHistoryClicks + 1)  // update highlighted word
     setCurrentWordIndex(i)
 }
 

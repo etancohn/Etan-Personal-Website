@@ -8,6 +8,7 @@ import ImageGeneration from './ImageGeneration'
 import InfoModal from './InfoModal'
 import PhoneHistory from './PhoneHistory'
 import LLSidebar from './LLSidebar'
+import LinguaGenerateRandom from './LinguaGenerateRandom'
 
 
 function LinguaLink() {
@@ -15,6 +16,7 @@ function LinguaLink() {
   const [history, setHistory] = React.useState([])
   const [numHistoryClicks, setNumHistoryClicks] = React.useState(0)
   const [currentWordIndex, setCurrentWordIndex] = React.useState(-1)
+  const [generatedWord, setGeneratedWord] = React.useState("")
   const initialWord = {
     word: "",
     translation: "",
@@ -61,7 +63,7 @@ function LinguaLink() {
 
                 <div className="main-tool-container">
                     <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks}
-                              setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex} />
+                              setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex} generatedWord={generatedWord} />
                 </div>
                 
                 <div className="white-space-container"></div>
@@ -74,10 +76,18 @@ function LinguaLink() {
                     </div>
                 </div>
 
+                <div className="ll-generate-random-container">
+                  <LinguaGenerateRandom setGeneratedWord={setGeneratedWord} />
+                  <div className="ll-separation-horizontal-line-container">
+                        <div className="ll-separation-horizontal-line"></div>
+                  </div>
+                </div>
+
+                <div className="language-container"></div>
+
                 <div className="info-container">
                     <InfoModal />
                 </div>
-                <div className="language-container"></div>
             </div>
 
         </div>

@@ -14,12 +14,13 @@
     grid-template-areas: 
         "sidebar header space"
         "sidebar tool   image"
+        "sidebar tool   generateRandom"
         "sidebar tool   language"
         "sidebar tool   info";
 
     grid-template-columns: auto 7.5fr 2.5fr;
     /* grid-template-rows: 2fr 4fr 3fr 1fr; */
-    grid-template-rows: min-content min-content min-content 1fr;
+    grid-template-rows: min-content min-content min-content min-content 1fr;
     font-family: 'Raleway', sans-serif;
 }
 
@@ -45,11 +46,17 @@
 .image-generation-container {
     /* background-color: orange; */
     grid-area: image;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.ll-generate-random-container {
+    grid-area: generateRandom;
+    /* margin-bottom: 1rem; */
+    /* background-color: red; */
 }
 
 .language-container {
-    /* background-color: green; */
+    background-color: green;
     grid-area: language;
 }
 
@@ -77,15 +84,9 @@
     align-items: center;
 }
 
-.ll-right-column {
-    width: 35%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .ll-separation-horizontal-line-container {
-    margin-right: 4rem;
+    /* margin-top: 1rem; */
+    margin-bottom: 1rem;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -104,6 +105,7 @@
         "header"
         "tool"
         "image"
+        "generateRandom"
         "language"
         "info";
     }
