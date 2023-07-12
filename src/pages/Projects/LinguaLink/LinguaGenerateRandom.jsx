@@ -1,66 +1,98 @@
 import React from 'react'
 import './LinguaGenerateRandom.css'
 
+// API Key for authentication
+const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
+const NUM_WORDS_TO_GENERATE = 10
+const MAX_WORD_GENERATION_GPT_RUNS = 10 
 
-function generateRandomWords()  {
-    return [
-        "abrumador",
-        "efímero",
-        "escéptico",
-        "imperturbable",
-        "enigmático",
-        "despilfarro",
-        "insólito",
-        "desolación",
-        "arrebatar"
-      ]
+
+async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns)  {
+    setNumGPTRuns(numGPTRuns+1)
+    if (numGPTRuns > MAX_WORD_GENERATION_GPT_RUNS) {
+        // too many GPT runs
+        console.log("ERROR: Too many invalid GPT runs")
+        return
+    }
+    // Query string for the API request
+    const query = ` 
+    Give me a list of ${NUM_WORDS_TO_GENERATE} Spanish vocabulary words of varying difficulty. Don't include beginner or easier 
+    difficulty. Only include the word or phrase, without a definition or anything else.
+    
+    <| endofprompt |>
+    \n
+    Word 0: 
+        `;
+
+    // Options for the API request
+    const options = {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${API_KEY}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: query }],
+            max_tokens: 1024
+        })
+    };
+
+    try {
+        // Sending the API request and getting the response
+        const response = await fetch('https://api.openai.com/v1/chat/completions', options);
+        const data = await response.json();
+        
+        // Updating the output text with the received response
+        const outputText = data.choices[0].message.content
+        console.log(`outputText: ${outputText}`)
+        await parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns)
+        return
+    } catch(error) {
+        console.error(error);
+    }
 }
 
-async function getRandomWord(setGeneratedWord, generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord) {
-    console.log("getting random word.")
-    if (generatedWordsArr.length === 0) {
-        // const newRandomWords = await generateRandomWords()
-        const newRandomWords = [
-                    "abrumador",
-                    "efímero",
-                    "escéptico",
-                    "imperturbable",
-                    "enigmático",
-                    "despilfarro",
-                    "insólito",
-                    "desolación",
-                    "arrebatar"
-                  ]
-        await setGeneratedWordsArr(newRandomWords)
-        console.log(generatedWordsArr)
+async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns) {
+    const randomWordsRegex = /\bWord \d+: /i
+    let wordsArray = outputText.split(randomWordsRegex);
+    wordsArray = wordsArray.map((vocabWord) => vocabWord.trim())
+
+    // test whether the output came out in the correct format. Re-run GPT if invalid
+    const generatedWordsInvalid = (wordsArray.length !== NUM_WORDS_TO_GENERATE || wordsArray.includes(""))
+    if (generatedWordsInvalid) {
+        console.log("ERROR: Generated words in invalid format.")
+        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns)
+        return
     }
+    // valid output
+    console.log(`wordsArray: ${wordsArray}`)
+    setGeneratedWordsArr(wordsArray)
+    setNumGPTRuns(0)
+    return
+}
 
+async function getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, setNumGPTRuns) {
+    console.log(`getting random word. generatedWordsArr: ${generatedWordsArr}`)
+    if (generatedWordsArr.length === 0) {
+        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns)
+    }
     setTriggerNewRandomWord(true)
-
+    return
 }
 
 function LinguaGenerateRandom( {setGeneratedWord} ) {
     const [generatedWordsArr, setGeneratedWordsArr] = React.useState([])
     const [triggerNewRandomWord, setTriggerNewRandomWord] = React.useState(false)
-    // const generatedStr = `
-    // Word 1: abrumador
-    // Word 2: efímero
-    // Word 3: escéptico
-    // Word 4: imperturbable
-    // Word 5: enigmático
-    // Word 6: despilfarro
-    // Word 7: insólito
-    // Word 8: desolación
-    // Word 9: arrebatar
-    // `
+    const [numGPTRuns, setNumGPTRuns] = React.useState(0)
 
     React.useEffect(() => {
-        if (!triggerNewRandomWord || generatedWordsArr.length === 0) { return }
+        if (!triggerNewRandomWord) { return }
         setTriggerNewRandomWord(false)
+        if (generatedWordsArr.length === 0) { return }
 
         const firstWord = generatedWordsArr[0]
-        setGeneratedWordsArr(generatedWordsArr.slice(1, generatedWordsArr.length-1))
-        // console.log(`generatedWordsArr: ${generatedWordsArr}`)
+        setGeneratedWordsArr(generatedWordsArr.slice(1, generatedWordsArr.length))
         setGeneratedWord(firstWord)
     }, [triggerNewRandomWord])
 
@@ -68,8 +100,8 @@ function LinguaGenerateRandom( {setGeneratedWord} ) {
         <div className="ll-generate-random-container">
             <button 
                 className="submit-btn ll-btn ll-generate-random-btn"
-                onClick={() => getRandomWord(setGeneratedWord, generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord)}
-                >
+                onClick={() => getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, 
+                                             setNumGPTRuns)} >
                     Generate Word
             </button>
         </div>

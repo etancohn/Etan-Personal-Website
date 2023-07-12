@@ -13,7 +13,7 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 // changeable constants
 const MAX_GPT_RUNS = 10
 const MAX_HISTORY_LENGTH = 40
-const TEXT_GENERATION_SLOWNESS = 6
+const TEXT_GENERATION_SLOWNESS = 5
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
                           setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex) {
@@ -78,7 +78,7 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
 
 function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, numGPTRuns, setNumGPTRuns, 
                         setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex) {
-    console.log(outputText)
+    // console.log(outputText)
     if (word === "") { return }
 
     const translationRegex = /Translation:\s+(.+)/i;
@@ -157,11 +157,9 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     React.useEffect(() => {
         setVocabWord(currentWord.word)
         setIsLoading(false)
-        // console.log(currentWord)
     }, [currentWord])
 
     React.useEffect(() => {
-        console.log(`generatedWord: ${generatedWord}`)
         if (generatedWord.trim() === "") { return }
         makeGPTCall(generatedWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
             setHistory, setCurrentWordIndex)
