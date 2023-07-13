@@ -3,11 +3,24 @@ import './LinguaGenerateRandom.css'
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
-const NUM_WORDS_TO_GENERATE = 10
+const NUM_WORDS_TO_GENERATE = 15
 const MAX_WORD_GENERATION_GPT_RUNS = 10
 
+const EASY_DIFFICULTY_QUEUE_MODIFICATION = "Include only basic/beginner words."
+const HARD_DIFFICULTY_QUEUE_MODIFICATION = "Include only advanced/difficult words."
+const MIXED_DIFFICULTY_QUEUE_MODIFICATION = "Include words of a variety of difficulty, ranging from basic to advanced."
 
-async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating)  {
+function getDifficultyModification(selectedDifficulty) {
+    if (selectedDifficulty === "easy") { return EASY_DIFFICULTY_QUEUE_MODIFICATION }
+    else if (selectedDifficulty === "hard") { return HARD_DIFFICULTY_QUEUE_MODIFICATION }
+    else if (selectedDifficulty === "mixed") { return MIXED_DIFFICULTY_QUEUE_MODIFICATION }
+    else {
+        console.log(`ERROR: Incorrect word generation difficulty input ("${selectedDifficulty}").`)
+    }
+}
+
+async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating, 
+                                      selectedDifficulty)  {
     if (numGPTRuns > MAX_WORD_GENERATION_GPT_RUNS) {
         // too many GPT runs
         console.log("ERROR: Too many invalid GPT runs")
@@ -16,13 +29,14 @@ async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGP
     }
     // Query string for the API request
     const query = ` 
-    Give me a list of ${NUM_WORDS_TO_GENERATE} ${language} vocabulary words of varying difficulty. Don't include more than 1 
-    beginner or easier difficulty. Only include the word or phrase, without a definition or anything else.
+    Give me a list of ${NUM_WORDS_TO_GENERATE} ${language} common vocabulary words. ${getDifficultyModification(selectedDifficulty)} Only 
+    include the word or phrase, without a definition or anything else.
     
     <| endofprompt |>
     \n
     Word 0: 
         `;
+    console.log(query)
 
     // Options for the API request
     const options = {
@@ -46,14 +60,16 @@ async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGP
         // Updating the output text with the received response
         const outputText = data.choices[0].message.content
         console.log(`outputText: ${outputText}`)
-        await parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating)
+        await parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating,
+                                        selectedDifficulty)
         return
     } catch(error) {
         console.error(error);
     }
 }
 
-async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating) {
+async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating,
+                                         selectedDifficulty) {
     const randomWordsRegex = /\bWord \d+: /i
     let wordsArray = outputText.split(randomWordsRegex);
     wordsArray = wordsArray.map((vocabWord) => vocabWord.trim())
@@ -63,7 +79,8 @@ async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGP
     if (generatedWordsInvalid) {
         console.log(`ERROR: Generated words in invalid format. Re-run GPT ${numGPTRuns}`)
         setNumGPTRuns(numGPTRuns+1)
-        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns+1, setNumGPTRuns, language, setIsGenerating)
+        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns+1, setNumGPTRuns, language, setIsGenerating,
+                                     selectedDifficulty)
         return
     }
     // valid output
@@ -75,17 +92,17 @@ async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGP
 }
 
 async function getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, setNumGPTRuns, language,
-                             setIsGenerating) {
+                             setIsGenerating, selectedDifficulty) {
     console.log(`getting random word. generatedWordsArr: ${generatedWordsArr}`)
     if (generatedWordsArr.length === 0) {
         setIsGenerating(true)
-        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating)
+        await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating, selectedDifficulty)
     }
     setTriggerNewRandomWord(true)
     return
 }
 
-function LinguaGenerateRandom( {setGeneratedWord, language, setIsGenerating} ) {
+function LinguaGenerateRandom( {setGeneratedWord, language, setIsGenerating, selectedDifficulty} ) {
     const [generatedWordsArr, setGeneratedWordsArr] = React.useState([])
     const [triggerNewRandomWord, setTriggerNewRandomWord] = React.useState(false)
     const [numGPTRuns, setNumGPTRuns] = React.useState(0)
@@ -100,16 +117,17 @@ function LinguaGenerateRandom( {setGeneratedWord, language, setIsGenerating} ) {
         setGeneratedWord(firstWord)
     }, [triggerNewRandomWord])
 
+    // call GPT for a new list of words next time if the user switches the language or difficulty options
     React.useMemo(() => {
         setGeneratedWordsArr([])
-    }, [language])
+    }, [language, selectedDifficulty])
 
     return (
         <div className="ll-generate-random-container">
             <button 
                 className="submit-btn ll-btn ll-generate-random-btn"
                 onClick={() => getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, 
-                                             setNumGPTRuns, language, setIsGenerating)} >
+                                             setNumGPTRuns, language, setIsGenerating, selectedDifficulty)} >
                     Generate Word
             </button>
         </div>

@@ -17,9 +17,10 @@ function LinguaLink() {
   const [history, setHistory] = React.useState([])
   const [numHistoryClicks, setNumHistoryClicks] = React.useState(0)
   const [currentWordIndex, setCurrentWordIndex] = React.useState(-1)
-  const [generatedWord, setGeneratedWord] = React.useState("")
+  // const [generatedWord, setGeneratedWord] = React.useState("")
   const [language, setLanguage] = React.useState(localStorage.getItem("language") || "Spanish")
   const [isGenerating, setIsGenerating] = React.useState(false)
+  const [generatedWordDifficulty, setGeneratedWordDifficulty] = React.useState("mixed")
   const initialWord = {
     word: "",
     translation: "",
@@ -67,8 +68,9 @@ function LinguaLink() {
 
                 <div className="main-tool-container">
                     <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks}
-                              setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex} generatedWord={generatedWord}
-                              language={language} />
+                              setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex}
+                              language={language} setIsGenerating={setIsGenerating} generatedWordDifficulty={generatedWordDifficulty}
+                              setGeneratedWordDifficulty={setGeneratedWordDifficulty} />
                 </div>
                 
                 <div className="white-space-container"></div>
@@ -79,13 +81,6 @@ function LinguaLink() {
                     <div className="ll-separation-horizontal-line-container">
                         <div className="ll-separation-horizontal-line"></div>
                     </div>
-                </div>
-
-                <div className="ll-generate-random-container">
-                  <LinguaGenerateRandom setGeneratedWord={setGeneratedWord} language={language} setIsGenerating={setIsGenerating} />
-                  <div className="ll-separation-horizontal-line-container">
-                        <div className="ll-separation-horizontal-line"></div>
-                  </div>
                 </div>
 
                 <div className="language-container">

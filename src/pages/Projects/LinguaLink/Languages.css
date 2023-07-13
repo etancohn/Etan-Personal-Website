@@ -3,6 +3,7 @@
 .ll-language-title {
     text-align: center;
     margin-bottom: 0.5rem;
+    color: var(--green5);
 }
 
 .ll-languages-options {
@@ -27,11 +28,11 @@
 }
 
 .ll-language-btn:hover {
-    background-color: var(--green4)!important;
+    background-color: var(--green5)!important;
     color: white!important;
 }
 
 .selected-language-true {
-    background-color: var(--green4)!important;
+    background-color: var(--green5)!important;
     color: white!important;
 }
