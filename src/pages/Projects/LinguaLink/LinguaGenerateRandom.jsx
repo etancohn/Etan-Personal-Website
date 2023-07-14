@@ -38,9 +38,9 @@ async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGP
     // Word 0: 
     //     `;
     let query = import.meta.env.VITE_GENERATE_RANDOM_QUERY
-    query = await query.replace("--{NUM_WORDS_TO_GENERATE}--", NUM_WORDS_TO_GENERATE)
-    query = await query.replace("--{language}--", language)
-    query = await query.replace("--{difficultyModification}--", difficultyModification)
+    query = query.replace("--{NUM_WORDS_TO_GENERATE}--", NUM_WORDS_TO_GENERATE)
+    query = query.replace("--{language}--", language)
+    query = query.replace("--{difficultyModification}--", difficultyModification)
     console.log(query)
 
     // Options for the API request

@@ -52,8 +52,8 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
     //     Word: ${vocabWord.trim()}
     //     `;
     let query = import.meta.env.VITE_MAIN_TOOL_QUERY
-    query = await query.replace("--{language}--", language)
-    query = await query.replace("--{vocabWord}--", vocabWord.trim())
+    query = query.replace("--{language}--", language)
+    query = query.replace("--{vocabWord}--", vocabWord.trim())
     console.log(query)
 
     // Options for the API request
