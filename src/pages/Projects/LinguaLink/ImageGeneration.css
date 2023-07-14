@@ -66,23 +66,12 @@
     /* margin-bottom: 1.5rem; */
 }
 
-/* .ll-no-images-left {
-    text-align: center;
-    color: red;
-    font-size: 0.9rem;
-    width: 80%;
-} */
-
-/* .ll-no-images-left p {
-    margin: 0 0;
-    margin-bottom: 0.3rem;
-} */
-
 .ll-img-btn-out-true {
     opacity: 50%;
     cursor: not-allowed!important;
 }
 
-.ll-red-msg {
-    color: red!important;
+.ll-image-italic-msg {
+    opacity: 0.5;
+    font-style: italic;
 }

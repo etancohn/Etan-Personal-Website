@@ -7,7 +7,7 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
 // changeable constants
 const SIZE = "256x256"     // image size (either 256, 512, or 1024)
-const NUM_FREE_IMAGES = 2
+const NUM_FREE_IMAGES = 0
 
 
 async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory, 
@@ -65,8 +65,8 @@ function imageDisplay(url, isLoading, imagesLeft, imageExpired, setImageExpired)
             {displayImage && 
                     <img src={url} alt="word association mental image" onError={() => setImageExpired(true)}>
                     </img>}
-            {displayExpiredMsg && <p className="ll-img-msg ll-red-msg">Image expired.</p>}
-            {displayNoImagesLeftMsg && <p className="ll-img-msg ll-red-msg">Sorry, you are out of your image allotment.</p>}
+            {displayExpiredMsg && <p className="ll-img-msg ll-image-italic-msg">Image expired.</p>}
+            {displayNoImagesLeftMsg && <p className="ll-img-msg ll-image-italic-msg">Sorry, you are out of your image allotment.</p>}
             <div className="spinner-container">
                 {isLoading && <Spinner animation="border" className="my-spinner" />}
             </div>
