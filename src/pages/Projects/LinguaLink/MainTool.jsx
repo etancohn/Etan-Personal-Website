@@ -165,7 +165,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     const [triggerBlank, setTriggerBlank] = React.useState(false)
     const [selectedTab, setSelectedTab] = React.useState("enter-word")
     const [generatedWord, setGeneratedWord] = React.useState("")
-    const [selectedRadio, setSelectedRadio] = React.useState("mixed")
+    const [selectedRadio, setSelectedRadio] = React.useState("easy")
     
 
     React.useEffect(() => {
@@ -234,7 +234,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                             onChange={(e) => setVocabWord(e.target.value)}>
                         </input>
                         <button 
-                            className="submit-btn ll-btn"
+                            className="submit-btn ll-btn ll-tool-submit-btn"
                             onClick={() => makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
                                                     setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
                                                     language)}>
@@ -268,14 +268,6 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                                         <div className={`ll-radio-inner-circle ll-radio-inner-circle-selected-${selectedRadio === "hard"}`}></div>
                                     </div>
                                     <div>Hard</div>
-                                </div>
-
-                                <div className="ll-radio-btn-container">
-                                    <div className={`ll-radio-btn-outer-circle ll-radio-btn-selected-${selectedRadio === "mixed"}`}
-                                         onClick={() => setSelectedRadio("mixed")}>
-                                        <div className={`ll-radio-inner-circle ll-radio-inner-circle-selected-${selectedRadio === "mixed"}`}></div>
-                                    </div>
-                                    <div>Mixed</div>
                                 </div>
                             </div>
                             </div>

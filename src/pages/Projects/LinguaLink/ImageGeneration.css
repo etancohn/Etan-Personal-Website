@@ -20,13 +20,13 @@
     height: 16rem;
     position: relative;
     /* background-color: lightgray; */
-    background-color: rgba(169, 217, 131, 0.2)!important;
+    background-color: rgba(169, 217, 131, 0.1)!important;
     border: 1px solid var(--green4);
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
     justify-content: center;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .ll-img-msg {
