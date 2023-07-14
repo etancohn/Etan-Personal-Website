@@ -39,19 +39,22 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
         return
     }
     setIsLoading(true)
-    // await setNumGPTRuns(numGPTRuns+1)
     // Query string for the API request
-    const query = `
-        I will give you a vocab word. Use psychology memory techniques to give me back a word/memory
-        association to remember the ${language} vocab word. Use the Linkword Mnemonic technique for an
-        association. Make a mental image that matches the association, utilizing elaborative encoding
-        techniques. Give the answer in the form of <word>\n\n<translation>\n\n<association>\n\n<mental
-        image>\n\n<explanation>.
-        \n
-        <| endofprompt |>
-        \n
-        Word: ${vocabWord.trim()}
-        `;
+    // const query = `
+    //     I will give you a vocab word. Use psychology memory techniques to give me back a word/memory
+    //     association to remember the ${language} vocab word. Use the Linkword Mnemonic technique for an
+    //     association. Make a mental image that matches the association, utilizing elaborative encoding
+    //     techniques. Give the answer in the form of <word>\n\n<translation>\n\n<association>\n\n<mental
+    //     image>\n\n<explanation>.
+    //     \n
+    //     <| endofprompt |>
+    //     \n
+    //     Word: ${vocabWord.trim()}
+    //     `;
+    let query = import.meta.env.VITE_MAIN_TOOL_QUERY
+    query = await query.replace("--{language}--", language)
+    query = await query.replace("--{vocabWord}--", vocabWord.trim())
+    console.log(query)
 
     // Options for the API request
     const options = {
@@ -151,7 +154,6 @@ function resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerG
 function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, setCurrentWordIndex,
                     language, setIsGenerating} ) {
     const [vocabWord, setVocabWord] = React.useState("")
-    // const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false);
     const vocabWordInputRef = React.useRef(null);
     const [numGPTRuns, setNumGPTRuns] = React.useState(0)
     const [isLoading, setIsLoading] = React.useState(false)
@@ -162,7 +164,6 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     const [triggerGeneration5, setTriggerGeneration5] = React.useState(false)
     const [triggerBlank, setTriggerBlank] = React.useState(false)
     const [generatedWord, setGeneratedWord] = React.useState("")
-    
 
     React.useEffect(() => {
         setVocabWord(currentWord.word)
@@ -174,25 +175,6 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
         makeGPTCall(generatedWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
             setHistory, setCurrentWordIndex, language)
     }, [generatedWord])
-
-    // const handleKeyPressed = (e) => {
-    //     if (e.key === 'Enter') {
-    //     if (vocabWordInputFocussed) {   
-    //         makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
-    //                     setHistory, setCurrentWordIndex, language)
-    //         vocabWordInputRef.current.blur()  
-    //     } else  {
-    //         vocabWordInputRef.current.focus()
-    //     }
-    //     }
-    // }
-    // React.useEffect(() => {
-    //     document.addEventListener('keydown', handleKeyPressed)
-
-    //     return () => {
-    //     document.removeEventListener('keydown', handleKeyPressed)
-    //     }
-    // })
 
     return (
         <div className="main-tool">

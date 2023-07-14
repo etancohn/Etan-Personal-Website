@@ -27,15 +27,20 @@ async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGP
         setIsGenerating(false)
         return
     }
+    const difficultyModification = getDifficultyModification(selectedDifficulty)
     // Query string for the API request
-    const query = ` 
-    Give me a list of ${NUM_WORDS_TO_GENERATE} ${language} common vocabulary words. ${getDifficultyModification(selectedDifficulty)} Only 
-    include the word or phrase, without a definition or anything else.
+    // const query = ` 
+    // Give me a list of ${NUM_WORDS_TO_GENERATE} ${language} common vocabulary words. ${getDifficultyModification(selectedDifficulty)} Only 
+    // include the word or phrase, without a definition or anything else.
     
-    <| endofprompt |>
-    \n
-    Word 0: 
-        `;
+    // <| endofprompt |>
+    // \n
+    // Word 0: 
+    //     `;
+    let query = import.meta.env.VITE_GENERATE_RANDOM_QUERY
+    query = await query.replace("--{NUM_WORDS_TO_GENERATE}--", NUM_WORDS_TO_GENERATE)
+    query = await query.replace("--{language}--", language)
+    query = await query.replace("--{difficultyModification}--", difficultyModification)
     console.log(query)
 
     // Options for the API request
