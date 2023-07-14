@@ -92,8 +92,9 @@ async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGP
 }
 
 async function getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, setNumGPTRuns, language,
-                             setIsGenerating, selectedDifficulty) {
+                             setIsGenerating, selectedDifficulty, setIsLoading) {
     console.log(`getting random word. generatedWordsArr: ${generatedWordsArr}`)
+    setIsLoading(true)
     if (generatedWordsArr.length === 0) {
         setIsGenerating(true)
         await generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating, selectedDifficulty)
@@ -102,7 +103,7 @@ async function getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTrigger
     return
 }
 
-function LinguaGenerateRandom( {setGeneratedWord, language, setIsGenerating, selectedDifficulty} ) {
+function LinguaGenerateRandom( {setGeneratedWord, language, setIsGenerating, selectedDifficulty, setIsLoading} ) {
     const [generatedWordsArr, setGeneratedWordsArr] = React.useState([])
     const [triggerNewRandomWord, setTriggerNewRandomWord] = React.useState(false)
     const [numGPTRuns, setNumGPTRuns] = React.useState(0)
@@ -127,7 +128,7 @@ function LinguaGenerateRandom( {setGeneratedWord, language, setIsGenerating, sel
             <button 
                 className="submit-btn ll-btn ll-generate-random-btn"
                 onClick={() => getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, 
-                                             setNumGPTRuns, language, setIsGenerating, selectedDifficulty)} >
+                                             setNumGPTRuns, language, setIsGenerating, selectedDifficulty, setIsLoading)} >
                     Generate Word
             </button>
         </div>

@@ -73,7 +73,7 @@ function ImageGeneration( {currentWord, setCurrentWord, setHistory, currentWordI
 
     return (
         <div className="image-generation">
-            <h4 className="project-mini-title ll-img-gen-title ll-title">IMAGE GENERATION</h4>
+            {/* <h4 className="project-mini-title ll-img-gen-title ll-title">IMAGE GENERATION</h4> */}
                 <div className={`ll-img-container ll-img-is-loading-${isLoading}`}>
                     {currentWord.url === "" && <p className='ll-img-msg'>Generate an image to help remember the association!</p>}
                     {currentWord.url !== "" && <img src={currentWord.url}></img>}

@@ -151,7 +151,7 @@ function resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerG
 }
 
 function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, setCurrentWordIndex,
-                    language, setIsGenerating, generatedWordDifficulty, setGeneratedWordDifficulty} ) {
+                    language, setIsGenerating} ) {
     const [vocabWord, setVocabWord] = React.useState("")
     const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false);
     const vocabWordInputRef = React.useRef(null);
@@ -222,7 +222,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                 <Tab.Content>
                     <Tab.Pane eventKey="enter-word" className="justify-content-center">
                     <div className="vocab-input-container">
-                        <h4 className="project-mini-title ll-title">VOCAB WORD</h4>
+                        {/* <h4 className="project-mini-title ll-title">VOCAB WORD</h4> */}
                         <input 
                             className="vocab-word-input"
                             type="text" 
@@ -252,7 +252,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                             words generated.
                         </h4>
                         <LinguaGenerateRandom setGeneratedWord={setGeneratedWord} language={language} setIsGenerating={setIsGenerating}
-                                              selectedDifficulty={selectedRadio} />
+                                              selectedDifficulty={selectedRadio} setIsLoading={setIsLoading} />
                             <div className="ll-radio-input">
                                 <div className="ll-radio-btn-container">
                                     <div className={`ll-radio-btn-outer-circle ll-radio-btn-selected-${selectedRadio === "easy"}`}

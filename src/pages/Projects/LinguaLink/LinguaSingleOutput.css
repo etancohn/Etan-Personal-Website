@@ -92,11 +92,6 @@
     color: var(--green5);
 }
 
-.ll-output-is-loading-true {
-    opacity: 0.3;
-    cursor: wait;
-}
-
 
 @media (max-width: 775px) {
     .ll-item-text {

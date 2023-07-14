@@ -19,16 +19,21 @@
     width: 16rem;
     height: 16rem;
     position: relative;
-    background-color: lightgray;
+    /* background-color: lightgray; */
+    background-color: rgba(169, 217, 131, 0.2)!important;
+    border: 1px solid var(--green4);
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
+    justify-content: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .ll-img-msg {
     position: absolute;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    width: 80%;
     z-index: 0;
 }
 
