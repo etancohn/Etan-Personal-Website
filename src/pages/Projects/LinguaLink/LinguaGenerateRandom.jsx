@@ -3,11 +3,12 @@ import './LinguaGenerateRandom.css'
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
-const NUM_WORDS_TO_GENERATE = 15
+const NUM_WORDS_TO_GENERATE = 20
 const MAX_WORD_GENERATION_GPT_RUNS = 10
+const GPT_TEMPERATURE = 0.9
 
 const EASY_DIFFICULTY_QUEUE_MODIFICATION = "Include only basic/beginner words."
-const HARD_DIFFICULTY_QUEUE_MODIFICATION = "Include only advanced/difficult words."
+const HARD_DIFFICULTY_QUEUE_MODIFICATION = "Include only intermediate and advanced/difficult words."
 const MIXED_DIFFICULTY_QUEUE_MODIFICATION = "Include words of a variety of difficulty, ranging from basic to advanced."
 
 function getDifficultyModification(selectedDifficulty) {
@@ -18,6 +19,15 @@ function getDifficultyModification(selectedDifficulty) {
         console.log(`ERROR: Incorrect word generation difficulty input ("${selectedDifficulty}").`)
     }
 }
+
+// Fisher Yates shuffle algo
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
 
 async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGPTRuns, language, setIsGenerating, 
                                       selectedDifficulty)  {
@@ -44,7 +54,8 @@ async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGP
         body: JSON.stringify({
             model: "gpt-3.5-turbo",
             messages: [{ role: "user", content: query }],
-            max_tokens: 1024
+            max_tokens: 1024,
+            temperature: GPT_TEMPERATURE
         })
     };
 
@@ -81,7 +92,7 @@ async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGP
     }
     // valid output
     console.log(`wordsArray: ${wordsArray}`)
-    setGeneratedWordsArr(wordsArray)
+    setGeneratedWordsArr(shuffleArray(wordsArray))
     setNumGPTRuns(0)
     setIsGenerating(false)
     return

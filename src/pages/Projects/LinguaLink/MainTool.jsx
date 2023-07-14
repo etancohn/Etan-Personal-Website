@@ -17,10 +17,12 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 const MAX_GPT_RUNS = 10
 const MAX_HISTORY_LENGTH = 40
 const TEXT_GENERATION_SLOWNESS = 4
+const GPT_TEMPERATURE = 0.5
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
                           setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
                           language) {
+    console.log("GPT")
     // max re-runs of GPT hit
     if (numGPTRuns+1 > MAX_GPT_RUNS) { 
         setIsLoading(false)
@@ -54,7 +56,8 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
         body: JSON.stringify({
             model: "gpt-3.5-turbo",
             messages: [{ role: "user", content: query }],
-            max_tokens: 1024
+            max_tokens: 1024,
+            temperature: GPT_TEMPERATURE
         })
     };
 
@@ -74,7 +77,7 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
 
 async function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, numGPTRuns, setNumGPTRuns, 
                         setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language) {
-    // console.log(outputText)
+    console.log(outputText)
     if (word === "") { return }
 
     const translationRegex = /Translation:\s+(.+)/i;

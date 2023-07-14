@@ -4,6 +4,22 @@ import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import LinguaGenerateRandom from './LinguaGenerateRandom'
 
+function getExampleWord(language) {
+    if (language === "Spanish") { return "rana" }
+    else if (language === "Hebrew") { return "מחשב" }
+    else if (language === "Russian") { return "наука" }
+    else if (language === "German") { return "prüfung" }
+    else if (language === "Portuguese") { return "cotidiano" }
+    else if (language === "French") { return "ordinateur" }
+    else if (language === "Japanese") { return "討論" }
+    else if (language === "Dutch") { return "geweldig" }
+    else if (language === "Korean") { return "전략" }
+    else if (language === "Chinese") { return "选择" }
+    else if (language === "Italian") { return "avanti" }
+    else if (language === "Arabic") { return "رَائِعٌ" }
+    else return ("(error)")
+}
+
 function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, setIsLoading, numGPTRuns,
                     setNumGPTRuns, setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language,
                     setGeneratedWord, setIsGenerating, setCurrentWord} ) {
@@ -62,7 +78,7 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                     <input 
                         className="vocab-word-input"
                         type="text" 
-                        placeholder="ex: invierno" 
+                        placeholder={`ex: ${getExampleWord(language)}`} 
                         value={vocabWord}
                         ref={vocabWordInputRef}
                         onFocus={() => setVocabWordInputFocussed(true)}

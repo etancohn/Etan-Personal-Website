@@ -32,7 +32,7 @@ const HEBREW_VOICE_NAME = "he-IL-Wavenet-A"
 const ITALIAN_VOICE_LANGUAGE_CODE = 'it-IT'
 const ITALIAN_VOICE_NAME = "it-IT-Wavenet-A"
 const JAPANESE_VOICE_LANGUAGE_CODE = 'ja-JP'
-const JAPANESE_VOICE_NAME = "ja-JP-Wavenet-A"
+const JAPANESE_VOICE_NAME = "ja-JP-Wavenet-B"
 const RUSSIAN_VOICE_LANGUAGE_CODE = 'ru-RU'
 const RUSSIAN_VOICE_NAME = "ru-RU-Wavenet-B"
 
