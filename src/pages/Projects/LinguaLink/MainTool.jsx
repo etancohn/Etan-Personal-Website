@@ -7,9 +7,6 @@ import logo5 from '../../../pics/LinguaLink/logo_5.png'
 import './MainTool.css'
 import LinguaSingleOutput from './LinguaSingleOutput'
 import ToolTabs from './ToolTabs'
-// import Tab from 'react-bootstrap/Tab';
-// import Nav from 'react-bootstrap/Nav';
-// import LinguaGenerateRandom from './LinguaGenerateRandom'
 
 
 
@@ -154,7 +151,7 @@ function resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerG
 function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, setCurrentWordIndex,
                     language, setIsGenerating} ) {
     const [vocabWord, setVocabWord] = React.useState("")
-    const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false);
+    // const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false);
     const vocabWordInputRef = React.useRef(null);
     const [numGPTRuns, setNumGPTRuns] = React.useState(0)
     const [isLoading, setIsLoading] = React.useState(false)
@@ -164,9 +161,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     const [triggerGeneration4, setTriggerGeneration4] = React.useState(false)
     const [triggerGeneration5, setTriggerGeneration5] = React.useState(false)
     const [triggerBlank, setTriggerBlank] = React.useState(false)
-    // const [selectedTab, setSelectedTab] = React.useState("enter-word")
     const [generatedWord, setGeneratedWord] = React.useState("")
-    // const [selectedRadio, setSelectedRadio] = React.useState("easy")
     
 
     React.useEffect(() => {
@@ -180,35 +175,32 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
             setHistory, setCurrentWordIndex, language)
     }, [generatedWord])
 
-    // handle user pushing 'Enter'
-    const handleKeyPressed = (e) => {
-        // if enter is pushed, either change focus to vocab word input or make API call
-        if (e.key === 'Enter') {
-        if (vocabWordInputFocussed) {   
-            makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
-                        setHistory, setCurrentWordIndex, language)
-            vocabWordInputRef.current.blur()   // unfocus
-        } else  {
-            vocabWordInputRef.current.focus()
-        }
-        }
-    }
-    React.useEffect(() => {
-        document.addEventListener('keydown', handleKeyPressed)
+    // const handleKeyPressed = (e) => {
+    //     if (e.key === 'Enter') {
+    //     if (vocabWordInputFocussed) {   
+    //         makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
+    //                     setHistory, setCurrentWordIndex, language)
+    //         vocabWordInputRef.current.blur()  
+    //     } else  {
+    //         vocabWordInputRef.current.focus()
+    //     }
+    //     }
+    // }
+    // React.useEffect(() => {
+    //     document.addEventListener('keydown', handleKeyPressed)
 
-        return () => {
-        // cleanup
-        document.removeEventListener('keydown', handleKeyPressed)
-        }
-    })
+    //     return () => {
+    //     document.removeEventListener('keydown', handleKeyPressed)
+    //     }
+    // })
 
     return (
         <div className="main-tool">
-            <ToolTabs vocabWord={vocabWord} vocabWordInputRef={vocabWordInputRef} setVocabWordInputFocussed={setVocabWordInputFocussed}
+            <ToolTabs vocabWord={vocabWord} vocabWordInputRef={vocabWordInputRef} makeGPTCall={makeGPTCall}
                       setVocabWord={setVocabWord} setIsLoading={setIsLoading} numGPTRuns={numGPTRuns} setNumGPTRuns={setNumGPTRuns} 
                       setTriggerGeneration1={setTriggerGeneration1} setTriggerBlank={setTriggerBlank} setHistory={setHistory} 
                       setCurrentWordIndex={setCurrentWordIndex} language={language} setGeneratedWord={setGeneratedWord} 
-                      setIsGenerating={setIsGenerating} />
+                      setIsGenerating={setIsGenerating} setCurrentWord={setCurrentWord}/>
 
             {/* output boxes */}
             <div className={`ll-output-box-container ll-output-is-loading-${isLoading}`}>

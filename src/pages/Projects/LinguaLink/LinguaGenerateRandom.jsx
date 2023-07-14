@@ -103,15 +103,19 @@ async function getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTrigger
     return
 }
 
-function LinguaGenerateRandom( {setGeneratedWord, language, setIsGenerating, selectedDifficulty, setIsLoading} ) {
+function LinguaGenerateRandom( {setGeneratedWord, language, setIsGenerating, selectedDifficulty, setIsLoading,
+                                triggerNewRandomWord, setTriggerNewRandomWord} ) {
     const [generatedWordsArr, setGeneratedWordsArr] = React.useState([])
-    const [triggerNewRandomWord, setTriggerNewRandomWord] = React.useState(false)
     const [numGPTRuns, setNumGPTRuns] = React.useState(0)
 
     React.useEffect(() => {
         if (!triggerNewRandomWord) { return }
         setTriggerNewRandomWord(false)
-        if (generatedWordsArr.length === 0) { return }
+        if (generatedWordsArr.length === 0) { 
+            getRandomWord(generatedWordsArr, setGeneratedWordsArr, setTriggerNewRandomWord, numGPTRuns, setNumGPTRuns, language,
+                          setIsGenerating, selectedDifficulty, setIsLoading)
+            return 
+        }
 
         const firstWord = generatedWordsArr[0]
         setGeneratedWordsArr(generatedWordsArr.slice(1, generatedWordsArr.length))
