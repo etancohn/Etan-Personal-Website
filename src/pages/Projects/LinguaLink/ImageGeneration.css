@@ -35,6 +35,7 @@
     font-size: 1.1rem;
     width: 80%;
     z-index: 0;
+    font-weight: bold;
 }
 
 .ll-get-img-btn {
@@ -65,18 +66,23 @@
     /* margin-bottom: 1.5rem; */
 }
 
-.ll-no-images-left {
+/* .ll-no-images-left {
     text-align: center;
     color: red;
     font-size: 0.9rem;
     width: 80%;
-}
+} */
 
-.ll-no-images-left p {
+/* .ll-no-images-left p {
     margin: 0 0;
     margin-bottom: 0.3rem;
-}
+} */
 
 .ll-img-btn-out-true {
     opacity: 50%;
+    cursor: not-allowed!important;
+}
+
+.ll-red-msg {
+    color: red!important;
 }

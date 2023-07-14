@@ -40,21 +40,9 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
     }
     setIsLoading(true)
     // Query string for the API request
-    // const query = `
-    //     I will give you a vocab word. Use psychology memory techniques to give me back a word/memory
-    //     association to remember the ${language} vocab word. Use the Linkword Mnemonic technique for an
-    //     association. Make a mental image that matches the association, utilizing elaborative encoding
-    //     techniques. Give the answer in the form of <word>\n\n<translation>\n\n<association>\n\n<mental
-    //     image>\n\n<explanation>.
-    //     \n
-    //     <| endofprompt |>
-    //     \n
-    //     Word: ${vocabWord.trim()}
-    //     `;
     let query = import.meta.env.VITE_MAIN_TOOL_QUERY
     query = query.replace("--{language}--", language)
     query = query.replace("--{vocabWord}--", vocabWord.trim())
-    console.log(query)
 
     // Options for the API request
     const options = {

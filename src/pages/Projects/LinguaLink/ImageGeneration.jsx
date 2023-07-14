@@ -7,7 +7,7 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
 // changeable constants
 const SIZE = "256x256"     // image size (either 256, 512, or 1024)
-const NUM_FREE_IMAGES = 5
+const NUM_FREE_IMAGES = 2
 
 
 async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory, 
@@ -54,9 +54,30 @@ async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesL
       }
 }
 
+function imageDisplay(url, isLoading, imagesLeft, imageExpired, setImageExpired) {
+    const displayDefaultMsg = (url === "" && imagesLeft > 0)
+    const displayImage = (url !== "" && !imageExpired)
+    const displayExpiredMsg = (url !== "" && imageExpired)
+    const displayNoImagesLeftMsg = (url === "" && imagesLeft <= 0)
+    return (
+        <div className={`ll-img-container ll-img-is-loading-${isLoading}`}>
+            {displayDefaultMsg && <p className='ll-img-msg'>Generate an image to help remember the association!</p>}
+            {displayImage && 
+                    <img src={url} alt="word association mental image" onError={() => setImageExpired(true)}>
+                    </img>}
+            {displayExpiredMsg && <p className="ll-img-msg ll-red-msg">Image expired.</p>}
+            {displayNoImagesLeftMsg && <p className="ll-img-msg ll-red-msg">Sorry, you are out of your image allotment.</p>}
+            <div className="spinner-container">
+                {isLoading && <Spinner animation="border" className="my-spinner" />}
+            </div>
+        </div>
+    )
+}
+
 function ImageGeneration( {currentWord, setCurrentWord, setHistory, currentWordIndex} ) {
     const [imagesLeft, setImagesLeft] = React.useState(NUM_FREE_IMAGES)
     const [isLoading, setIsLoading] = React.useState(false)
+    const [imageExpired, setImageExpired] = React.useState(false)
 
     // Load state from local storage on component mount
     React.useEffect(() => {
@@ -71,19 +92,14 @@ function ImageGeneration( {currentWord, setCurrentWord, setHistory, currentWordI
         setIsLoading(false)
     }, [imagesLeft])
 
+    React.useEffect(() => {
+        setImageExpired(false)
+    }, [currentWord])
+
     return (
         <div className="image-generation">
             {/* <h4 className="project-mini-title ll-img-gen-title ll-title">IMAGE GENERATION</h4> */}
-                <div className={`ll-img-container ll-img-is-loading-${isLoading}`}>
-                    {currentWord.url === "" && <p className='ll-img-msg'>Generate an image to help remember the association!</p>}
-                    {currentWord.url !== "" && <img src={currentWord.url}></img>}
-                    <div className="spinner-container">
-                        {isLoading && <Spinner animation="border" className="my-spinner" />}
-                    </div>
-                </div>
-            <div className='ll-no-images-left'>{imagesLeft <= 0 && 
-                <p>Sorry, you are out of your image allotment!</p>}
-            </div>
+            {imageDisplay(currentWord.url, isLoading, imagesLeft, imageExpired, setImageExpired)}
             <button 
                 className={`submit-btn ll-get-img-btn ll-btn ll-img-btn-out-${imagesLeft <= 0}`}
                 onClick={() => generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory,
