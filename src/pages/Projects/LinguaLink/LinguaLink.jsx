@@ -8,7 +8,6 @@ import ImageGeneration from './ImageGeneration'
 import InfoModal from './InfoModal'
 import PhoneHistory from './PhoneHistory'
 import LLSidebar from './LLSidebar'
-import LinguaGenerateRandom from './LinguaGenerateRandom'
 import Languages from './Languages'
 
 

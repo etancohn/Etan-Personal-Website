@@ -1,9 +1,9 @@
 import React from 'react'
-import logo1 from '../../../pics/LinguaLink/logo_1.png'
-import logo2 from '../../../pics/LinguaLink/logo_2.png'
-import logo3 from '../../../pics/LinguaLink/logo_3.png'
-import logo4 from '../../../pics/LinguaLink/logo_4.png'
-import logo5 from '../../../pics/LinguaLink/logo_5.png'
+import logo1 from './pics/logo_1.png'
+import logo2 from './pics/logo_2.png'
+import logo3 from './pics/logo_3.png'
+import logo4 from './pics/logo_4.png'
+import logo5 from './pics/logo_5.png'
 import './MainTool.css'
 import LinguaSingleOutput from './LinguaSingleOutput'
 import ToolTabs from './ToolTabs'
@@ -22,7 +22,6 @@ const GPT_TEMPERATURE = 0.5
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
                           setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
                           language) {
-    console.log("GPT")
     // max re-runs of GPT hit
     if (numGPTRuns+1 > MAX_GPT_RUNS) { 
         setIsLoading(false)

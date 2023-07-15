@@ -7,6 +7,23 @@
     --green5: rgb(36, 84, 89);
 }
 
+.ll-bold {
+    font-weight: bold;
+    color: var(--green5);
+}
+
+.ll-modal-header-logo {
+    width: 5.2rem;
+    height: 5.2rem;
+}
+
+.ll-modal-header-container {
+    height: 3rem;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
 .ll-info-modal {
     display: flex;
     flex-direction: column;
@@ -32,6 +49,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 1.1rem;
 }
 
 .ll-info-modal-scenario {

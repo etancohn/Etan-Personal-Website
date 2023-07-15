@@ -1,6 +1,6 @@
 import React from 'react'
 import './DescriptionHeader.css'
-import main_logo from '../../../pics/LinguaLink/main_logo.png'
+import main_logo from './pics/main_logo.png'
 
 function DescriptionHeader() {
   return (
