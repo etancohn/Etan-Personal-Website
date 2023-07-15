@@ -28,18 +28,10 @@
     border: none!important;
 }
 
-.ll-bolded {
-    font-weight: bold;
-}
-
 .ll-info-modal-body {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.ll-info-modal-body p {
-    text-indent: 30px;
 }
 
 .ll-info-modal-scenario {
@@ -48,4 +40,28 @@
     font-size: 0.9rem;
     text-align: center;
     /* text-indent: 0; */
+}
+
+.rana-example {
+    display: flex;
+    column-gap: 0.5rem;
+    width: 100%;
+    height: 7rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.rana-example > * {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 5rem;
+    width: 5rem;
+    /* background-color: red; */
+}
+
+.ll-frog-photo {
+    width: 100%;
+    height: 100%;
 }

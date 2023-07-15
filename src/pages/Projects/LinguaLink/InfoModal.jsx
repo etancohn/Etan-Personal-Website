@@ -2,10 +2,24 @@ import React from 'react'
 import './InfoModal.css'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import frogPhoto from './pics/frog_in_rain.png'
 
 function InfoModal() {
-    const [show1, setShow1] = React.useState(false);
-    const [show2, setShow2] = React.useState(false);
+    const [show1, setShow1] = React.useState(false)
+    const [show2, setShow2] = React.useState(false)
+    const [show3, setShow3] = React.useState(false)
+    const [ranaCounter, setRanaCounter] = React.useState(0)
+
+    const ranaTexts = [
+        <span>rana</span>,
+        <span>{"-->"}</span>,
+        <span>rain</span>,
+        <span>{"-->"}</span>,
+        <img src={frogPhoto} alt="" className="ll-frog-photo" />,
+        // <span>{"<pic>"}</span>,
+        <span>{"-->"}</span>,
+        <span>frog</span>
+    ]
 
     const handleShow2 = () => {
         setShow1(false)
@@ -13,7 +27,22 @@ function InfoModal() {
     }
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
-    const handleClose2 = () => setShow2(false);
+    const handleClose2 = () => setShow2(false)
+    function handleShow3() {
+        setShow2(false)
+        setShow3(true)
+    }
+    const handleClose3 = () => setShow3(false)
+
+    React.useEffect(() => {
+        if (show3) {
+            const timer = setTimeout(() => {
+                setRanaCounter((prevCount) => (prevCount + 1) % (ranaTexts.length + 1));
+              }, 1000);
+          
+            return () => clearTimeout(timer); // Cleanup the timer on component unmount
+        }
+    }, [show3, ranaCounter])
 
     return (
         <div className='ll-info-modal'>
@@ -30,31 +59,22 @@ function InfoModal() {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title className="ll-info-modal-title">WHY IT WORKS</Modal.Title>
+                    <Modal.Title className="ll-info-modal-title">WHY IT WORKS - PAGE 1</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="ll-info-modal-body">
-                    <p className='ll-info-modal-scenario'>
-                        <span className='ll-bolded'>Scenario - </span>
-                        You come across a vocabulary word that looks familiar to you. In fact, maybe it was on a flash card 
-                        you reviewed multiple times the previous day. Unfortunately, no matter how hard you try, you can’t seem to remember 
-                        what that word means. You are left feeling lost within your own brain, searching hopelessly for a word that you are 
-                        confident exists SOMEWHERE inside your brain.
+                    <p>
+                        Welcome to Lingua Link! Elevate your language learning experience to new heights through the fusion of 
+                        powerful memory techniques with cutting-edge AI technology.
                     </p>
                     <p>
-                        <span className="ll-bolded">Linkword Mnemonics</span> is a proven technique that creates associations between words, making them easier to 
-                        remember. By forming mental links or connections between the words you want to remember and familiar words or 
-                        images, you enhance your ability to recall the information later on. It's like creating a key that unlocks 
-                        the desired mental image.
-                    </p>
-                    <p>
-                        <span className="ll-bolded">Elaborative Encoding,</span> on the other hand, actively engages your mind by connecting new information to existing 
-                        knowledge. It involves deep processing and meaningful associations, whether through personal experiences, emotions, 
-                        or forming mental images and stories. This technique strengthens memory consolidation and retrieval.
+                        Mnemonics are invaluable memory aids for enhancing information recall. However, crafting effective mnemonics 
+                        can be time-consuming and challenging. That's where Lingua Link comes in, offering a seamless solution. Our 
+                        app effortlessly generates impactful mnemonics, freeing you from the arduous task of devising them yourself.
                     </p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handleShow2} className='ll-info-modal-continue-btn'>
-                        Continue
+                        Next
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -67,26 +87,60 @@ function InfoModal() {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title className="ll-info-modal-title">WHY IT WORKS</Modal.Title>
+                    <Modal.Title className="ll-info-modal-title">WHY IT WORKS - PAGE 2</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="ll-info-modal-body">
                     <p>
-                        Here's a helpful perspective: Picture yourself with a word and its definition that you want to remember. 
-                        To store that definition in your long-term memory, you can forge a connection between it and something familiar 
-                        to you, like a memory or mental image. The goal is to create a key that unlocks that mental image—an association 
-                        linking the vocabulary word and the mental image. An effective key is one that is cleverly embedded within the 
-                        vocabulary word, ensuring you won't easily forget it.
+                        Here's how it works: Picture yourself with a word and its corresponding definition that you want to remember. 
+                        To firmly imprint that definition into your long-term memory, establish a connection with something familiar 
+                        in the form of a mental image. The goal is to create a key—a powerful association that links the vocabulary 
+                        word and the visual representation. A well-crafted key cleverly intertwines with the word, ensuring its 
+                        unforgettable presence in your memory.
                     </p>
                     <p>
-                        Our app harnesses the power of AI technology to simplify and streamline the process. Say goodbye to the 
-                        time-consuming task of thinking up connections—our app does it for you, ensuring you get the absolute best out of 
-                        these memory strategies. It's time to unlock the potential of your memory and elevate your learning experience. 
-                        Try it today and embark on a memorable journey of language acquisition.
+                        This process utilizes two memory techniques known as Elaborative Encoding and Linkword Mnemonics. Elaborative 
+                        Encoding strengthens memory consolidation and retrieval by connecting new information to existing knowledge, 
+                        such as in the form of a mental image. Linkword Mnemonics creates associations between words, facilitating 
+                        memory recall.
                     </p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handleClose2} className='ll-info-modal-continue-btn'>
-                        Close
+                    <Button variant="primary" onClick={handleShow3} className='ll-info-modal-continue-btn'>
+                        Next
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal
+                show={show3}
+                onHide={handleClose3}
+                size='lg'
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title className="ll-info-modal-title">WHY IT WORKS - PAGE 3</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="ll-info-modal-body">
+                    <p>
+                        Let's take a concrete example: Imagine you're learning the Spanish word "rana," meaning "frog." A simple 
+                        mnemonic or key is the word "rain." The resemblance between "rana" and "rain" makes it easy to remember. 
+                        When you recall the association with "rain," an image of a frog under a rain cloud materializes in your 
+                        mind, helping you quickly recall the definition.
+                    </p>
+                    <div className="rana-example">
+                        {ranaTexts.map((text, index) => (
+                            <span key={index}>{ranaCounter > index ? text : <span></span>}</span>
+                        ))}
+                    </div>
+                    <p>
+                        Lingua Link empowers you to find your fluency and unlock the full potential of your language learning 
+                        capabilities. Click “Continue” to get started!
+                    </p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleClose3} className='ll-info-modal-continue-btn'>
+                        Continue
                     </Button>
                 </Modal.Footer>
             </Modal>

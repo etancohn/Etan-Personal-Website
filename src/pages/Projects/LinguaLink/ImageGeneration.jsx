@@ -7,7 +7,7 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
 // changeable constants
 const SIZE = "256x256"     // image size (either 256, 512, or 1024)
-const NUM_FREE_IMAGES = 0
+const NUM_FREE_IMAGES = 5
 
 
 async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory, 
@@ -16,6 +16,15 @@ async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesL
         return
     }
     setIsLoading(true)
+
+    // remove the word 'imagine'
+    let imagePrompt = currentWord.mentalImage
+    const words = imagePrompt.split(" ")
+    if (words[0] === "Imagine") {
+        imagePrompt = words.slice(1).join(" ")
+    }
+    console.log(imagePrompt)
+
     const options = {
         method: 'POST',
         headers: {
@@ -23,7 +32,7 @@ async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesL
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            prompt: currentWord.mentalImage,
+            prompt: imagePrompt,
             n: 1,
             size: SIZE
         })
