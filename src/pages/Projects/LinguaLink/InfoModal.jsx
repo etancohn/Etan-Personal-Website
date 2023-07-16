@@ -68,7 +68,7 @@ function InfoModal( {show1, setShow1} ) {
                 <Modal.Header closeButton>
                     <div className="ll-modal-header-container">
                         <img src={main_logo} alt="lingua link logo" className='ll-modal-header-logo' />
-                        <Modal.Title className="ll-info-modal-title">HOW IT WORKS - PAGE 1</Modal.Title>
+                        <Modal.Title className="ll-info-modal-title">HOW IT WORKS</Modal.Title>
                     </div>
                 </Modal.Header>
                 <Modal.Body className="ll-info-modal-body">
@@ -99,7 +99,7 @@ function InfoModal( {show1, setShow1} ) {
                 <Modal.Header closeButton>
                     <div className="ll-modal-header-container">
                         <img src={main_logo} alt="lingua link logo" className='ll-modal-header-logo' />
-                        <Modal.Title className="ll-info-modal-title">HOW IT WORKS - PAGE 2</Modal.Title>
+                        <Modal.Title className="ll-info-modal-title">HOW IT WORKS</Modal.Title>
                     </div>
                 </Modal.Header>
                 <Modal.Body className="ll-info-modal-body">
@@ -138,7 +138,7 @@ function InfoModal( {show1, setShow1} ) {
                 <Modal.Header closeButton>
                     <div className="ll-modal-header-container">
                         <img src={main_logo} alt="lingua link logo" className='ll-modal-header-logo' />
-                        <Modal.Title className="ll-info-modal-title">HOW IT WORKS - PAGE 3</Modal.Title>
+                        <Modal.Title className="ll-info-modal-title">HOW IT WORKS</Modal.Title>
                     </div>
                 </Modal.Header>
                 <Modal.Body className="ll-info-modal-body">
