@@ -80,7 +80,8 @@ async function parseGPTOutput(outputText, setCurrentWord, word, setIsLoading, nu
     if (word === "") { return }
 
     const translationRegex = /Translation:\s+(.+)/i;
-    const associationRegex = /Association:\s+(.+)/i;
+    const associationRegex = /Mnemonic:\s+(.+)/i;
+    // const associationRegex = /Association:\s+(.+)/i;
     const mentalImageRegex = /Mental Image:\s+(.+)/i;
     const explanationRegex = /Explanation:\s+(.+)/i;
     
@@ -186,7 +187,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                                     onCompletion={() => setTriggerGeneration3(true)} triggerBlank={triggerBlank}
                                     numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
                                     language={language} currentWord={currentWord} />
-                <LinguaSingleOutput logo={logo3} title="ASSOCIATION" text={currentWord.association} 
+                <LinguaSingleOutput logo={logo3} title="MNEMONIC" text={currentWord.association} 
                                     isEven={true} num="3" triggerGeneration={triggerGeneration3}
                                     onCompletion={() => setTriggerGeneration4(true)} triggerBlank={triggerBlank}
                                     numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
