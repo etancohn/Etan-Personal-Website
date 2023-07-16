@@ -21,9 +21,6 @@ async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesL
     }
     setIsLoading(true)
 
-    console.log(imagesLeft)
-    console.log(NUM_START_IMAGES)
-
     if (imagesLeft === NUM_START_IMAGES) {
         setShow(true)
     }
@@ -34,7 +31,6 @@ async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesL
     if (words[0] === "Imagine") {
         imagePrompt = words.slice(1).join(" ")
     }
-    console.log(imagePrompt)
 
     const options = {
         method: 'POST',
@@ -125,19 +121,16 @@ function ImageGeneration( {currentWord, setCurrentWord, setHistory, currentWordI
         if (!storedImagesLeft) {
             setImagesLeft(NUM_START_IMAGES)
             const todayDate = getTodayDate()
-            console.log(`todayDate: ${todayDate}`)
             window.localStorage.setItem('prevDate', JSON.stringify(todayDate))
             return
         }
         let prevDate = window.localStorage.getItem('prevDate')
         prevDate = JSON.parse(prevDate)
-        console.log(`prevDate: ${prevDate}`)
         if (!prevDate) {
             console.log(`ERROR: Date not found in local storage.`)
             return
         }
         const todayDate = getTodayDate()
-        console.log(`dates equal: ${datesEqual(prevDate, todayDate)}`)
         if (datesEqual(prevDate, todayDate)) {
             setImagesLeft(JSON.parse(storedImagesLeft));
             return
@@ -181,9 +174,8 @@ function ImageGeneration( {currentWord, setCurrentWord, setHistory, currentWordI
             </Modal.Header>
             <Modal.Body className="ll-info-modal-body">
                 <p>
-                    {`You've been given ${NUM_START_IMAGES} image generations to start out with! After you've used up your 
-                    ${NUM_START_IMAGES-NUM_DAILY_IMAGES} extra images, your image count will reset daily to 
-                    ${NUM_DAILY_IMAGES} images.`}
+                    {`You've been given ${NUM_START_IMAGES} free image generations! After you've used your 
+                    extra images, your image count will reset daily to ${NUM_DAILY_IMAGES} images.`}
                 </p>
             </Modal.Body>
             <Modal.Footer>

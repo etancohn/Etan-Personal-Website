@@ -5,7 +5,7 @@ import './LinguaGenerateRandom.css'
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 const NUM_WORDS_TO_GENERATE = 20
 const MAX_WORD_GENERATION_GPT_RUNS = 10
-const GPT_TEMPERATURE = 0.9
+const GPT_TEMPERATURE = 1
 
 const EASY_DIFFICULTY_QUEUE_MODIFICATION = "Include only basic/beginner words."
 const HARD_DIFFICULTY_QUEUE_MODIFICATION = "Include only intermediate and advanced/difficult words."

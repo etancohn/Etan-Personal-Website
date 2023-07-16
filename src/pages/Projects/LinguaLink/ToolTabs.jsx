@@ -103,8 +103,7 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                     <div className="ll-generate-random-tab">
                 
                     <h4 className="ll-description-generate-random">
-                        Use the button below to generate a random {language} word. You may customize the difficulty of the 
-                        words generated.
+                        Use the button below to generate a random {language} word.
                     </h4>
                     <LinguaGenerateRandom setGeneratedWord={setGeneratedWord} language={language} setIsGenerating={setIsGenerating}
                                             selectedDifficulty={selectedRadio} setIsLoading={setIsLoading} 

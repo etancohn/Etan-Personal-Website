@@ -64,7 +64,6 @@ function InfoModal( {show1, setShow1} ) {
                 size='lg'
                 backdrop="static"
                 keyboard={false}
-                scrollable={true}
             >
                 <Modal.Header closeButton>
                     <div className="ll-modal-header-container">
