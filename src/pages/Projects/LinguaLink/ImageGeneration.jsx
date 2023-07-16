@@ -11,7 +11,7 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 // changeable constants
 const SIZE = "256x256"     // image size (either 256, 512, or 1024)
 const NUM_DAILY_IMAGES = 3
-const NUM_START_IMAGES = 10
+const NUM_START_IMAGES = 5
 
 
 async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory, 

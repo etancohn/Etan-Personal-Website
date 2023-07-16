@@ -39,6 +39,16 @@
     width: 85%;
 }
 
+/* @media (max-width: 1100px) {
+    .ll-project-description {
+        display: none;
+    }
+
+    .ll-main-title {
+        font-size: 1.3rem;
+    }
+} */
+
 @media (max-width: 775px) {
     .logo-and-description {
         margin-bottom: 0.4rem;
