@@ -7,6 +7,11 @@ export const websitesData = [
     //     link: "/pages/Projects/ShoppingList"
     // },
     {
+        title: "Lingua Link",
+        description: "Language learning tool for vocab words.",
+        link: "pages/Projects/LinguaLink"
+    },
+    {
         title: "Song Genres",
         description: "Display the genres of your favorite songs!",
         link: "pages/Projects/MusicGenres"
@@ -20,10 +25,5 @@ export const websitesData = [
         title: "Emoji Generator",
         description: "Generate emojis representing your text.",
         link: "pages/Projects/EmojiGenerator"
-    },
-    {
-        title: "Lingua Link",
-        description: "Language learning tool for vocab words.",
-        link: "pages/Projects/LinguaLink"
     }
 ]
