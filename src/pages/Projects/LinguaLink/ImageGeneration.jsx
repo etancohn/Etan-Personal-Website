@@ -1,6 +1,9 @@
 import React from 'react'
 import './ImageGeneration.css'
 import Spinner from 'react-bootstrap/Spinner';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import main_logo from './pics/main_logo.png'
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -12,11 +15,18 @@ const NUM_START_IMAGES = 10
 
 
 async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory, 
-                             currentWordIndex) {
+                             currentWordIndex, setShow) {
     if (currentWord.mentalImage === "" || imagesLeft <= 0) {
         return
     }
     setIsLoading(true)
+
+    console.log(imagesLeft)
+    console.log(NUM_START_IMAGES)
+
+    if (imagesLeft === NUM_START_IMAGES) {
+        setShow(true)
+    }
 
     // remove the word 'imagine'
     let imagePrompt = currentWord.mentalImage
@@ -78,7 +88,7 @@ function imageDisplay(url, isLoading, imagesLeft, imageExpired, setImageExpired)
             {displayExpiredMsg && <p className="ll-img-msg ll-image-italic-msg">Image expired.</p>}
             {displayNoImagesLeftMsg && <p className="ll-img-msg ll-image-italic-msg">Sorry, you are out of your image allotment.</p>}
             <div className="spinner-container">
-                {isLoading && <Spinner animation="border" className="my-spinner" />}
+                {isLoading && <Spinner animation="border" variant="dark" />}
             </div>
         </div>
     )
@@ -105,6 +115,9 @@ function ImageGeneration( {currentWord, setCurrentWord, setHistory, currentWordI
     const [imagesLeft, setImagesLeft] = React.useState(0)
     const [isLoading, setIsLoading] = React.useState(false)
     const [imageExpired, setImageExpired] = React.useState(false)
+    const [show, setShow] = React.useState(false)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
 
     // Load state from local storage on component mount
     React.useMemo(() => {
@@ -149,10 +162,36 @@ function ImageGeneration( {currentWord, setCurrentWord, setHistory, currentWordI
             <button 
                 className={`submit-btn ll-get-img-btn ll-btn ll-img-btn-out-${imagesLeft <= 0}`}
                 onClick={() => generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory,
-                                             currentWordIndex)}>
+                                             currentWordIndex, setShow)}>
                     Get Image
             </button>
             <div className='ll-images-left'>{`(Images Left: ${imagesLeft})`}</div>
+            <Modal
+            show={show}
+            onHide={handleClose}
+            size='md'
+            backdrop="static"
+            keyboard={false}
+        >
+            <Modal.Header closeButton>
+                <div className="ll-modal-header-container">
+                    <img src={main_logo} alt="lingua link logo" className='ll-modal-header-logo' />
+                    <Modal.Title className="ll-info-modal-title">IMAGE INFORMATION</Modal.Title>
+                </div>
+            </Modal.Header>
+            <Modal.Body className="ll-info-modal-body">
+                <p>
+                    {`You've been given ${NUM_START_IMAGES} image generations to start out with! After you've used up your 
+                    ${NUM_START_IMAGES-NUM_DAILY_IMAGES} extra images, your image count will reset daily to 
+                    ${NUM_DAILY_IMAGES} images.`}
+                </p>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="primary" onClick={handleClose} className='ll-info-modal-continue-btn'>
+                    Continue
+                </Button>
+            </Modal.Footer>
+        </Modal>
         </div>
     )
 }
