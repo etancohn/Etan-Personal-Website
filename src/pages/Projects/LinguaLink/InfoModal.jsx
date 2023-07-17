@@ -12,11 +12,11 @@ function InfoModal( {show1, setShow1} ) {
 
     const ranaTexts = [
         <span>rana</span>,
-        <span>{"-->"}</span>,
+        <span>{"➜"}</span>,
         <span>rain</span>,
-        <span>{"-->"}</span>,
+        <span>{"➜"}</span>,
         <img src={frogPhoto} alt="frog in rain" className="ll-frog-photo" />,
-        <span>{"-->"}</span>,
+        <span>{"➜"}</span>,
         <span>frog</span>
     ]
 
@@ -78,8 +78,8 @@ function InfoModal( {show1, setShow1} ) {
                     </p>
                     <p>
                         <span className="ll-bold">Mnemonics</span> are invaluable memory aids for enhancing information recall. However, crafting effective mnemonics 
-                        can be time-consuming and challenging. That's where Lingua Link comes in, offering a seamless solution. Our 
-                        app effortlessly generates impactful mnemonics, freeing you from the arduous task of devising them yourself.
+                        can be time-consuming and challenging. That's where Lingua Link comes in. Our app generates 
+                        impactful mnemonics, freeing you from the arduous task of devising them yourself.
                     </p>
                 </Modal.Body>
                 <Modal.Footer>
@@ -104,9 +104,9 @@ function InfoModal( {show1, setShow1} ) {
                 </Modal.Header>
                 <Modal.Body className="ll-info-modal-body">
                     <p>
-                        <span className="ll-bold">Here's how it works: </span>Picture yourself with a word and its corresponding definition that you want to remember. 
+                        <span className="ll-bold">Here's how it works: </span>Picture a word and its corresponding definition that you want to remember. 
                         To firmly imprint that definition into your long-term memory, establish a connection with something familiar 
-                        in the form of a mental image. The goal is to create a key—a powerful association that links the vocabulary 
+                        in the form of a mental image. The goal is to create a key - a powerful association that links the vocabulary 
                         word and the visual representation. A well-crafted key cleverly intertwines with the word, ensuring its 
                         unforgettable presence in your memory.
                     </p>
