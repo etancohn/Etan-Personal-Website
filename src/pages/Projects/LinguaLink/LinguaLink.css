@@ -15,11 +15,12 @@
         "sidebar header space"
         "sidebar tool   image"
         "sidebar tool   language"
-        "sidebar tool   info";
+        "sidebar tool   info"
+        "sidebar disclaimer moreSpace";
 
     grid-template-columns: auto 7.5fr 2.5fr;
     /* grid-template-rows: 2fr 4fr 3fr 1fr; */
-    grid-template-rows: min-content min-content min-content 1fr;
+    grid-template-rows: min-content min-content min-content 1fr min-content;
     font-family: 'Raleway', sans-serif;
 }
 
@@ -47,6 +48,25 @@
 .white-space-container {
     /* background-color: white; */
     grid-area: space;
+}
+
+.ll-disclaimer-container {
+    grid-area: disclaimer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.ll-disclaimer {
+    width: 80%;
+}
+
+.ll-disclaimer p {
+    font-size: 0.8rem;
+    font-style: italic;
+    text-align: center;
 }
 
 .image-generation-container {
@@ -112,7 +132,8 @@
         "tool"
         "image"
         "language"
-        "info";
+        "info"
+        "disclaimer";
     }
 
     .lingua-link-sidebar {
