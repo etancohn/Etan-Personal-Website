@@ -5,8 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import frogPhoto from './pics/frog_in_rain.png'
 import main_logo from './pics/main_logo.png'
 
-function InfoModal() {
-    const [show1, setShow1] = React.useState(false)
+function InfoModal( {show1, setShow1} ) {
     const [show2, setShow2] = React.useState(false)
     const [show3, setShow3] = React.useState(false)
     const [ranaCounter, setRanaCounter] = React.useState(0)

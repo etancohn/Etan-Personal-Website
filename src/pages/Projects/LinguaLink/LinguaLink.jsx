@@ -19,6 +19,7 @@ function LinguaLink() {
   // const [generatedWord, setGeneratedWord] = React.useState("")
   const [language, setLanguage] = React.useState(localStorage.getItem("language") || "Spanish")
   const [isGenerating, setIsGenerating] = React.useState(false)
+  const [showInfoModal, setShowInfoModal] = React.useState(false)
   const initialWord = {
     word: "",
     translation: "",
@@ -36,6 +37,9 @@ function LinguaLink() {
     const storedHistory = window.localStorage.getItem('history');
     if (storedHistory) {
       setHistory(JSON.parse(storedHistory));
+    } else {
+      // new user
+      setShowInfoModal(true)
     }
   }, []);
 
@@ -88,7 +92,7 @@ function LinguaLink() {
                 </div>
 
                 <div className="info-container">
-                    <InfoModal />
+                    <InfoModal show1={showInfoModal} setShow1={setShowInfoModal} />
                 </div>
             </div>
 
