@@ -57,7 +57,7 @@ function InfoModal() {
             <button 
                 className="submit-btn ll-btn ll-info-modal-btn"
                 onClick={handleShow1}>
-                    Why It Works
+                    How It Works
             </button>
             <Modal
                 show={show1}
@@ -70,7 +70,7 @@ function InfoModal() {
                 <Modal.Header closeButton>
                     <div className="ll-modal-header-container">
                         <img src={main_logo} alt="lingua link logo" className='ll-modal-header-logo' />
-                        <Modal.Title className="ll-info-modal-title">WHY IT WORKS - PAGE 1</Modal.Title>
+                        <Modal.Title className="ll-info-modal-title">HOW IT WORKS - PAGE 1</Modal.Title>
                     </div>
                 </Modal.Header>
                 <Modal.Body className="ll-info-modal-body">
@@ -101,7 +101,7 @@ function InfoModal() {
                 <Modal.Header closeButton>
                     <div className="ll-modal-header-container">
                         <img src={main_logo} alt="lingua link logo" className='ll-modal-header-logo' />
-                        <Modal.Title className="ll-info-modal-title">WHY IT WORKS - PAGE 2</Modal.Title>
+                        <Modal.Title className="ll-info-modal-title">HOW IT WORKS - PAGE 2</Modal.Title>
                     </div>
                 </Modal.Header>
                 <Modal.Body className="ll-info-modal-body">
@@ -140,7 +140,7 @@ function InfoModal() {
                 <Modal.Header closeButton>
                     <div className="ll-modal-header-container">
                         <img src={main_logo} alt="lingua link logo" className='ll-modal-header-logo' />
-                        <Modal.Title className="ll-info-modal-title">WHY IT WORKS - PAGE 3</Modal.Title>
+                        <Modal.Title className="ll-info-modal-title">HOW IT WORKS - PAGE 3</Modal.Title>
                     </div>
                 </Modal.Header>
                 <Modal.Body className="ll-info-modal-body">
@@ -157,7 +157,7 @@ function InfoModal() {
                     </div>
                     <p>
                         Lingua Link empowers you to find your fluency and unlock the full potential of your language learning 
-                        capabilities. Click “Continue” to get started!
+                        capabilities. Click <span className="ll-bold">Continue</span> to get started!
                     </p>
                 </Modal.Body>
                 <Modal.Footer>

@@ -10,7 +10,7 @@ function DescriptionHeader() {
           <h1 className="ll-main-title">UNLEASH YOUR <span className="title-bolded">MNEMONIC MIGHT!</span></h1>
           <p className="ll-project-description">
               Lingua Link deploys powerful memory techniques to enhance your ability to learn, remember, and 
-              effortlessly recall new Spanish vocab words.
+              effortlessly recall new vocab words.
           </p>
         </div>
     </div>

@@ -7,7 +7,8 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
 // changeable constants
 const SIZE = "256x256"     // image size (either 256, 512, or 1024)
-const NUM_FREE_IMAGES = 5
+const NUM_DAILY_IMAGES = 3
+const NUM_START_IMAGES = 10
 
 
 async function generateImage(currentWord, setCurrentWord, imagesLeft, setImagesLeft, setIsLoading, setHistory, 
@@ -83,17 +84,53 @@ function imageDisplay(url, isLoading, imagesLeft, imageExpired, setImageExpired)
     )
 }
 
+function datesEqual(date1, date2) {
+    const myDateFormatLength = 3
+    if (date1.length !== myDateFormatLength || date2.length !== myDateFormatLength) {
+        console.log(`ERROR: Dates not in correct format ('${date1}') ('${date2}')`)
+        return false
+    }
+    if (date1[0] === date2[0] && date1[1] === date2[1] && date1[2] === date2[2]) {
+        return true
+    }
+    return false
+}
+function getTodayDate() {
+    const today = new Date()
+    const res = [today.getDate(), today.getMonth(), today.getFullYear()]
+    return res
+}
+
 function ImageGeneration( {currentWord, setCurrentWord, setHistory, currentWordIndex} ) {
-    const [imagesLeft, setImagesLeft] = React.useState(NUM_FREE_IMAGES)
+    const [imagesLeft, setImagesLeft] = React.useState(0)
     const [isLoading, setIsLoading] = React.useState(false)
     const [imageExpired, setImageExpired] = React.useState(false)
 
     // Load state from local storage on component mount
-    React.useEffect(() => {
+    React.useMemo(() => {
         const storedImagesLeft = window.localStorage.getItem('imagesLeft');
-        if (storedImagesLeft) {
-        setImagesLeft(JSON.parse(storedImagesLeft));
+        if (!storedImagesLeft) {
+            setImagesLeft(NUM_START_IMAGES)
+            const todayDate = getTodayDate()
+            console.log(`todayDate: ${todayDate}`)
+            window.localStorage.setItem('prevDate', JSON.stringify(todayDate))
+            return
         }
+        let prevDate = window.localStorage.getItem('prevDate')
+        prevDate = JSON.parse(prevDate)
+        console.log(`prevDate: ${prevDate}`)
+        if (!prevDate) {
+            console.log(`ERROR: Date not found in local storage.`)
+            return
+        }
+        const todayDate = getTodayDate()
+        console.log(`dates equal: ${datesEqual(prevDate, todayDate)}`)
+        if (datesEqual(prevDate, todayDate)) {
+            setImagesLeft(JSON.parse(storedImagesLeft));
+            return
+        }
+        setImagesLeft(Math.max(JSON.parse(storedImagesLeft), NUM_DAILY_IMAGES))
+        return
     }, []);
 
     React.useEffect(() => {
