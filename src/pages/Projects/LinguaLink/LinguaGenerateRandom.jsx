@@ -35,6 +35,7 @@ async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGP
         // too many GPT runs
         console.log("ERROR: Too many invalid GPT runs")
         setIsGenerating(false)
+        setNumGPTRuns(0)
         return
     }
     const difficultyModification = getDifficultyModification(selectedDifficulty)
@@ -43,6 +44,9 @@ async function generateRandomWordsGPT(setGeneratedWordsArr, numGPTRuns, setNumGP
     query = query.replace("--{NUM_WORDS_TO_GENERATE}--", NUM_WORDS_TO_GENERATE)
     query = query.replace("--{language}--", language)
     query = query.replace("--{difficultyModification}--", difficultyModification)
+    if (language === "Chinese") {
+        query = query.replace("else.", "else. Include pinyin in parentheses.")
+    }
 
     // Options for the API request
     const options = {
@@ -82,7 +86,13 @@ async function parseRandomWordsGPTOutput(outputText, setGeneratedWordsArr, numGP
     wordsArray = wordsArray.map((vocabWord) => vocabWord.trim())
 
     // test whether the output came out in the correct format. Re-run GPT if invalid
-    const generatedWordsInvalid = (wordsArray.length !== NUM_WORDS_TO_GENERATE || wordsArray.includes(""))
+    let generatedWordsInvalid = (wordsArray.length !== NUM_WORDS_TO_GENERATE || wordsArray.includes(""))
+    if (language === "Chinese") {
+        // make sure pinyin is included!
+        const hasPinyin = /^[^\s]+\s\(.+\)$/
+        const allPinyin = wordsArray.every((s) => hasPinyin.test(s))
+        generatedWordsInvalid = (generatedWordsInvalid || (!allPinyin))
+    }
     if (generatedWordsInvalid) {
         console.log(`ERROR: Generated words in invalid format. Re-run GPT ${numGPTRuns}`)
         setNumGPTRuns(numGPTRuns+1)
