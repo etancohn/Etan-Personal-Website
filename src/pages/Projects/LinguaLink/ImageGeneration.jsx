@@ -84,10 +84,6 @@ function imageDisplay(url, isLoading, imagesLeft, imageExpired, setImageExpired)
             {displayExpiredMsg && <p className="ll-img-msg ll-image-italic-msg">Image expired.</p>}
             {displayNoImagesLeftMsg && <p className="ll-img-msg ll-image-italic-msg">Sorry, you are out of your image allotment.</p>}
             {<Spinner className={`ll-img-spinner-loading-${isLoading}`} animation="border" variant="dark" />}
-            {/* <div className={`spinner-container ll-img-spinner-loading-${isLoading}"`}> */}
-                {/* {<Spinner className={`ll-img-spinner-loading-${isLoading}`} animation="border" variant="dark" />} */}
-                {/* {isLoading && <Spinner animation="border" variant="dark" />} */}
-            {/* </div> */}
         </div>
     )
 }
