@@ -163,6 +163,7 @@ function ImageGeneration( {currentWord, setCurrentWord, setHistory, currentWordI
             size='md'
             backdrop="static"
             keyboard={false}
+            className="ll-modals"
         >
             <Modal.Header closeButton>
                 <div className="ll-modal-header-container">

@@ -64,6 +64,7 @@ function InfoModal( {show1, setShow1} ) {
                 size='lg'
                 backdrop="static"
                 keyboard={false}
+                className="ll-modals"
             >
                 <Modal.Header closeButton>
                     <div className="ll-modal-header-container">
@@ -95,6 +96,7 @@ function InfoModal( {show1, setShow1} ) {
                 size='lg'
                 backdrop="static"
                 keyboard={false}
+                className="ll-modals"
             >
                 <Modal.Header closeButton>
                     <div className="ll-modal-header-container">
@@ -134,6 +136,7 @@ function InfoModal( {show1, setShow1} ) {
                 size='lg'
                 backdrop="static"
                 keyboard={false}
+                className="ll-modals"
             >
                 <Modal.Header closeButton>
                     <div className="ll-modal-header-container">
