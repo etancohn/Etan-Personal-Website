@@ -46,7 +46,11 @@
     opacity: 0.3;
 }
 
-.spinner-container {
+.ll-img-spinner-loading-false {
+    display: none!important;
+}
+
+.ll-img-spinner-loading-true {
     position: absolute;
     display: flex;
     justify-content: center;

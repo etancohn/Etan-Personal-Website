@@ -59,13 +59,13 @@
     margin-bottom: 2rem;
 }
 
-.ll-disclaimer {
+.ll-disclaimer-msg {
     width: 80%;
 }
 
-.ll-disclaimer p {
-    font-size: 0.8rem;
-    font-style: italic;
+.ll-disclaimer-msg p {
+    font-size: 0.75rem;
+    /* font-style: italic; */
     text-align: center;
 }
 
