@@ -102,7 +102,7 @@ async function makeApiRequest(text, currentWord) {
       },
     };
     gapi.client.request(request).then((response) => {
-        // Handle the API response.
+        // Handle the API response. 
 
         const base64AudioContent = response.result.audioContent
         const audioData = atob(base64AudioContent)
