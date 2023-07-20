@@ -103,8 +103,6 @@ async function makeApiRequest(text, currentWord) {
     };
     gapi.client.request(request).then((response) => {
         // Handle the API response.
-        console.log('API response:', response.result);
-        // Write the binary audio content to a local file
 
         const base64AudioContent = response.result.audioContent
         const audioData = atob(base64AudioContent)
