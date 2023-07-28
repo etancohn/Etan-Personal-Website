@@ -52,7 +52,7 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
     userPrompt = userPrompt.replace("--{language}--", language)
     userPrompt = userPrompt.replace("--{vocabWord}--", vocabWord.trim())
     
-    const options = {
+    const options = { 
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${API_KEY}`,
