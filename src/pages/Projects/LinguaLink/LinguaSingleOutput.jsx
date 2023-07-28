@@ -1,13 +1,13 @@
 import React from 'react'
 import AudioButton from './AudioButton'
 import GenerationText from './GenerationText'
-import './LinguaSingleOutput.css'
+import './LinguaSingleOutput.css' 
 
-function LinguaSingleOutput( {logo, title="TITLE", text="", isEven=false, num="0",
+function LinguaSingleOutput( {logo, title="TITLE", text="", num="0",
                               triggerGeneration, onCompletion, triggerBlank, numHistoryClicks,
                               TEXT_GENERATION_SLOWNESS, language, currentWord} ) {
     return (
-        <div className={`ll-output-box-item-container ${isEven ? "even-output-item" : "odd-output-item"} ll-num-${num}`}>
+        <div className={`ll-output-box-item-container ll-num-${num}`}>
             <img className="ll-output-box-logo" src={logo} />
             <div className="ll-output-box-item">
                 <div className="ll-item-text">
@@ -18,7 +18,7 @@ function LinguaSingleOutput( {logo, title="TITLE", text="", isEven=false, num="0
                     <div className="ll-my-wrapper">
                         <p className={`ll-output-text ll-output-text-${num}`}>
                             <GenerationText text={text.trim()} slowness={TEXT_GENERATION_SLOWNESS} triggerGeneration={triggerGeneration} 
-                                            num={parseInt(num)} onCompletion={onCompletion} triggerBlank={triggerBlank}
+                                            onCompletion={onCompletion} triggerBlank={triggerBlank}
                                             numHistoryClicks={numHistoryClicks} />
                         </p>
                     </div>

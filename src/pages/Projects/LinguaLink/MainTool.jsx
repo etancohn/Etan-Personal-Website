@@ -175,10 +175,10 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                       setCurrentWordIndex={setCurrentWordIndex} language={language} setGeneratedWord={setGeneratedWord} 
                       setIsGenerating={setIsGenerating} setCurrentWord={setCurrentWord}/>
 
-            {/* output boxes */}
+            {/* output boxes */} 
             <div className={`ll-output-box-container ll-output-is-loading-${isLoading}`}>
                 <LinguaSingleOutput logo={logo1} title="YOUR WORD" text={currentWord.word} 
-                                    isEven={true} num="1" triggerGeneration={triggerGeneration1}
+                                    num="1" triggerGeneration={triggerGeneration1}
                                     onCompletion={() => setTriggerGeneration2(true) } triggerBlank={triggerBlank} 
                                     numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
                                     language={language} currentWord={currentWord} />
@@ -188,7 +188,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                                     numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
                                     language={language} currentWord={currentWord} />
                 <LinguaSingleOutput logo={logo3} title="MNEMONIC" text={currentWord.association} 
-                                    isEven={true} num="3" triggerGeneration={triggerGeneration3}
+                                    num="3" triggerGeneration={triggerGeneration3}
                                     onCompletion={() => setTriggerGeneration4(true)} triggerBlank={triggerBlank}
                                     numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
                                     language={language} currentWord={currentWord} />
@@ -198,7 +198,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                                     numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
                                     language={language} currentWord={currentWord} />
                 <LinguaSingleOutput logo={logo5} title="EXPLANATION" text={currentWord.explanation} 
-                                    isEven={true} num="5" triggerGeneration={triggerGeneration5}
+                                    num="5" triggerGeneration={triggerGeneration5}
                                     onCompletion={() => resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerGeneration3,
                                                         setTriggerGeneration4, setTriggerGeneration5, setTriggerBlank)} 
                                     triggerBlank={triggerBlank} numHistoryClicks={numHistoryClicks} 
