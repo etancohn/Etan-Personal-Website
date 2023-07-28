@@ -29,7 +29,9 @@ function LinguaLink() {
     explanation: "",
     url: "",
     hasImage: false,
-    language: language
+    language: language,
+    pronunciation: "",
+    infinitive: ""
   }
   const [currentWord, setCurrentWord] = React.useState(initialWord)
 

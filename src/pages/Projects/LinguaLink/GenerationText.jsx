@@ -15,12 +15,13 @@ function GenerationText( { text="", slowness, triggerGeneration, onCompletion, t
     }, [triggerBlank])
 
     React.useMemo(() => {
+      let newContent
         const generateContent = async () => {
           if (!triggerGeneration) {
             return;
           }
           const letters = text.split('');
-          let newContent = '';
+          newContent = '';
     
           for (let index = 0; index < letters.length; index++) {
             const letter = letters[index];

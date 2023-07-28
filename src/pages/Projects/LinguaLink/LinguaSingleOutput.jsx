@@ -5,7 +5,8 @@ import './LinguaSingleOutput.css'
 
 function LinguaSingleOutput( {logo, title="TITLE", text="", num="0",
                               triggerGeneration, onCompletion, triggerBlank, numHistoryClicks,
-                              TEXT_GENERATION_SLOWNESS, language, currentWord} ) {
+                              TEXT_GENERATION_SLOWNESS, language, currentWord, infinitive="",
+                            secondTriggerGeneration=null, secondOnCompletion=null} ) {
     return (
         <div className={`ll-output-box-item-container ll-num-${num}`}>
             <img className="ll-output-box-logo" src={logo} />
@@ -16,11 +17,22 @@ function LinguaSingleOutput( {logo, title="TITLE", text="", num="0",
                         {num === "1" && <AudioButton text={text} language={language} currentWord={currentWord} />}
                     </div>
                     <div className="ll-my-wrapper">
-                        <p className={`ll-output-text ll-output-text-${num}`}>
+                        <div className={`ll-output-text ll-output-text-${num}`}>
                             <GenerationText text={text.trim()} slowness={TEXT_GENERATION_SLOWNESS} triggerGeneration={triggerGeneration} 
                                             onCompletion={onCompletion} triggerBlank={triggerBlank}
                                             numHistoryClicks={numHistoryClicks} />
-                        </p>
+                            {
+                                num === "1" && 
+                                infinitive !== "" && 
+                                (<div>
+                                    <GenerationText text={`infinitive: ${infinitive}`} slowness={TEXT_GENERATION_SLOWNESS}
+                                                triggerGeneration={secondTriggerGeneration} onCompletion={secondOnCompletion} 
+                                                triggerBlank={triggerBlank}
+                                                numHistoryClicks={numHistoryClicks} />
+                                </div>)
+                                // <div>{`infinitive: ${infinitive}`}</div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
