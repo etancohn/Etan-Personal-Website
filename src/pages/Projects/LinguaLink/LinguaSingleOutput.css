@@ -20,7 +20,7 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-.ll-item-title-with-audio-container {
+.ll-item-title-container {
     display: flex;
     /* align-items: center; */
     gap: 14px;
@@ -74,6 +74,7 @@
 
 .ll-item-title {
     font-weight: bold;
+    /* display: flex; */
 }
 
 .ll-title-1 {
@@ -92,6 +93,13 @@
     color: var(--green5);
 }
 
+.ll-more-mnemonics-btn {
+    width: 2rem;
+    height: 2rem;
+    margin-top: -0.2rem;
+    background-color: red;
+    cursor: pointer;
+}
 
 @media (max-width: 775px) {
     .ll-item-text {

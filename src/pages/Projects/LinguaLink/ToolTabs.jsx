@@ -190,10 +190,6 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                         </tbody>
                     </Table>
                 </div>
-                {/* <p>
-                    <span className="ll-bold">Welcome to Lingua Link!</span> Elevate your language learning experience to new heights through the fusion of 
-                    powerful memory techniques with cutting-edge AI technology.
-                </p> */}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={() => setShowWordInvalidModal(false)} className='ll-info-modal-continue-btn'>

@@ -8,6 +8,10 @@ import './MainTool.css'
 import LinguaSingleOutput from './LinguaSingleOutput'
 import ToolTabs from './ToolTabs'
 import { mnemonicFunction } from './data/mnemonic-function.js'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import main_logo from './pics/main_logo.png'
+import Table from 'react-bootstrap/Table';
 
 
 // API Key for authentication
@@ -220,7 +224,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     const [triggerGeneration5, setTriggerGeneration5] = React.useState(false)
     const [triggerBlank, setTriggerBlank] = React.useState(false)
     const [generatedWord, setGeneratedWord] = React.useState("")
-    // const [showWordInvalidModal, setShowWordInvalidModal] = React.useState(false)
+    const [displayExtraMnemonics, setDisplayExtraMnemonics] = React.useState(false)
 
     React.useEffect(() => {
         setVocabWord(currentWord.word)
@@ -263,7 +267,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                                     num="3" triggerGeneration={triggerGeneration3}
                                     onCompletion={() => setTriggerGeneration4(true)} triggerBlank={triggerBlank}
                                     numHistoryClicks={numHistoryClicks} TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS}
-                                    language={language} currentWord={currentWord} />
+                                    language={language} currentWord={currentWord} setDisplayExtraMnemonics={setDisplayExtraMnemonics} />
                 <LinguaSingleOutput logo={logo4} title="MENTAL IMAGE" text={currentWord.mentalImage} 
                                     num="4" triggerGeneration={triggerGeneration4} 
                                     onCompletion={() => setTriggerGeneration5(true)} triggerBlank={triggerBlank}
@@ -276,6 +280,33 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                                     triggerBlank={triggerBlank} numHistoryClicks={numHistoryClicks} 
                                     TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} language={language} currentWord={currentWord} />
             </div> 
+            <Modal
+                show={displayExtraMnemonics}
+                onHide={() => setDisplayExtraMnemonics(false)}
+                size='lg'
+                backdrop="static"
+                keyboard={false}
+                className="ll-modals"
+            >
+                <Modal.Header closeButton>
+                    <div className="ll-modal-header-container">
+                        <img src={main_logo} alt="lingua link logo" className='ll-modal-header-logo' />
+                        <Modal.Title className="ll-info-modal-title">EXTRA MNEMONICS</Modal.Title>
+                    </div>
+                </Modal.Header>
+                <Modal.Body className="ll-info-modal-body">
+                    <p>
+                        Hi.
+                    </p>
+                    {/* <div>
+                    </div> */}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={() => setDisplayExtraMnemonics(false)} className='ll-info-modal-continue-btn'>
+                        Continue
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }
