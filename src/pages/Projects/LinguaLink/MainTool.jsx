@@ -7,7 +7,7 @@ import logo5 from './pics/logo_5.png'
 import './MainTool.css'
 import LinguaSingleOutput from './LinguaSingleOutput'
 import ToolTabs from './ToolTabs'
-
+import { mnemonicFunction } from './data/mnemonic-function.js'
 
 
 // API Key for authentication
@@ -20,8 +20,8 @@ const TEXT_GENERATION_SLOWNESS = 5
 const GPT_TEMPERATURE = 0.4
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
-    setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
-    language) {
+    setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language, setShowWordInvalid=() => {},
+    setSimilarWords=() => {}) {
     // // max re-runs of GPT hit
     // if (numGPTRuns+1 > MAX_GPT_RUNS) { 
     //     setIsLoading(false)
@@ -60,166 +60,51 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
         },
         body: JSON.stringify({
             "model": "gpt-3.5-turbo",
-    "messages": [
-        // GPT conversation
-        {
-            "role": "system",
-            "content": systemMsgContent
-        },
-        {
-            "role": "user",
-            "content": example1Prompt
-        },
-        {
-            "role": "function",
-            "name": "display_mnemonic",
-            "content": example1Response
-        },
-        {
-            "role": "user",
-            "content": example2Prompt
-        },
-        {
-            "role": "function",
-            "name": "display_mnemonic",
-            "content": example2Response
-        },
-        {
-            "role": "user",
-            "content": example3Prompt
-        },
-        {
-            "role": "function",
-            "name": "display_mnemonic",
-            "content": example3Response
-        },
-        {
-            "role": "user",
-            "content": userPrompt
-        }
-    ],
-    // GPT function inputs to generate
-    "functions": [
-        {
-            "name": "display_mnemonic",
-            "description": "If the vocabulary word is not recognized, then similar words are displayed that the user may have meant. Otherwise, displays a mnemonic to help retain and be able to recall the translation of the vocabulary word. Also displays and a mental image for the mnemonic, as well as additional information.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "word_recognized": {
-                        "type": "boolean",
-                        "description": "True if vocabulary word is recognized and valid, false otherwise."
-                    },
-                    "similar_words": {
-                        "type": "array",
-                        "minItems": 0,
-                        "maxItems": 4,
-                        "description": "An array of similar words and their translations that the user may have meant instead of their mistaken input.",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "possible_word": {
-                                    "type": "string",
-                                    "description": "One of the similar words that the user may have meant instead of their mistaken input."
-                                },
-                                "possible_word_translation": {
-                                    "type": "string",
-                                    "description": "The translation of the word."
-                                }
-                            },
-                            "required": [
-                                "possible_word",
-                                "possible_word_translation"
-                            ]
-                        }
-                    },
-                    "word": {
-                        "type": "string",
-                        "description": "the vocabulary word."
-                    },
-                    "translation": {
-                        "type": "string",
-                        "description": "The word's translation."
-                    },
-                    "pronunciation": {
-                        "type": "string",
-                        "description": "The pronunciation or transliteration of the word. For Chinese vocabulary words, it is the pinyin.",
-                        "minLength": 1
-                    },
-                    "is_verb": {
-                        "type": "boolean",
-                        "definition": "Whether the vocabulary word is a verb or not."
-                    },
-                    "infinitive": {
-                        "type": "string",
-                        "description": "The infinitive form of the vocabulary word if it is a verb.",
-                        "minLength": 1
-                    },
-                    "mnemonic": {
-                        "type": "string",
-                        "description": "A short mnemonic with semantic similarity to the vocabulary word. The mnemonic must be a valid word or phrase in English."
-                    },
-                    "mental_image": {
-                        "type": "string",
-                        "description": "A vivid mental image that relates the mnemonic to the word's translation using Linkword Mnemonics and Elaborative Encoding. One phrase or sentence. No letters or words are displayed within the mental image."
-                    },
-                    "explanation": {
-                        "type": "string",
-                        "description": "An explanation to the user of how and why to effectively use the mnemonic as a Linkword to encode the mnemonic, and the mental image to recall the vocabulary word's translation the next time the word is encountered."
-                    }
+            "messages": [
+                // GPT conversation
+                {
+                    "role": "system",
+                    "content": systemMsgContent
                 },
-                "required": [
-                    "word_recognized"
-                ],
-                "if": {
-                    "properties": {
-                        "word_recognized": {
-                            "enum": [
-                                false
-                            ]
-                        }
-                    }
+                {
+                    "role": "user",
+                    "content": example1Prompt
                 },
-                "then": {
-                    "required": [
-                        "similar_words"
-                    ]
+                {
+                    "role": "function",
+                    "name": "display_mnemonic",
+                    "content": example1Response
                 },
-                "else": {
-                    "required": [
-                        "word",
-                        "translation",
-                        "pronunciation",
-                        "is_verb",
-                        "mnemonic",
-                        "mental_image",
-                        "explanation"
-                    ],
-                    "if": {
-                        "properties": {
-                            "is_verb": {
-                                "enum": [
-                                    true
-                                ]
-                            }
-                        }
-                    },
-                    "then": {
-                        "required": [
-                            "infinitive"
-                        ]
-                    }
+                {
+                    "role": "user",
+                    "content": example2Prompt
+                },
+                {
+                    "role": "function",
+                    "name": "display_mnemonic",
+                    "content": example2Response
+                },
+                {
+                    "role": "user",
+                    "content": example3Prompt
+                },
+                {
+                    "role": "function",
+                    "name": "display_mnemonic",
+                    "content": example3Response
+                },
+                {
+                    "role": "user",
+                    "content": userPrompt
                 }
-            }
-        }
-    ],
-    // "top_p": 0.1,
-    "max_tokens": 400,
-    "temperature": 0.4,
-    "function_call": {
-        "name": "display_mnemonic"
-    }
-            
+            ],
+            // GPT function inputs to generate
+            "functions": [mnemonicFunction],
+            "max_tokens": 400,
+            "temperature": GPT_TEMPERATURE,
+            "function_call": {
+                "name": "display_mnemonic"
+            }    
         })
     }
     try {
@@ -230,27 +115,42 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
         // Updating the output text with the received response
         const outputObj = JSON.parse(data.choices[0].message.function_call.arguments)
         console.log(outputObj)
+
         console.log(`recognized: ${outputObj.word_recognized}`)
         if (!outputObj.word_recognized) {
+            // word invalid
             console.log("NOT RECOGNIZED")
+            setSimilarWords(outputObj.similar_words)
             for (let i = 0; i < outputObj.similar_words.length; i++) {
                 console.log(`${outputObj.similar_words[i].possible_word} - ${outputObj.similar_words[i].possible_word_translation}`)
             }
-            alert("Sorry, your word was not found! Try again or try a different word.")
+
+            if (setShowWordInvalid == null) {
+                console.log("ERROR: setShowWordInvalidModal is null.")
+            }
+            setShowWordInvalid(true)
+            
+            // alert("Sorry, your word was not found! Try again or try a different word.")
             setIsLoading(false)
             return
         }
-        await parseGPTOutput(outputObj, setCurrentWord, vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, 
+        await parseGPTOutput(outputObj, setCurrentWord, vocabWord,
         setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language)
         } catch(error) {
             console.error(error);
     }
 }
 
-async function parseGPTOutput(outputObj, setCurrentWord, word, setIsLoading, numGPTRuns, setNumGPTRuns, 
+async function parseGPTOutput(outputObj, setCurrentWord, word,
     setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language) {
     // console.log(outputObj)
     if (word === "") { return }
+
+    const invalidOutput = (!outputObj || !outputObj.word || !outputObj.translation || !outputObj.mnemonic 
+                  || !outputObj.mental_image || !outputObj.explanation || !outputObj.pronunciation)
+    if (invalidOutput) {
+        console.log("INVALID OUTPUT!!! (something is undefined)")
+    }
 
     const newCurrent = {
         word: outputObj.word,
@@ -316,6 +216,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     const [triggerGeneration5, setTriggerGeneration5] = React.useState(false)
     const [triggerBlank, setTriggerBlank] = React.useState(false)
     const [generatedWord, setGeneratedWord] = React.useState("")
+    // const [showWordInvalidModal, setShowWordInvalidModal] = React.useState(false)
 
     React.useEffect(() => {
         setVocabWord(currentWord.word)
@@ -334,7 +235,9 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                       setVocabWord={setVocabWord} setIsLoading={setIsLoading} numGPTRuns={numGPTRuns} setNumGPTRuns={setNumGPTRuns} 
                       setTriggerGeneration1={setTriggerGeneration1} setTriggerBlank={setTriggerBlank} setHistory={setHistory} 
                       setCurrentWordIndex={setCurrentWordIndex} language={language} setGeneratedWord={setGeneratedWord} 
-                      setIsGenerating={setIsGenerating} setCurrentWord={setCurrentWord}/>
+                      setIsGenerating={setIsGenerating} setCurrentWord={setCurrentWord} 
+                    //   showWordInvalidModal={showWordInvalidModal} setShowWordInvalidModal={setShowWordInvalidModal} 
+                      />
 
             {/* output boxes */} 
             <div className={`ll-output-box-container ll-output-is-loading-${isLoading}`}>
@@ -368,7 +271,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                                                         setTriggerGeneration4, setTriggerGeneration5, setTriggerBlank, setTriggerGenerationInfinitive)} 
                                     triggerBlank={triggerBlank} numHistoryClicks={numHistoryClicks} 
                                     TEXT_GENERATION_SLOWNESS={TEXT_GENERATION_SLOWNESS} language={language} currentWord={currentWord} />
-            </div>  
+            </div> 
         </div>
     )
 }

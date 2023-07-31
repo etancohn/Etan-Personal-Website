@@ -3,6 +3,11 @@ import './ToolTabs.css'
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import LinguaGenerateRandom from './LinguaGenerateRandom'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import main_logo from './pics/main_logo.png'
+import Table from 'react-bootstrap/Table';
+
 
 function getExampleWord(language) {
     if (language === "Spanish") { return "rana" }
@@ -27,6 +32,8 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
     const [selectedRadio, setSelectedRadio] = React.useState("easy")
     const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false)
     const [triggerNewRandomWord, setTriggerNewRandomWord] = React.useState(false)
+    const [showWordInvalidModal, setShowWordInvalidModal] = React.useState(false)
+    const [similarWords, setSimilarWords] = React.useState([])
 
     // handle user pushing 'Enter'
     const handleKeyPressed = (e) => {
@@ -39,7 +46,7 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
             // if enter is pushed in "enter word" tab: either change focus to vocab word input or make API call
             if (vocabWordInputFocussed) {   
                 makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
-                            setHistory, setCurrentWordIndex, language)
+                            setHistory, setCurrentWordIndex, language, setShowWordInvalidModal, setSimilarWords)
                 vocabWordInputRef.current.blur()   // unfocus
             } else  {
                 vocabWordInputRef.current.focus()
@@ -56,6 +63,7 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
     })
 
     return (
+        <>
         <Tab.Container defaultActiveKey="enter-word">
             <Nav variant="tabs" fill className="mb-3 ll-nav-tabs" onSelect={(tabName) => setSelectedTab(tabName)}>
                 <Nav.Item className="ll-tool-nav-item">
@@ -92,7 +100,7 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                         className="submit-btn ll-btn ll-tool-submit-btn"
                         onClick={() => makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
                                                 setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
-                                                language)}>
+                                                language, setShowWordInvalidModal, setSimilarWords)}>
                             Submit
                     </button>
                 </div>
@@ -133,6 +141,58 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
             </Tab.Content>
         </Tab.Container>
 
+        {/* word not found modal */}
+        <Modal
+            show={showWordInvalidModal}
+            onHide={() => setShowWordInvalidModal(false)}
+            size='lg'
+            backdrop="static"
+            keyboard={false}
+            className="ll-modals"
+        >
+            <Modal.Header closeButton>
+                <div className="ll-modal-header-container">
+                    <img src={main_logo} alt="lingua link logo" className='ll-modal-header-logo' />
+                    <Modal.Title className="ll-info-modal-title">WORD NOT FOUND</Modal.Title>
+                </div>
+            </Modal.Header>
+            <Modal.Body className="ll-info-modal-body">
+                <p>
+                    Word <span className="ll-bold">'{vocabWord}'</span> not found in {language}. Similar words:
+                </p>
+                <div>
+                    <Table bordered hover size="lg" striped>
+                        <thead>
+                            <tr>
+                                <td>Word</td>
+                                <td>Translation</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            similarWords.map((word, index) => (  
+                                <tr key={index}>
+                                    <td>{word.possible_word}</td>
+                                    <td>{word.possible_word_translation}</td>
+                                </tr>                         
+                                // <div key={index}>{`${word.possible_word}: ${word.possible_word_translation}`}</div>
+                            ))
+                        }
+                        </tbody>
+                    </Table>
+                </div>
+                {/* <p>
+                    <span className="ll-bold">Welcome to Lingua Link!</span> Elevate your language learning experience to new heights through the fusion of 
+                    powerful memory techniques with cutting-edge AI technology.
+                </p> */}
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="primary" onClick={() => setShowWordInvalidModal(false)} className='ll-info-modal-continue-btn'>
+                    Continue
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    </>
     )
 }
 
