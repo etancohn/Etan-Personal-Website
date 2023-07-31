@@ -158,7 +158,8 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
             </Modal.Header>
             <Modal.Body className="ll-info-modal-body">
                 <p>
-                    Word <span className="ll-bold">'{vocabWord}'</span> not found in {language}. Similar words:
+                    Word <span className="ll-bold">'{vocabWord}'</span> not found in {language}. If you meant one of the
+                    words below, click it to get a mnemonic:
                 </p>
                 <div>
                     <Table bordered hover size="lg" striped>
