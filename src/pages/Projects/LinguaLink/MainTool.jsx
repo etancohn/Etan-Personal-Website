@@ -20,8 +20,8 @@ const TEXT_GENERATION_SLOWNESS = 5
 const GPT_TEMPERATURE = 0.4
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
-    setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language, setShowWordInvalid=() => {},
-    setSimilarWords=() => {}) {
+    setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language, setShowWordInvalid=(() => {}),
+    setSimilarWords=(() => {}), meaning="") {
     // // max re-runs of GPT hit
     // if (numGPTRuns+1 > MAX_GPT_RUNS) { 
     //     setIsLoading(false)
@@ -50,7 +50,11 @@ async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, s
     const example3Response = import.meta.env.VITE_EXAMPLE_3_RESPONSE
     let userPrompt = import.meta.env.VITE_USER_PROMPT
     userPrompt = userPrompt.replace("--{language}--", language)
-    userPrompt = userPrompt.replace("--{vocabWord}--", vocabWord.trim())
+    if (meaning != "") {
+        userPrompt = userPrompt.replace("--{vocabWord}--", `${vocabWord.trim()}, meaning '${meaning}'`)
+    } else {
+        userPrompt = userPrompt.replace("--{vocabWord}--", vocabWord.trim())
+    }
     
     const options = { 
         method: 'POST',

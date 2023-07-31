@@ -162,7 +162,7 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                 </p>
                 <div>
                     <Table bordered hover size="lg" striped>
-                        <thead>
+                        <thead className="ll-modal-tbl-header">
                             <tr>
                                 <td>Word</td>
                                 <td>Translation</td>
@@ -171,11 +171,19 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                         <tbody>
                         {
                             similarWords.map((word, index) => (  
-                                <tr key={index}>
+                                <tr key={index} className="ll-modal-tbl-row" 
+                                onClick={() => {
+                                    setShowWordInvalidModal(false)
+                                    setVocabWord(word.possible_word)
+                                    makeGPTCall(word.possible_word, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
+                                        setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
+                                        language, setShowWordInvalidModal, setSimilarWords, word.possible_word_translation)
+                                    }
+                                }
+                                >
                                     <td>{word.possible_word}</td>
                                     <td>{word.possible_word_translation}</td>
                                 </tr>                         
-                                // <div key={index}>{`${word.possible_word}: ${word.possible_word_translation}`}</div>
                             ))
                         }
                         </tbody>

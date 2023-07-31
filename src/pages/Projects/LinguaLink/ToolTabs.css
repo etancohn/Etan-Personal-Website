@@ -130,6 +130,14 @@
     width: 13rem;
 }
 
+.ll-modal-tbl-row {
+    cursor: pointer;
+}
+
+.ll-modal-tbl-header {
+    font-weight: bold;
+}
+
 @media (max-width: 1250px) {
     .ll-description-generate-random {
         width: 65%;
