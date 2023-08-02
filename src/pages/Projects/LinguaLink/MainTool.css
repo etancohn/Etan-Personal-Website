@@ -11,3 +11,19 @@
     opacity: 0.3;
     cursor: wait;
 }
+
+.ll-extra-mnemonics-tbl-loading-true {
+    opacity: 0.3;
+}
+
+.ll-extra-mnemonics-tbl-loading-true {
+    display: none;
+}
+
+/* .ll-loading-spinner-true {
+    display: block;
+} */
+
+.ll-loading-spinner-false {
+    display: none!important;
+}

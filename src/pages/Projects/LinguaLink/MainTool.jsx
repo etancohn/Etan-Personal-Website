@@ -12,6 +12,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import main_logo from './pics/main_logo.png'
 import Table from 'react-bootstrap/Table';
+import Spinner from 'react-bootstrap/Spinner';
+
 
 
 // API Key for authentication
@@ -225,6 +227,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     const [triggerBlank, setTriggerBlank] = React.useState(false)
     const [generatedWord, setGeneratedWord] = React.useState("")
     const [displayExtraMnemonics, setDisplayExtraMnemonics] = React.useState(false)
+    const [extraMnemonicsLoading, setExtraMnemonicsLoading] = React.useState(false)
 
     React.useEffect(() => {
         setVocabWord(currentWord.word)
@@ -236,6 +239,17 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
         makeGPTCall(generatedWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
             setHistory, setCurrentWordIndex, language)
     }, [generatedWord])
+
+    React.useEffect(() => {
+        if (displayExtraMnemonics) {
+            console.log("clicked.")
+            setExtraMnemonicsLoading(true)
+            setTimeout(() => {
+                console.log("done.")
+                setExtraMnemonicsLoading(false)
+            }, 2000)
+        }
+    }, [displayExtraMnemonics])
 
     return (
         <div className="main-tool">
@@ -295,9 +309,38 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                     </div>
                 </Modal.Header>
                 <Modal.Body className="ll-info-modal-body">
-                    <p>
-                        Hi.
-                    </p>
+                    <Table bordered hover size="lg" striped 
+                    className={`ll-extra-mnemonics-tbl-loading-${extraMnemonicsLoading}`}
+                    >
+                        <thead className="ll-modal-tbl-header">
+                            <tr className={`ll-extra-mnemonics-tbl-loading-${extraMnemonicsLoading}`}>
+                                <td>Mnemonic</td>
+                                <td>Mental Image</td>
+                            </tr>
+                        </thead>
+
+                        
+                        {/* <tbody>
+                        {
+                            similarWords.map((word, index) => (  
+                                <tr key={index} className="ll-modal-tbl-row" 
+                                onClick={() => {
+                                    setShowWordInvalidModal(false)
+                                    setVocabWord(word.possible_word)
+                                    makeGPTCall(word.possible_word, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
+                                        setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
+                                        language, setShowWordInvalidModal, setSimilarWords, word.possible_word_translation)
+                                    }
+                                }
+                                >
+                                    <td>{word.possible_word}</td>
+                                    <td>{word.possible_word_translation}</td>
+                                </tr>                         
+                            ))
+                        }
+                        </tbody> */}
+                    </Table>
+                    <Spinner className={`ll-loading-spinner-${extraMnemonicsLoading}`} />
                     {/* <div>
                     </div> */}
                 </Modal.Body>
