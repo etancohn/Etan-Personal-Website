@@ -25,6 +25,108 @@ const MAX_HISTORY_LENGTH = 40
 const TEXT_GENERATION_SLOWNESS = 5
 const GPT_TEMPERATURE = 0.4
 
+async function extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics) {
+    const options = { 
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${API_KEY}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "model": "gpt-3.5-turbo",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are a language learning tool that generates mnemonics and corresponding mental images for language learners to use to remember new vocabulary words. The user will give a vocabulary word and its translation. First, evaluate the word and its translation. Then, utilize the memory techniques Linkword Mnemonics and Elaborative Encoding to generate a mnemonic that is memorable, easy to recall, and has semantic similarity to the vocabulary word. Then, after you are done creating a mnemonic, generate a matching mental image that relates the mnemonic to the word's translation."
+                },
+                {
+                    "role": "user",
+                    "content": "Please generate and display several mnemonics and matching mental images to help me remember the Spanish vocabulary word 'beber', meaning 'to drink'."
+                },
+                {
+                    "role": "function",
+                    "name": "display_mnemonics",
+                    "content": '{\n  \"word\": \"beber\",\n  \"translation\": \"to drink\",\n  \"mnemonics\": [\n    {\n      \"mnemonic\": \"beer bottle\",\n      \"mental_image\": \"A bottle of beer being poured into a mug for somebody to drink.\"\n    },\n    {\n      \"mnemonic\": \"Bieber\",\n      \"mental_image\": \"Justin Bieber drinking a glass of cold water as he prepares to go onstage.\"\n    },\n    {\n      \"mnemonic\": \"beaver\",\n      \"mental_image\": \"A beaver leaning over a river to drink its water.\"\n    },\n    {\n      \"mnemonic\": \"baby bear\",\n      \"mental_image\": \"A cute baby bear drinking from a glass.\"\n}'
+                },
+                {
+                    "role": "user",
+                    "content": `Please generate and display several mnemonics and matching mental images to help me remember the Spanish vocabulary word '${currentWord.word}', meaning '${currentWord.translation}'.`
+                }
+            ],
+            "functions": [
+                {
+                    "name": "display_mnemonics",
+                    "description": "Displays mnemonics and a mental image for each mnemonic to help retain and be able to recall the translation of the vocabulary word.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "word": {
+                                "type": "string",
+                                "description": "the vocabulary word."
+                            },
+                            "translation": {
+                                "type": "string",
+                                "description": "The word's translation."
+                            },
+                            "mnemonics": {
+                                "type": "array",
+                                "minItems": 3,
+                                "maxItems": 5,
+                                "uniqueItems": true,
+                                "description": "An array of mnemonics and their matching mental image. Sorted by how good the mnemonic is for remembering the vocabulary word (the best mnemonic goes first).",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "mnemonic": {
+                                            "type": "string",
+                                            "description": "A short linkword mnemonic with semantic similarity to the vocabulary word. The mnemonic must be a valid word or phrase in English."
+                                        },
+                                        "mental_image": {
+                                            "type": "string",
+                                            "description": "A vivid mental image that relates the mnemonic to the word's translation using Linkword Mnemonics and Elaborative Encoding. One phrase or sentence. No letters or words are displayed within the mental image."
+                                        }
+                                    },
+                                    "required": [
+                                        "mnemonic",
+                                        "mental_image"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "word",
+                            "translation",
+                            "mnemonics"
+                        ]
+                    }
+                }
+            ],
+            "max_tokens": 400,
+            "temperature": 0.4,
+            "function_call": {
+                "name": "display_mnemonics"
+            } 
+        })
+    }
+    try {
+        // Sending the API request and getting the response
+        const response = await fetch('https://api.openai.com/v1/chat/completions', options);
+        const data = await response.json();
+        console.log("FINISHED GPT MNEMONICS CALL.")
+        // console.log(data)
+        const outputObj = JSON.parse(data.choices[0].message.function_call.arguments)
+        console.log(outputObj)
+        setExtraMnemonics(outputObj.mnemonics)
+        setExtraMnemonicsLoading(false)
+    } catch(error) {
+        console.error(error)
+    }
+    // setTimeout(() => {
+    //     console.log("DONE.")
+    //     setExtraMnemonicsLoading(false)
+    // }, 2000)
+}
+
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
     setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language, setShowWordInvalid=(() => {}),
     setSimilarWords=(() => {}), meaning="") {
@@ -228,6 +330,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     const [generatedWord, setGeneratedWord] = React.useState("")
     const [displayExtraMnemonics, setDisplayExtraMnemonics] = React.useState(false)
     const [extraMnemonicsLoading, setExtraMnemonicsLoading] = React.useState(false)
+    const [extraMnemonics, setExtraMnemonics] = React.useState([])
 
     React.useEffect(() => {
         setVocabWord(currentWord.word)
@@ -244,10 +347,11 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
         if (displayExtraMnemonics) {
             console.log("clicked.")
             setExtraMnemonicsLoading(true)
-            setTimeout(() => {
-                console.log("done.")
-                setExtraMnemonicsLoading(false)
-            }, 2000)
+            extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics)
+            // setTimeout(() => {
+            //     console.log("done.")
+            //     setExtraMnemonicsLoading(false)
+            // }, 2000)
         }
     }, [displayExtraMnemonics])
 
@@ -320,25 +424,25 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                         </thead>
 
                         
-                        {/* <tbody>
+                        <tbody>
                         {
-                            similarWords.map((word, index) => (  
+                            extraMnemonics.map((extraMnemonic, index) => (  
                                 <tr key={index} className="ll-modal-tbl-row" 
-                                onClick={() => {
-                                    setShowWordInvalidModal(false)
-                                    setVocabWord(word.possible_word)
-                                    makeGPTCall(word.possible_word, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
-                                        setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
-                                        language, setShowWordInvalidModal, setSimilarWords, word.possible_word_translation)
-                                    }
-                                }
+                                // onClick={() => {
+                                //     setShowWordInvalidModal(false)
+                                //     setVocabWord(word.possible_word)
+                                //     makeGPTCall(word.possible_word, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
+                                //         setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
+                                //         language, setShowWordInvalidModal, setSimilarWords, word.possible_word_translation)
+                                //     }
+                                // }
                                 >
-                                    <td>{word.possible_word}</td>
-                                    <td>{word.possible_word_translation}</td>
+                                    <td>{extraMnemonic.mnemonic}</td>
+                                    <td>{extraMnemonic.mental_image}</td>
                                 </tr>                         
                             ))
                         }
-                        </tbody> */}
+                        </tbody>
                     </Table>
                     <Spinner className={`ll-loading-spinner-${extraMnemonicsLoading}`} />
                     {/* <div>
