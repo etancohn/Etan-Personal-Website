@@ -2,6 +2,8 @@ import React from 'react'
 import AudioButton from './AudioButton'
 import GenerationText from './GenerationText'
 import './LinguaSingleOutput.css' 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function LinguaSingleOutput( {logo, title="TITLE", text="", num="0",
                               triggerGeneration, onCompletion, triggerBlank, numHistoryClicks,
@@ -18,7 +20,10 @@ function LinguaSingleOutput( {logo, title="TITLE", text="", num="0",
                         {num === "1" && <AudioButton text={text} language={language} currentWord={currentWord} />}
                         {
                             num === "3" &&
-                            <div className="ll-more-mnemonics-btn" onClick={() => setDisplayExtraMnemonics(true)}></div>
+                            <div className={`ll-more-mnemonics-btn ll-more-mnemonics-btn-allowed-${currentWord.word.trim() === ""}`}
+                            onClick={() => setDisplayExtraMnemonics(true)}>
+                                <FontAwesomeIcon icon={faPlus} size="xl" style={{color: "var(--green3)"}} />
+                            </div>
                         }
                     </div>
                     <div className="ll-my-wrapper">

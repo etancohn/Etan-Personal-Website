@@ -26,6 +26,9 @@ const TEXT_GENERATION_SLOWNESS = 5
 const GPT_TEMPERATURE = 0.4
 
 async function extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics) {
+    if (currentWord.word.trim() === "") {
+        return
+    }
     const options = { 
         method: 'POST',
         headers: {
@@ -335,6 +338,10 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     React.useEffect(() => {
         setVocabWord(currentWord.word)
         setIsLoading(false)
+
+        console.log(`CURRENT WORD: '${currentWord.word}'`)
+        setExtraMnemonicsLoading(true)
+        extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics)
     }, [currentWord])
 
     React.useEffect(() => {
@@ -346,12 +353,8 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     React.useEffect(() => {
         if (displayExtraMnemonics) {
             console.log("clicked.")
-            setExtraMnemonicsLoading(true)
-            extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics)
-            // setTimeout(() => {
-            //     console.log("done.")
-            //     setExtraMnemonicsLoading(false)
-            // }, 2000)
+            // setExtraMnemonicsLoading(true)
+            // extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics)
         }
     }, [displayExtraMnemonics])
 
@@ -362,7 +365,6 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                       setTriggerGeneration1={setTriggerGeneration1} setTriggerBlank={setTriggerBlank} setHistory={setHistory} 
                       setCurrentWordIndex={setCurrentWordIndex} language={language} setGeneratedWord={setGeneratedWord} 
                       setIsGenerating={setIsGenerating} setCurrentWord={setCurrentWord} 
-                    //   showWordInvalidModal={showWordInvalidModal} setShowWordInvalidModal={setShowWordInvalidModal} 
                       />
 
             {/* output boxes */} 
@@ -418,25 +420,20 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                     >
                         <thead className="ll-modal-tbl-header">
                             <tr className={`ll-extra-mnemonics-tbl-loading-${extraMnemonicsLoading}`}>
+                                <td>Word</td>
+                                <td>Translation</td>
                                 <td>Mnemonic</td>
                                 <td>Mental Image</td>
                             </tr>
                         </thead>
-
-                        
+    
                         <tbody>
                         {
                             extraMnemonics.map((extraMnemonic, index) => (  
                                 <tr key={index} className="ll-modal-tbl-row" 
-                                // onClick={() => {
-                                //     setShowWordInvalidModal(false)
-                                //     setVocabWord(word.possible_word)
-                                //     makeGPTCall(word.possible_word, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
-                                //         setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
-                                //         language, setShowWordInvalidModal, setSimilarWords, word.possible_word_translation)
-                                //     }
-                                // }
                                 >
+                                    <td>{currentWord.word}</td>
+                                    <td>{currentWord.translation}</td>
                                     <td>{extraMnemonic.mnemonic}</td>
                                     <td>{extraMnemonic.mental_image}</td>
                                 </tr>                         
