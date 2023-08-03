@@ -21,9 +21,7 @@ const TEXT_GENERATION_SLOWNESS = 5
 const GPT_TEMPERATURE = 0.4
 
 async function extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics) {
-    if (currentWord.word.trim() === "") {
-        return
-    }
+    if (currentWord.word.trim() === "") { return }
     const options = { 
         method: 'POST',
         headers: {
@@ -122,23 +120,7 @@ async function extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setE
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
     setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language, setShowWordInvalid=(() => {}),
     setSimilarWords=(() => {}), meaning="") {
-    // // max re-runs of GPT hit
-    // if (numGPTRuns+1 > MAX_GPT_RUNS) { 
-    //     setIsLoading(false)
-    //     const newCurrent = {
-    //         word: vocabWord,
-    //         translation: "An error has occurred. Please try submitting again.",
-    //         association: " ",
-    //         mentalImage: " ",
-    //         explanation: " ",
-    //         outputText: " ",
-    //         url: "",
-    //         language: ""
-    //     }
-    //     setCurrentWord(newCurrent)
-    //     setNumGPTRuns(0)
-    //     return
-    // }
+    if (vocabWord.trim() === "") { return }
     setIsLoading(true)
     // Query string for the API request
     const systemMsgContent = import.meta.env.VITE_SYSTEM_MESSAGE_CONTENT
@@ -281,19 +263,6 @@ async function parseGPTOutput(outputObj, setCurrentWord, word,
     setTriggerBlank(true)
     setTriggerGeneration1(true)
 }
-
-
-// const llOutputInvalid = (translation === '' || association === '' 
-//     || mentalImage === '' || explanation === '')
-
-// if (llOutputInvalid) {
-//     await setNumGPTRuns(numGPTRuns+1)
-//     console.log(`INVALID - RERUN ("${word}") (${numGPTRuns+1})`)
-//     await makeGPTCall(word, setIsLoading, numGPTRuns+1, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
-//     setHistory, setCurrentWordIndex, language)
-//     return
-// } 
-
 
 function resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerGeneration3, setTriggerGeneration4, 
                        setTriggerGeneration5, setTriggerBlank, setTriggerGenerationInfinitive) {

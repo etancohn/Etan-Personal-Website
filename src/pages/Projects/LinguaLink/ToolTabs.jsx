@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import main_logo from './pics/main_logo.png'
 import Table from 'react-bootstrap/Table';
+import CloseButton from 'react-bootstrap/esm/CloseButton';
 
 
 function getExampleWord(language) {
@@ -85,16 +86,24 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                     <h4 className="ll-description-enter-word">
                         Type in a {language} word below.
                     </h4>
-                    <input 
-                        className="vocab-word-input"
-                        type="text" 
-                        placeholder={`ex: ${getExampleWord(language)}`} 
-                        value={vocabWord}
-                        ref={vocabWordInputRef}
-                        onFocus={() => setVocabWordInputFocussed(true)}
-                        onBlur={() => setVocabWordInputFocussed(false)}
-                        onChange={(e) => setVocabWord(e.target.value)}>
-                    </input>
+                    <div className="ll-word-input-with-clear-container">
+                        <input 
+                            className="vocab-word-input"
+                            type="text" 
+                            placeholder={`ex: ${getExampleWord(language)}`} 
+                            value={vocabWord}
+                            ref={vocabWordInputRef}
+                            onFocus={() => setVocabWordInputFocussed(true)}
+                            // onBlur={() => {
+                            //     setVocabWordInputFocussed(false)
+                            // }}
+                            onChange={(e) => setVocabWord(e.target.value)}>
+                        </input>
+                        {
+                        vocabWordInputFocussed && vocabWord != "" && (
+                            <CloseButton className="ll-reset-input-txt-btn" onClick={() => setVocabWord("")} />
+                        )}
+                    </div>
                     <button 
                         className="submit-btn ll-btn ll-tool-submit-btn"
                         onClick={() => makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
