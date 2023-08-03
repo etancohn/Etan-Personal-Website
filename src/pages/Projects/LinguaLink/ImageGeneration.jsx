@@ -77,7 +77,7 @@ function imageDisplay(url, isLoading, imagesLeft, imageExpired, setImageExpired)
     const displayNoImagesLeftMsg = (url === "" && imagesLeft <= 0)
     return (
         <div className={`ll-img-container ll-img-is-loading-${isLoading}`}>
-            {displayDefaultMsg && <p className='ll-img-msg'>Generate an image to help remember the association!</p>}
+            {displayDefaultMsg && <p className='ll-img-msg'>Generate an image to help remember the vocab word!</p>}
             {displayImage && 
                     <img src={url} alt="word association mental image" onError={() => setImageExpired(true)}>
                     </img>}

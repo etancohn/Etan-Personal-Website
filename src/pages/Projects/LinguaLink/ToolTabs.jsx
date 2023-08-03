@@ -83,9 +83,8 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                 <Tab.Pane eventKey="enter-word" className="justify-content-center">
                 <div className="vocab-input-container">
                     <h4 className="ll-description-enter-word">
-                        Type in a {language} word below. (You can change the language in the language settings.)
+                        Type in a {language} word below.
                     </h4>
-                    {/* <h4 className="project-mini-title ll-title">VOCAB WORD</h4> */}
                     <input 
                         className="vocab-word-input"
                         type="text" 

@@ -124,10 +124,6 @@ async function extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setE
     } catch(error) {
         console.error(error)
     }
-    // setTimeout(() => {
-    //     console.log("DONE.")
-    //     setExtraMnemonicsLoading(false)
-    // }, 2000)
 }
 
 async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
@@ -262,7 +258,7 @@ async function parseGPTOutput(outputObj, setCurrentWord, word,
     if (word === "") { return }
 
     const invalidOutput = (!outputObj || !outputObj.word || !outputObj.translation || !outputObj.mnemonic 
-                  || !outputObj.mental_image || !outputObj.explanation || !outputObj.pronunciation)
+                  || !outputObj.mental_image || !outputObj.explanation)
     if (invalidOutput) {
         console.log("INVALID OUTPUT!!! (something is undefined)")
     }
@@ -276,7 +272,7 @@ async function parseGPTOutput(outputObj, setCurrentWord, word,
         url: "",
         hasImage: false,
         language: language,
-        pronunciation: outputObj.pronunciation,
+        pronunciation: outputObj.pronunciation ? outputObj.pronunciation : "",  // empty str if not found in output
         infinitive: outputObj.is_verb ? outputObj.infinitive : ""
     }
 
@@ -415,13 +411,15 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                     </div>
                 </Modal.Header>
                 <Modal.Body className="ll-info-modal-body">
+                    <div className="ll-extra-mnemonics-word-info">
+                        <div><span className="ll-bold">Word - </span>{currentWord.word}</div>
+                        <div><span className="ll-bold">Translantion - </span>{currentWord.translation}</div>
+                    </div>
                     <Table bordered hover size="lg" striped 
                     className={`ll-extra-mnemonics-tbl-loading-${extraMnemonicsLoading}`}
                     >
                         <thead className="ll-modal-tbl-header">
                             <tr className={`ll-extra-mnemonics-tbl-loading-${extraMnemonicsLoading}`}>
-                                <td>Word</td>
-                                <td>Translation</td>
                                 <td>Mnemonic</td>
                                 <td>Mental Image</td>
                             </tr>
@@ -432,8 +430,6 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                             extraMnemonics.map((extraMnemonic, index) => (  
                                 <tr key={index} className="ll-modal-tbl-row" 
                                 >
-                                    <td>{currentWord.word}</td>
-                                    <td>{currentWord.translation}</td>
                                     <td>{extraMnemonic.mnemonic}</td>
                                     <td>{extraMnemonic.mental_image}</td>
                                 </tr>                         

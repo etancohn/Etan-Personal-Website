@@ -20,10 +20,10 @@
     display: none;
 }
 
-/* .ll-loading-spinner-true {
-    display: block;
-} */
-
 .ll-loading-spinner-false {
     display: none!important;
+}
+
+.ll-extra-mnemonics-word-info {
+    margin-bottom: 1rem;
 }
