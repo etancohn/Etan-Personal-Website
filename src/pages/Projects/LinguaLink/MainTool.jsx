@@ -9,19 +9,13 @@ import LinguaSingleOutput from './LinguaSingleOutput'
 import ToolTabs from './ToolTabs'
 import { mnemonicFunction } from './data/mnemonic-function.js'
 import ExtraMnemonicsModal from './ExtraMnemonicsModal'
-// import Button from 'react-bootstrap/Button';
-// import Modal from 'react-bootstrap/Modal';
-// import main_logo from './pics/main_logo.png'
-// import Table from 'react-bootstrap/Table';
-// import Spinner from 'react-bootstrap/Spinner';
-
 
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 
 // changeable constants
-const MAX_GPT_RUNS = 10
+// const MAX_GPT_RUNS = 10
 const MAX_HISTORY_LENGTH = 40
 const TEXT_GENERATION_SLOWNESS = 5
 const GPT_TEMPERATURE = 0.4
@@ -117,9 +111,7 @@ async function extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setE
         const response = await fetch('https://api.openai.com/v1/chat/completions', options);
         const data = await response.json();
         console.log("FINISHED GPT MNEMONICS CALL.")
-        // console.log(data)
         const outputObj = JSON.parse(data.choices[0].message.function_call.arguments)
-        console.log(outputObj)
         setExtraMnemonics(outputObj.mnemonics)
         setExtraMnemonicsLoading(false)
     } catch(error) {
@@ -337,8 +329,10 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
         setIsLoading(false)
 
         console.log(`CURRENT WORD: '${currentWord.word}'`)
-        setExtraMnemonicsLoading(true)
-        extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics)
+        if (currentWord.word.trim() !== "") {
+            setExtraMnemonicsLoading(true)
+            extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics)
+        }
     }, [currentWord])
 
     React.useEffect(() => {
@@ -346,14 +340,6 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
         makeGPTCall(generatedWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
             setHistory, setCurrentWordIndex, language)
     }, [generatedWord])
-
-    React.useEffect(() => {
-        if (displayExtraMnemonics) {
-            console.log("clicked.")
-            // setExtraMnemonicsLoading(true)
-            // extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics)
-        }
-    }, [displayExtraMnemonics])
 
     return (
         <div className="main-tool">

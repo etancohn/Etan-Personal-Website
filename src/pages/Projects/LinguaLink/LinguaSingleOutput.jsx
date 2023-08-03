@@ -21,7 +21,7 @@ function LinguaSingleOutput( {logo, title="TITLE", text="", num="0",
                         {
                             num === "3" &&
                             <div className={`ll-more-mnemonics-btn ll-more-mnemonics-btn-allowed-${currentWord.word.trim() === ""}`}
-                            onClick={() => setDisplayExtraMnemonics(true)}>
+                            onClick={() => currentWord.word.trim() !== "" && setDisplayExtraMnemonics(true)}>
                                 <FontAwesomeIcon icon={faPlus} size="xl" style={{color: "var(--green3)"}} />
                             </div>
                         }
