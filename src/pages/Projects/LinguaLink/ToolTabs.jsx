@@ -3,11 +3,8 @@ import './ToolTabs.css'
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import LinguaGenerateRandom from './LinguaGenerateRandom'
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import main_logo from './pics/main_logo.png'
-import Table from 'react-bootstrap/Table';
 import CloseButton from 'react-bootstrap/esm/CloseButton';
+import WordNotFoundModal from './WordNotFoundModal';
 
 
 function getExampleWord(language) {
@@ -46,7 +43,7 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
             }
             // if enter is pushed in "enter word" tab: either change focus to vocab word input or make API call
             if (vocabWordInputFocussed) {   
-                makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
+                makeGPTCall(vocabWord, setIsLoading, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
                             setHistory, setCurrentWordIndex, language, setShowWordInvalidModal, setSimilarWords)
                 vocabWordInputRef.current.blur()   // unfocus
             } else  {
@@ -109,7 +106,7 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                     </div>
                     <button 
                         className="submit-btn ll-btn ll-tool-submit-btn"
-                        onClick={() => makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
+                        onClick={() => makeGPTCall(vocabWord, setIsLoading, setCurrentWord, 
                                                 setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
                                                 language, setShowWordInvalidModal, setSimilarWords)}>
                             Submit
@@ -152,62 +149,12 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
             </Tab.Content>
         </Tab.Container>
 
-        {/* word not found modal */}
-        <Modal
-            show={showWordInvalidModal}
-            onHide={() => setShowWordInvalidModal(false)}
-            size='lg'
-            backdrop="static"
-            keyboard={false}
-            className="ll-modals"
-        >
-            <Modal.Header closeButton>
-                <div className="ll-modal-header-container">
-                    <img src={main_logo} alt="lingua link logo" className='ll-modal-header-logo' />
-                    <Modal.Title className="ll-info-modal-title">WORD NOT FOUND</Modal.Title>
-                </div>
-            </Modal.Header>
-            <Modal.Body className="ll-info-modal-body">
-                <p>
-                    Word <span className="ll-bold">'{vocabWord}'</span> not found in {language}. If you meant one of the
-                    words below, click it to get a mnemonic:
-                </p>
-                <div>
-                    <Table bordered hover size="lg" striped>
-                        <thead className="ll-modal-tbl-header">
-                            <tr>
-                                <td>Word</td>
-                                <td>Translation</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            similarWords.map((word, index) => (  
-                                <tr key={index} className="ll-modal-tbl-row" 
-                                onClick={() => {
-                                    setShowWordInvalidModal(false)
-                                    setVocabWord(word.possible_word)
-                                    makeGPTCall(word.possible_word, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
-                                        setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
-                                        language, setShowWordInvalidModal, setSimilarWords, word.possible_word_translation)
-                                    }
-                                }
-                                >
-                                    <td>{word.possible_word}</td>
-                                    <td>{word.possible_word_translation}</td>
-                                </tr>                         
-                            ))
-                        }
-                        </tbody>
-                    </Table>
-                </div>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="primary" onClick={() => setShowWordInvalidModal(false)} className='ll-info-modal-continue-btn'>
-                    Continue
-                </Button>
-            </Modal.Footer>
-        </Modal>
+        <WordNotFoundModal vocabWord={vocabWord} setVocabWord={setVocabWord} language={language} makeGPTCall={makeGPTCall} 
+                setCurrentWord={setCurrentWord} setTriggerGeneration1={setTriggerGeneration1} setTriggerBlank={setTriggerBlank}
+                setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex} showWordInvalidModal={showWordInvalidModal}
+                setShowWordInvalidModal={setShowWordInvalidModal} similarWords={similarWords} setSimilarWords={setSimilarWords}
+                setIsLoading={setIsLoading} />
+        
     </>
     )
 }

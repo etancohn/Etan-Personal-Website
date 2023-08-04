@@ -117,7 +117,7 @@ async function extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setE
     }
 }
 
-async function makeGPTCall(vocabWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, 
+async function makeGPTCall(vocabWord, setIsLoading, setCurrentWord, 
     setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language, setShowWordInvalid=(() => {}),
     setSimilarWords=(() => {}), meaning="") {
     if (vocabWord.trim() === "") { return }
@@ -306,7 +306,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
 
     React.useEffect(() => {
         if (generatedWord.trim() === "") { return }
-        makeGPTCall(generatedWord, setIsLoading, numGPTRuns, setNumGPTRuns, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
+        makeGPTCall(generatedWord, setIsLoading, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
             setHistory, setCurrentWordIndex, language)
     }, [generatedWord])
 
