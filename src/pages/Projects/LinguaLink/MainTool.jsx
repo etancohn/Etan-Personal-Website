@@ -117,11 +117,56 @@ async function extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setE
     }
 }
 
-async function makeGPTCall(vocabWord, setIsLoading, setCurrentWord, 
+// Calls makeGPTCall(), and also 
+async function makeGPTCallWrapper(vocabWord, setIsLoading, setCurrentWord, 
     setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language, setShowWordInvalid=(() => {}),
     setSimilarWords=(() => {}), meaning="") {
     if (vocabWord.trim() === "") { return }
     setIsLoading(true)
+    makeGPTCall(vocabWord, language, meaning)
+        .then((outputObj) => {
+            if (!outputObj.word_recognized) {
+                // word not recognized, display modal
+                setSimilarWords(outputObj.similar_words)
+                if (setShowWordInvalid == null) { console.log("ERROR: setShowWordInvalidModal is null.") }
+                setShowWordInvalid(true)
+                setIsLoading(false)
+                return
+            }
+            // if (vocabWord === "") { return }
+
+            // parse output
+            const newCurrent = {
+                word: outputObj.word,
+                translation: outputObj.translation,
+                association: outputObj.mnemonic,
+                mentalImage: outputObj.mental_image,
+                explanation: outputObj.explanation,
+                url: "",
+                hasImage: false,
+                language: language,
+                pronunciation: outputObj.pronunciation ? outputObj.pronunciation : "",  // empty str if not found in output
+                infinitive: outputObj.is_verb ? outputObj.infinitive : ""
+            }
+
+            setHistory(prevHistory => {
+                let updatedHistory = [...prevHistory, newCurrent]
+                if (updatedHistory.length > MAX_HISTORY_LENGTH) {
+                    updatedHistory = updatedHistory.slice(updatedHistory.length - MAX_HISTORY_LENGTH, updatedHistory.length)
+                }
+                setCurrentWordIndex(updatedHistory.length - 1)
+                return updatedHistory
+                })
+            setCurrentWord(newCurrent)
+            setTriggerBlank(true)
+            setTriggerGeneration1(true)
+        })
+}
+
+// GPT call to get the word mnemonic, mental image, etc.
+async function makeGPTCall(vocabWord, language, meaning="") {
+    // if (vocabWord.trim() === "") { return }
+    // setIsLoading(true)
     // Query string for the API request
     const systemMsgContent = import.meta.env.VITE_SYSTEM_MESSAGE_CONTENT
     const example1Prompt = import.meta.env.VITE_EXAMPLE_1_PROMPT
@@ -200,28 +245,26 @@ async function makeGPTCall(vocabWord, setIsLoading, setCurrentWord,
 
         // Updating the output text with the received response
         const outputObj = JSON.parse(data.choices[0].message.function_call.arguments)
-        console.log(outputObj)
+        // console.log(outputObj)
 
-        console.log(`recognized: ${outputObj.word_recognized}`)
-        if (!outputObj.word_recognized) {
-            // word invalid
-            console.log("NOT RECOGNIZED")
-            setSimilarWords(outputObj.similar_words)
-            for (let i = 0; i < outputObj.similar_words.length; i++) {
-                console.log(`${outputObj.similar_words[i].possible_word} - ${outputObj.similar_words[i].possible_word_translation}`)
-            }
-
-            if (setShowWordInvalid == null) {
-                console.log("ERROR: setShowWordInvalidModal is null.")
-            }
-            setShowWordInvalid(true)
-            
-            // alert("Sorry, your word was not found! Try again or try a different word.")
-            setIsLoading(false)
-            return
+        const invalidOutput = outputObj.word_recognized && (!outputObj || !outputObj.word || !outputObj.translation 
+            || !outputObj.mnemonic || !outputObj.mental_image || !outputObj.explanation)
+        if (invalidOutput) {
+        console.log("INVALID OUTPUT!!! (word recognized and something is undefined)")
         }
-        await parseGPTOutput(outputObj, setCurrentWord, vocabWord,
-        setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language)
+
+        return outputObj
+
+        // if (!outputObj.word_recognized) {
+        //     // word invalid
+        //     setSimilarWords(outputObj.similar_words)
+        //     if (setShowWordInvalid == null) { console.log("ERROR: setShowWordInvalidModal is null.") }
+        //     setShowWordInvalid(true)
+        //     setIsLoading(false)
+        //     return
+        // }
+        // await parseGPTOutput(outputObj, setCurrentWord, vocabWord,
+        // setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language)
         } catch(error) {
             console.error(error);
     }
@@ -229,14 +272,13 @@ async function makeGPTCall(vocabWord, setIsLoading, setCurrentWord,
 
 async function parseGPTOutput(outputObj, setCurrentWord, word,
     setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language) {
-    // console.log(outputObj)
     if (word === "") { return }
 
-    const invalidOutput = (!outputObj || !outputObj.word || !outputObj.translation || !outputObj.mnemonic 
-                  || !outputObj.mental_image || !outputObj.explanation)
-    if (invalidOutput) {
-        console.log("INVALID OUTPUT!!! (something is undefined)")
-    }
+    // const invalidOutput = (!outputObj || !outputObj.word || !outputObj.translation || !outputObj.mnemonic 
+    //               || !outputObj.mental_image || !outputObj.explanation)
+    // if (invalidOutput) {
+    //     console.log("INVALID OUTPUT!!! (something is undefined)")
+    // }
 
     const newCurrent = {
         word: outputObj.word,
@@ -288,7 +330,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
     const [triggerGeneration4, setTriggerGeneration4] = React.useState(false)
     const [triggerGeneration5, setTriggerGeneration5] = React.useState(false)
     const [triggerBlank, setTriggerBlank] = React.useState(false)
-    const [generatedWord, setGeneratedWord] = React.useState("")
+    // const [generatedWord, setGeneratedWord] = React.useState("")
     const [displayExtraMnemonics, setDisplayExtraMnemonics] = React.useState(false)
     const [extraMnemonicsLoading, setExtraMnemonicsLoading] = React.useState(false)
     const [extraMnemonics, setExtraMnemonics] = React.useState([])
@@ -304,19 +346,19 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
         }
     }, [currentWord])
 
-    React.useEffect(() => {
-        if (generatedWord.trim() === "") { return }
-        makeGPTCall(generatedWord, setIsLoading, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
-            setHistory, setCurrentWordIndex, language)
-    }, [generatedWord])
+    // React.useEffect(() => {
+    //     if (generatedWord.trim() === "") { return }
+    //     makeGPTCallWrapper(generatedWord, setIsLoading, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
+    //         setHistory, setCurrentWordIndex, language)
+    // }, [generatedWord])
 
     return (
         <div className="main-tool">
-            <ToolTabs vocabWord={vocabWord} vocabWordInputRef={vocabWordInputRef} makeGPTCall={makeGPTCall}
+            <ToolTabs vocabWord={vocabWord} vocabWordInputRef={vocabWordInputRef} makeGPTCallWrapper={makeGPTCallWrapper}
                       setVocabWord={setVocabWord} setIsLoading={setIsLoading} numGPTRuns={numGPTRuns} setNumGPTRuns={setNumGPTRuns} 
                       setTriggerGeneration1={setTriggerGeneration1} setTriggerBlank={setTriggerBlank} setHistory={setHistory} 
-                      setCurrentWordIndex={setCurrentWordIndex} language={language} setGeneratedWord={setGeneratedWord} 
-                      setIsGenerating={setIsGenerating} setCurrentWord={setCurrentWord} 
+                      setCurrentWordIndex={setCurrentWordIndex} language={language}
+                      setIsGenerating={setIsGenerating} setCurrentWord={setCurrentWord}  makeGPTCall={makeGPTCall}
                       />
 
             {/* output boxes */} 

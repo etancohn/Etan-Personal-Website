@@ -5,7 +5,7 @@ import main_logo from './pics/main_logo.png'
 import Table from 'react-bootstrap/Table';
 import './WordNotFoundModal.css'
 
-function WordNotFoundModal( {vocabWord, setVocabWord, language, makeGPTCall, setCurrentWord, setTriggerGeneration1,
+function WordNotFoundModal( {vocabWord, setVocabWord, language, makeGPTCallWrapper, setCurrentWord, setTriggerGeneration1,
                             setTriggerBlank, setHistory, setCurrentWordIndex, showWordInvalidModal, setShowWordInvalidModal,
                             similarWords, setSimilarWords, setIsLoading} ) {
   return (
@@ -43,7 +43,7 @@ function WordNotFoundModal( {vocabWord, setVocabWord, language, makeGPTCall, set
                             onClick={() => {
                                 setShowWordInvalidModal(false)
                                 setVocabWord(word.possible_word)
-                                makeGPTCall(word.possible_word, setIsLoading, setCurrentWord, 
+                                makeGPTCallWrapper(word.possible_word, setIsLoading, setCurrentWord, 
                                     setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
                                     language, setShowWordInvalidModal, setSimilarWords, word.possible_word_translation)
                                 }

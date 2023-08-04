@@ -23,9 +23,9 @@ function getExampleWord(language) {
     else return ("(error)")
 }
 
-function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, setIsLoading, numGPTRuns,
+function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCallWrapper, setVocabWord, setIsLoading, numGPTRuns,
                     setNumGPTRuns, setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language,
-                    setGeneratedWord, setIsGenerating, setCurrentWord} ) {
+                    setIsGenerating, setCurrentWord, makeGPTCall} ) {
     const [selectedTab, setSelectedTab] = React.useState("enter-word")
     const [selectedRadio, setSelectedRadio] = React.useState("easy")
     const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false)
@@ -43,7 +43,7 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
             }
             // if enter is pushed in "enter word" tab: either change focus to vocab word input or make API call
             if (vocabWordInputFocussed) {   
-                makeGPTCall(vocabWord, setIsLoading, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
+                makeGPTCallWrapper(vocabWord, setIsLoading, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
                             setHistory, setCurrentWordIndex, language, setShowWordInvalidModal, setSimilarWords)
                 vocabWordInputRef.current.blur()   // unfocus
             } else  {
@@ -106,7 +106,7 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                     </div>
                     <button 
                         className="submit-btn ll-btn ll-tool-submit-btn"
-                        onClick={() => makeGPTCall(vocabWord, setIsLoading, setCurrentWord, 
+                        onClick={() => makeGPTCallWrapper(vocabWord, setIsLoading, setCurrentWord, 
                                                 setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex,
                                                 language, setShowWordInvalidModal, setSimilarWords)}>
                             Submit
@@ -121,9 +121,10 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                     <h4 className="ll-description-generate-random">
                         Use the button below to generate a random {language} word.
                     </h4>
-                    <LinguaGenerateRandom setGeneratedWord={setGeneratedWord} language={language} setIsGenerating={setIsGenerating}
+                    <LinguaGenerateRandom language={language} setIsGenerating={setIsGenerating}
                                             selectedDifficulty={selectedRadio} setIsLoading={setIsLoading} 
-                                            triggerNewRandomWord={triggerNewRandomWord} setTriggerNewRandomWord={setTriggerNewRandomWord} />
+                                            triggerNewRandomWord={triggerNewRandomWord} setTriggerNewRandomWord={setTriggerNewRandomWord} 
+                                            makeGPTCall={makeGPTCall}/>
                         <div className="ll-radio-input">
                             <div className="ll-radio-btns-container">
                                 <div className="ll-radio-btns-text">Word Difficulty: </div>
@@ -149,7 +150,7 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
             </Tab.Content>
         </Tab.Container>
 
-        <WordNotFoundModal vocabWord={vocabWord} setVocabWord={setVocabWord} language={language} makeGPTCall={makeGPTCall} 
+        <WordNotFoundModal vocabWord={vocabWord} setVocabWord={setVocabWord} language={language} makeGPTCallWrapper={makeGPTCallWrapper} 
                 setCurrentWord={setCurrentWord} setTriggerGeneration1={setTriggerGeneration1} setTriggerBlank={setTriggerBlank}
                 setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex} showWordInvalidModal={showWordInvalidModal}
                 setShowWordInvalidModal={setShowWordInvalidModal} similarWords={similarWords} setSimilarWords={setSimilarWords}
