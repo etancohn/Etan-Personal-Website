@@ -101,7 +101,10 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCall, setVocabWord, set
                         </input>
                         {
                         vocabWordInputFocussed && vocabWord != "" && (
-                            <CloseButton className="ll-reset-input-txt-btn" onClick={() => setVocabWord("")} />
+                            <CloseButton className="ll-reset-input-txt-btn" onClick={() => {
+                                setVocabWord("")
+                                vocabWordInputRef.current.focus()
+                            }} />
                         )}
                     </div>
                     <button 
