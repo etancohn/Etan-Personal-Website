@@ -240,11 +240,11 @@ async function resetGenerated(language, setGeneratedWords, makeGPTCall) {
         hard: result.advanced_vocabulary
         })
         Promise.all([
-            makeGPTCall(result.beginner_vocabulary[0]),
-            makeGPTCall(result.beginner_vocabulary[1]),
-            makeGPTCall(result.beginner_vocabulary[2]),
-            makeGPTCall(result.beginner_vocabulary[3]),
-            makeGPTCall(result.beginner_vocabulary[4])
+            makeGPTCall(result.beginner_vocabulary[0], language),
+            makeGPTCall(result.beginner_vocabulary[1], language),
+            makeGPTCall(result.beginner_vocabulary[2], language),
+            makeGPTCall(result.beginner_vocabulary[3], language),
+            makeGPTCall(result.beginner_vocabulary[4], language)
         ])
         .then((results) => {
             results.map((val, index) => {
