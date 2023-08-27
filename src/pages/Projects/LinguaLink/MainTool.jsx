@@ -156,7 +156,7 @@ async function makeGPTCallWrapper(vocabWord, setIsLoading, setCurrentWord,
                 }
                 setCurrentWordIndex(updatedHistory.length - 1)
                 return updatedHistory
-                })
+            })
             setCurrentWord(newCurrent)
             setTriggerBlank(true)
             setTriggerGeneration1(true)
@@ -167,7 +167,7 @@ async function makeGPTCallWrapper(vocabWord, setIsLoading, setCurrentWord,
 async function makeGPTCall(vocabWord, language, meaning="") {
     // if (vocabWord.trim() === "") { return }
     // setIsLoading(true)
-    console.log(`vocabWord: ${vocabWord}`)
+    // console.log(`vocabWord: ${vocabWord}`)
     // Query string for the API request
     const systemMsgContent = import.meta.env.VITE_SYSTEM_MESSAGE_CONTENT
     const example1Prompt = import.meta.env.VITE_EXAMPLE_1_PROMPT
@@ -318,7 +318,7 @@ function resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerG
     setTriggerBlank(false)
 }
 
-function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, setCurrentWordIndex,
+function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setNumHistoryClicks, setHistory, setCurrentWordIndex,
                     language, setIsGenerating} ) {
     const [vocabWord, setVocabWord] = React.useState("")
     const vocabWordInputRef = React.useRef(null);
@@ -360,6 +360,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setHistory, s
                       setTriggerGeneration1={setTriggerGeneration1} setTriggerBlank={setTriggerBlank} setHistory={setHistory} 
                       setCurrentWordIndex={setCurrentWordIndex} language={language}
                       setIsGenerating={setIsGenerating} setCurrentWord={setCurrentWord}  makeGPTCall={makeGPTCall}
+                      numHistoryClicks={numHistoryClicks} setNumHistoryClicks={setNumHistoryClicks} MAX_HISTORY_LENGTH={MAX_HISTORY_LENGTH}
                       />
 
             {/* output boxes */} 

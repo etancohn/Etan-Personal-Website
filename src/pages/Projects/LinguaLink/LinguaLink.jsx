@@ -72,7 +72,8 @@ function LinguaLink() {
                 </div>
 
                 <div className="main-tool-container">
-                    <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks}
+                    <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} 
+                              numHistoryClicks={numHistoryClicks} setNumHistoryClicks={setNumHistoryClicks}
                               setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex}
                               language={language} setIsGenerating={setIsGenerating} />
                 </div>

@@ -25,7 +25,7 @@ function getExampleWord(language) {
 
 function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCallWrapper, setVocabWord, setIsLoading, numGPTRuns,
                     setNumGPTRuns, setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language,
-                    setIsGenerating, setCurrentWord, makeGPTCall} ) {
+                    setIsGenerating, setCurrentWord, makeGPTCall, numHistoryClicks, setNumHistoryClicks, MAX_HISTORY_LENGTH} ) {
     const [selectedTab, setSelectedTab] = React.useState("enter-word")
     const [selectedRadio, setSelectedRadio] = React.useState("easy")
     const [vocabWordInputFocussed, setVocabWordInputFocussed] = React.useState(false)
@@ -124,7 +124,10 @@ function ToolTabs( {vocabWord, vocabWordInputRef, makeGPTCallWrapper, setVocabWo
                     <LinguaGenerateRandom language={language} setIsGenerating={setIsGenerating}
                                             selectedDifficulty={selectedRadio} setIsLoading={setIsLoading} 
                                             triggerNewRandomWord={triggerNewRandomWord} setTriggerNewRandomWord={setTriggerNewRandomWord} 
-                                            makeGPTCall={makeGPTCall}/>
+                                            makeGPTCall={makeGPTCall} setCurrentWord={setCurrentWord} 
+                                            numHistoryClicks={numHistoryClicks} setNumHistoryClicks={setNumHistoryClicks}
+                                            setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex} 
+                                            MAX_HISTORY_LENGTH={MAX_HISTORY_LENGTH}/>
                         <div className="ll-radio-input">
                             <div className="ll-radio-btns-container">
                                 <div className="ll-radio-btns-text">Word Difficulty: </div>
