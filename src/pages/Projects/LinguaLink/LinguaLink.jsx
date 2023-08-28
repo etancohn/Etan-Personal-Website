@@ -34,6 +34,7 @@ function LinguaLink() {
     infinitive: ""
   }
   const [currentWord, setCurrentWord] = React.useState(initialWord)
+  const [cursorLoading, setCursorLoading] = React.useState(false)
 
   // Load state from local storage on component mount
   React.useEffect(() => {
@@ -53,7 +54,7 @@ function LinguaLink() {
   return (
     <>
     {isGenerating && <div className="wait-cursor"></div>}
-    <div className="lingua-link-content">
+    <div className={`lingua-link-content ${cursorLoading ? "loading-cursor" : ""}`}>
         {/* <GreenNavbar white={true}/> */}
         <PhoneHistory history={history} setCurrentWord={setCurrentWord} numHistoryClicks={numHistoryClicks} 
                       setNumHistoryClicks={setNumHistoryClicks} currentWordIndex={currentWordIndex} 
@@ -75,7 +76,7 @@ function LinguaLink() {
                     <MainTool currentWord={currentWord} setCurrentWord={setCurrentWord} 
                               numHistoryClicks={numHistoryClicks} setNumHistoryClicks={setNumHistoryClicks}
                               setHistory={setHistory} setCurrentWordIndex={setCurrentWordIndex}
-                              language={language} setIsGenerating={setIsGenerating} />
+                              language={language} setIsGenerating={setIsGenerating} setCursorLoading={setCursorLoading} />
                 </div>
                 
                 <div className="white-space-container"></div>

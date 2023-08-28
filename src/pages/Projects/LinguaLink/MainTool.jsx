@@ -319,7 +319,7 @@ function resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerG
 }
 
 function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setNumHistoryClicks, setHistory, setCurrentWordIndex,
-                    language, setIsGenerating} ) {
+                    language, setIsGenerating, setCursorLoading} ) {
     const [vocabWord, setVocabWord] = React.useState("")
     const vocabWordInputRef = React.useRef(null);
     const [numGPTRuns, setNumGPTRuns] = React.useState(0)
@@ -361,6 +361,7 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setNumHistory
                       setCurrentWordIndex={setCurrentWordIndex} language={language}
                       setIsGenerating={setIsGenerating} setCurrentWord={setCurrentWord}  makeGPTCall={makeGPTCall}
                       numHistoryClicks={numHistoryClicks} setNumHistoryClicks={setNumHistoryClicks} MAX_HISTORY_LENGTH={MAX_HISTORY_LENGTH}
+                      setCursorLoading={setCursorLoading}
                       />
 
             {/* output boxes */} 

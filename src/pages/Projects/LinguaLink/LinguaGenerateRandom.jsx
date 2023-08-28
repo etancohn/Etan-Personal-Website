@@ -1,5 +1,8 @@
 import React, { startTransition } from 'react'
 import './LinguaGenerateRandom.css'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import main_logo from './pics/main_logo.png'
 
 // API Key for authentication
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
@@ -81,7 +84,7 @@ async function generateRandomWordsGPT(language) {
                     }
                 }
             ],
-            "max_tokens": 1000,
+            "max_tokens": 2000,
             "temperature": GPT_TEMPERATURE,
             "function_call": {
                 "name": "display_vocabulary"
@@ -123,15 +126,12 @@ function enqueue(queue, items, maxSize=null) {
 
 function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, setIsLoading,
                                 triggerNewRandomWord, setTriggerNewRandomWord, makeGPTCall, setCurrentWord,
-                            numHistoryClicks, setNumHistoryClicks, setHistory, setCurrentWordIndex, MAX_HISTORY_LENGTH} ) {
+                            numHistoryClicks, setNumHistoryClicks, setHistory, setCurrentWordIndex, MAX_HISTORY_LENGTH,
+                            setCursorLoading} ) {
     const initialGeneratedWords = {
         easy: [], 
         hard: []
     }
-    // const initialGeneratedWords2 = {
-    //     easy: [], 
-    //     hard: []
-    // }
     const [generatedWords, setGeneratedWords] = React.useState(initialGeneratedWords)
     const [easyQueue, setEasyQueue] = React.useState([])
     const [hardQueue, setHardQueue] = React.useState([])
@@ -139,6 +139,7 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
     const [newHardQueueItems, setNewHardQueueItems] = React.useState([])
     const [newGeneratedWords, setNewGeneratedWords] = React.useState(initialGeneratedWords)
     const [refilling, setRefilling] = React.useState(false)
+    const [showGenWordErrorModal, setShowGenWordErrorModal] = React.useState(false)
 
     const hasInitialized = React.useRef(false)
 
@@ -178,6 +179,16 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
         console.log("hardQueue:")
         console.log(hardQueue)
 
+        function invalid() {
+            const res = !easyQueue || !hardQueue || easyQueue.length === 0 || hardQueue.length === 0
+            return res
+        }
+
+        if (invalid()) {
+            setShowGenWordErrorModal(true)
+            return
+        }
+
         if (selectedDifficulty === "easy") {
             if (easyQueue.length > 0) {
                 word = easyQueue[0]
@@ -187,7 +198,6 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
                 setWord(word)
             }
 
-            // if (updatedEasyQueue.length === READY_GENERATED_WORDS_REFILL_LIMIT) {
             if (!refilling && easyQueue.length - 1 <= READY_GENERATED_WORDS_REFILL_LIMIT) {
                 // refill Easy Queue
                 console.log("--- REFILLING EASY QUEUE!!! ---")
@@ -203,7 +213,6 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
                 setWord(word)
             }
 
-            // if (updatedHardQueue.length === READY_GENERATED_WORDS_REFILL_LIMIT) {
             if (!refilling && hardQueue.length - 1 <= READY_GENERATED_WORDS_REFILL_LIMIT) {
                 // refill Hard Queue
                 console.log("--- REFILLING HARD QUEUE!!! ---")
@@ -268,11 +277,13 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
 
         const firstEasyWords = newWordsObj.beginner_vocabulary.slice(0, START_MNEMONICS_AMT)
         const easyMnemonics = await Promise.all(firstEasyWords.map(vocabWord => makeGPTCall(vocabWord, language)))
+        setEasyQueue([])
         setNewEasyQueueItems(easyMnemonics)
         const otherEasyWords = newWordsObj.beginner_vocabulary.slice(START_MNEMONICS_AMT)
 
         const firstHardWords = newWordsObj.advanced_vocabulary.slice(0, START_MNEMONICS_AMT)
         const hardMnemonics = await Promise.all(firstHardWords.map(vocabWord => makeGPTCall(vocabWord, language)))
+        setHardQueue([])
         setNewHardQueueItems(hardMnemonics)
         const otherHardWords = newWordsObj.advanced_vocabulary.slice(START_MNEMONICS_AMT)
 
@@ -281,6 +292,7 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
             hard: otherHardWords
         }
         console.log("initialized.")
+        setGeneratedWords(initialGeneratedWords)
         setNewGeneratedWords(newWords)
     }
 
@@ -364,7 +376,38 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
             >
                     Generate Word
             </button>
+            <GenWordErrorModal showGenWordErrorModal={showGenWordErrorModal} setShowGenWordErrorModal={setShowGenWordErrorModal} />
         </div>
+    )
+}
+
+function GenWordErrorModal( {showGenWordErrorModal, setShowGenWordErrorModal} ) {
+    return (
+    <Modal
+        show={showGenWordErrorModal}
+        onHide={() => setShowGenWordErrorModal(false)}
+        size='md'
+        backdrop="static"
+        keyboard={false}
+        className="ll-modals"
+        >
+        <Modal.Header closeButton>
+        <div className="ll-modal-header-container">
+        <img src={main_logo} alt="lingua link logo" className='ll-modal-header-logo' />
+        <Modal.Title className="ll-info-modal-title">ERROR</Modal.Title>
+        </div>
+        </Modal.Header>
+        <Modal.Body className="ll-info-modal-body">
+            <p>
+              An error has occured. Please wait a few seconds and try again.
+            </p>
+        </Modal.Body>
+        <Modal.Footer>
+            <Button variant="primary" onClick={() => setShowGenWordErrorModal(false)} className='ll-info-modal-continue-btn'>
+            Continue
+            </Button>
+        </Modal.Footer>
+    </Modal>
     )
 }
 

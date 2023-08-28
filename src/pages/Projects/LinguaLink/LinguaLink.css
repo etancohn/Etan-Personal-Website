@@ -31,6 +31,10 @@
     cursor: wait;
 }
 
+.loading-cursor {
+    cursor: wait;
+}
+
 .lingua-link-sidebar {
     grid-area: sidebar;
 }
