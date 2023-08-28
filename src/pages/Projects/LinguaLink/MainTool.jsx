@@ -17,7 +17,7 @@ const API_KEY = import.meta.env.VITE_OPENAI_API_KEY
 // changeable constants
 // const MAX_GPT_RUNS = 10
 const MAX_HISTORY_LENGTH = 40
-const TEXT_GENERATION_SLOWNESS = 5
+const TEXT_GENERATION_SLOWNESS = 7
 const GPT_TEMPERATURE = 0.4
 
 async function extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics) {
@@ -253,58 +253,10 @@ async function makeGPTCall(vocabWord, language, meaning="") {
         if (invalidOutput) {
         console.log("INVALID OUTPUT!!! (word recognized and something is undefined)")
         }
-
         return outputObj
-
-        // if (!outputObj.word_recognized) {
-        //     // word invalid
-        //     setSimilarWords(outputObj.similar_words)
-        //     if (setShowWordInvalid == null) { console.log("ERROR: setShowWordInvalidModal is null.") }
-        //     setShowWordInvalid(true)
-        //     setIsLoading(false)
-        //     return
-        // }
-        // await parseGPTOutput(outputObj, setCurrentWord, vocabWord,
-        // setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language)
         } catch(error) {
             console.error(error);
     }
-}
-
-async function parseGPTOutput(outputObj, setCurrentWord, word,
-    setTriggerGeneration1, setTriggerBlank, setHistory, setCurrentWordIndex, language) {
-    if (word === "") { return }
-
-    // const invalidOutput = (!outputObj || !outputObj.word || !outputObj.translation || !outputObj.mnemonic 
-    //               || !outputObj.mental_image || !outputObj.explanation)
-    // if (invalidOutput) {
-    //     console.log("INVALID OUTPUT!!! (something is undefined)")
-    // }
-
-    const newCurrent = {
-        word: outputObj.word,
-        translation: outputObj.translation,
-        association: outputObj.mnemonic,
-        mentalImage: outputObj.mental_image,
-        explanation: outputObj.explanation,
-        url: "",
-        hasImage: false,
-        language: language,
-        pronunciation: outputObj.pronunciation ? outputObj.pronunciation : "",  // empty str if not found in output
-        infinitive: outputObj.is_verb ? outputObj.infinitive : ""
-    }
-
-    setHistory(prevHistory => {
-        let updatedHistory = [...prevHistory, newCurrent]
-        if (updatedHistory.length > MAX_HISTORY_LENGTH) {
-            updatedHistory = updatedHistory.slice(updatedHistory.length - MAX_HISTORY_LENGTH, updatedHistory.length)
-        }
-        setCurrentWordIndex(updatedHistory.length - 1)
-        return updatedHistory
-        })
-    setCurrentWord(newCurrent)
-    setTriggerBlank(true)
-    setTriggerGeneration1(true)
 }
 
 function resetTriggers(setTriggerGeneration1, setTriggerGeneration2, setTriggerGeneration3, setTriggerGeneration4, 
@@ -331,7 +283,6 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setNumHistory
     const [triggerGeneration4, setTriggerGeneration4] = React.useState(false)
     const [triggerGeneration5, setTriggerGeneration5] = React.useState(false)
     const [triggerBlank, setTriggerBlank] = React.useState(false)
-    // const [generatedWord, setGeneratedWord] = React.useState("")
     const [displayExtraMnemonics, setDisplayExtraMnemonics] = React.useState(false)
     const [extraMnemonicsLoading, setExtraMnemonicsLoading] = React.useState(false)
     const [extraMnemonics, setExtraMnemonics] = React.useState([])
@@ -346,12 +297,6 @@ function MainTool( {currentWord, setCurrentWord, numHistoryClicks, setNumHistory
             extraMnemonicsGPTCall(setExtraMnemonicsLoading, currentWord, setExtraMnemonics)
         }
     }, [currentWord])
-
-    // React.useEffect(() => {
-    //     if (generatedWord.trim() === "") { return }
-    //     makeGPTCallWrapper(generatedWord, setIsLoading, setCurrentWord, setTriggerGeneration1, setTriggerBlank,
-    //         setHistory, setCurrentWordIndex, language)
-    // }, [generatedWord])
 
     return (
         <div className="main-tool">
