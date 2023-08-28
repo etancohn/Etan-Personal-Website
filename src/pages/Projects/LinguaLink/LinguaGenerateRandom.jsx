@@ -124,8 +124,7 @@ function enqueue(queue, items, maxSize=null) {
 //     res = [lastElem, updatedQueue]
 // }
 
-function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, setIsLoading,
-                                triggerNewRandomWord, setTriggerNewRandomWord, makeGPTCall, setCurrentWord,
+function LinguaGenerateRandom( {language, selectedDifficulty, makeGPTCall, setCurrentWord,
                             numHistoryClicks, setNumHistoryClicks, setHistory, setCurrentWordIndex, MAX_HISTORY_LENGTH,
                             setCursorLoading} ) {
     const initialGeneratedWords = {
@@ -186,6 +185,9 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
 
         if (invalid()) {
             setShowGenWordErrorModal(true)
+            if (!easyQueue || !hardQueue) {
+                initialize()
+            }
             return
         }
 
@@ -271,6 +273,9 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
     }
 
     async function initialize() {
+        setEasyQueue([])
+        setHardQueue([])
+        setGeneratedWords(initialGeneratedWords)
         const newWordsObj = await generateRandomWordsGPT(language)
         shuffleArray(newWordsObj.beginner_vocabulary)
         shuffleArray(newWordsObj.advanced_vocabulary)
@@ -282,7 +287,6 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
             Promise.all(firstEasyWords.map(vocabWord => makeGPTCall(vocabWord, language))),
             Promise.all(firstHardWords.map(vocabWord => makeGPTCall(vocabWord, language)))
         ])
-
 
         setEasyQueue([])
         setNewEasyQueueItems(easyMnemonics)
@@ -303,7 +307,6 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
 
     React.useEffect(() => {
         const storedLanguage = window.localStorage.getItem("prevLanguage")
-        console.log(storedLanguage)
         if (!storedLanguage) {
             window.localStorage.setItem("prevLanguage", language)
             return
@@ -311,16 +314,7 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
         if (storedLanguage !== language) {
             console.log(`LANGUAGE CHANGE: ${language}`)
             window.localStorage.setItem("prevLanguage", language)
-            async function resetStuff() {
-                setEasyQueue([])
-                setHardQueue([])
-                setGeneratedWords(initialGeneratedWords)
-            }
-            resetStuff()
-            .then(() => {
-                console.log("THEN")
-                initialize()
-            })
+            initialize()
         }
     }, [language])
 
