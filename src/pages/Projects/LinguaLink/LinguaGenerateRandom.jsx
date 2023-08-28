@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { startTransition } from 'react'
 import './LinguaGenerateRandom.css'
 
 // API Key for authentication
@@ -10,15 +10,16 @@ const GEN_WORDS_REFILL_LIMIT = 10   // limit of amount of easy or hard words sto
 const GEN_WORDS_STORED_LIMIT = 80  // max amount of easy or hard words stored
 const READY_GENERATED_WORDS_REFILL_LIMIT = 5 // amount of ready mnemonics left before getting more mnemonics in background
 const MNEMONICS_REFILL_AMT = 6 // amount of words to get mnemonics for at a time
+const START_MNEMONICS_AMT = 3  // mnemonics to start out with when initializing
 
-// // Fisher Yates shuffle algo
-// function shuffleArray(array) {
-//     for (let i = array.length - 1; i > 0; i--) {
-//       const j = Math.floor(Math.random() * (i + 1));
-//       [array[i], array[j]] = [array[j], array[i]];
-//     }
-//     return array;
-//   }
+// Fisher Yates shuffle algo
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
 
 async function generateRandomWordsGPT(language) {
     console.log("generating words...")
@@ -127,16 +128,17 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
         easy: [], 
         hard: []
     }
-    const initialGeneratedWords2 = {
-        easy: [], 
-        hard: []
-    }
+    // const initialGeneratedWords2 = {
+    //     easy: [], 
+    //     hard: []
+    // }
     const [generatedWords, setGeneratedWords] = React.useState(initialGeneratedWords)
     const [easyQueue, setEasyQueue] = React.useState([])
     const [hardQueue, setHardQueue] = React.useState([])
     const [newEasyQueueItems, setNewEasyQueueItems] = React.useState([])
     const [newHardQueueItems, setNewHardQueueItems] = React.useState([])
-    const [newGeneratedWords, setNewGeneratedWords] = React.useState(initialGeneratedWords2)
+    const [newGeneratedWords, setNewGeneratedWords] = React.useState(initialGeneratedWords)
+    const [refilling, setRefilling] = React.useState(false)
 
     const hasInitialized = React.useRef(false)
 
@@ -168,7 +170,7 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
 
     // get next ready mnemonic 
     async function getRandomWord() {
-        let word = {}
+        let word, updatedEasyQueue, updatedHardQueue
         console.log("generatedWords:")
         console.log(generatedWords)
         console.log("easyQueue:")
@@ -177,58 +179,50 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
         console.log(hardQueue)
 
         if (selectedDifficulty === "easy") {
-            console.log("SELECTED DIFF - EASY")
-            word = easyQueue[0]
-            let updatedEasyQueue = easyQueue.slice(1)
-            setEasyQueue(updatedEasyQueue)
-            setWord(word)
+            if (easyQueue.length > 0) {
+                word = easyQueue[0]
+                updatedEasyQueue = easyQueue.slice(1)
+                setEasyQueue(updatedEasyQueue)
+                window.localStorage.setItem("easyQueue", JSON.stringify(updatedEasyQueue))
+                setWord(word)
+            }
 
-            if (updatedEasyQueue.length === READY_GENERATED_WORDS_REFILL_LIMIT) {
+            // if (updatedEasyQueue.length === READY_GENERATED_WORDS_REFILL_LIMIT) {
+            if (!refilling && easyQueue.length - 1 <= READY_GENERATED_WORDS_REFILL_LIMIT) {
                 // refill Easy Queue
                 console.log("--- REFILLING EASY QUEUE!!! ---")
                 const newMnemonics = refillQueue(generatedWords, "easy")
                 setNewEasyQueueItems(newMnemonics)
             }
         } else if (selectedDifficulty === "hard") {
-            console.log("SELECTED DIFF - HARD")
-            word = hardQueue[0]
-            let updatedHardQueue = hardQueue.slice(1)
-            setHardQueue(updatedHardQueue)
-            setWord(word)
+            if (hardQueue.length > 0) {
+                word = hardQueue[0]
+                updatedHardQueue = hardQueue.slice(1)
+                setHardQueue(updatedHardQueue)
+                window.localStorage.setItem("hardQueue", JSON.stringify(updatedHardQueue))
+                setWord(word)
+            }
 
-            if (updatedHardQueue.length === READY_GENERATED_WORDS_REFILL_LIMIT) {
+            // if (updatedHardQueue.length === READY_GENERATED_WORDS_REFILL_LIMIT) {
+            if (!refilling && hardQueue.length - 1 <= READY_GENERATED_WORDS_REFILL_LIMIT) {
                 // refill Hard Queue
                 console.log("--- REFILLING HARD QUEUE!!! ---")
                 const newMnemonics = refillQueue(generatedWords, "hard")
                 setNewHardQueueItems(newMnemonics)
             }
         }
-
-        console.log("WORD:")
-        console.log(word)
-        console.log("generatedWords:")
-        console.log(generatedWords)
-        console.log("easyQueue:")
-        console.log(easyQueue)
-        console.log("hardQueue:")
-        console.log(hardQueue)
         return
     }
 
     async function refillQueue(currentGeneratedWords, difficulty=undefined) {
-        // if (currentGeneratedWords.length < MNEMONICS_REFILL_AMT) {
-        //     console.log(`ERROR: generatedWords.length (${currentGeneratedWords.length}) < MNEMONICS_REFILL_AMT (${MNEMONICS_REFILL_AMT}).`)
-        //     return
-        // }
+        setRefilling(true)
         let wordDifficulty = difficulty
         if (!difficulty) {
             wordDifficulty = selectedDifficulty
         }
         console.log('getting mnemonics...')
         let firstWords, newMnemonics, otherWords, updatedGeneratedWords
-        console.log(`WORD DIFFICULTY: ${wordDifficulty}`)
         if (wordDifficulty === "easy") {
-            console.log("HERE")
             firstWords = currentGeneratedWords.easy.slice(0, MNEMONICS_REFILL_AMT)
             newMnemonics = await Promise.all(firstWords.map(vocabWord => makeGPTCall(vocabWord, language)))
             setNewEasyQueueItems(newMnemonics)
@@ -238,8 +232,8 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
                 easy: otherWords
             }
             setGeneratedWords(updatedGeneratedWords)
+            window.localStorage.setItem("generatedWords", JSON.stringify(updatedGeneratedWords))
         } else if (wordDifficulty === "hard") {
-            console.log("SHOULD NOT BE HERE")
             firstWords = currentGeneratedWords.hard.slice(0, MNEMONICS_REFILL_AMT)
             newMnemonics = await Promise.all(firstWords.map(vocabWord => makeGPTCall(vocabWord, language)))
             setNewHardQueueItems(newMnemonics)
@@ -249,10 +243,9 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
                 hard: otherWords
             }
             setGeneratedWords(updatedGeneratedWords)
+            window.localStorage.setItem("generatedWords", JSON.stringify(updatedGeneratedWords))
         }
 
-        // console.log("GENERATED WORDS:")
-        // console.log(updatedGeneratedWords)
         if (otherWords.length < GEN_WORDS_REFILL_LIMIT) {
             console.log("--- refilling generated words!!! ----")
             const newWordsObj = await generateRandomWordsGPT(language)
@@ -260,19 +253,65 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
                 easy: newWordsObj.beginner_vocabulary,
                 hard: newWordsObj.advanced_vocabulary
             }
-            // console.log("NEW WORDS:")
-            // console.log(newWords)
+            shuffleArray(newWords.easy)
+            shuffleArray(newWords.hard)
             setNewGeneratedWords(newWords)
         } 
+        setRefilling(false)
         return newMnemonics
     }
+
+    async function initialize() {
+        const newWordsObj = await generateRandomWordsGPT(language)
+        shuffleArray(newWordsObj.beginner_vocabulary)
+        shuffleArray(newWordsObj.advanced_vocabulary)
+
+        const firstEasyWords = newWordsObj.beginner_vocabulary.slice(0, START_MNEMONICS_AMT)
+        const easyMnemonics = await Promise.all(firstEasyWords.map(vocabWord => makeGPTCall(vocabWord, language)))
+        setNewEasyQueueItems(easyMnemonics)
+        const otherEasyWords = newWordsObj.beginner_vocabulary.slice(START_MNEMONICS_AMT)
+
+        const firstHardWords = newWordsObj.advanced_vocabulary.slice(0, START_MNEMONICS_AMT)
+        const hardMnemonics = await Promise.all(firstHardWords.map(vocabWord => makeGPTCall(vocabWord, language)))
+        setNewHardQueueItems(hardMnemonics)
+        const otherHardWords = newWordsObj.advanced_vocabulary.slice(START_MNEMONICS_AMT)
+
+        const newWords = {
+            easy: otherEasyWords,
+            hard: otherHardWords
+        }
+        console.log("initialized.")
+        setNewGeneratedWords(newWords)
+    }
+
+    React.useEffect(() => {
+        const storedLanguage = window.localStorage.getItem("prevLanguage")
+        console.log(storedLanguage)
+        if (!storedLanguage) {
+            window.localStorage.setItem("prevLanguage", language)
+            return
+        }
+        if (storedLanguage !== language) {
+            console.log(`LANGUAGE CHANGE: ${language}`)
+            window.localStorage.setItem("prevLanguage", language)
+            async function resetStuff() {
+                setEasyQueue([])
+                setHardQueue([])
+                setGeneratedWords(initialGeneratedWords)
+            }
+            resetStuff()
+            .then(() => {
+                console.log("THEN")
+                initialize()
+            })
+        }
+    }, [language])
 
     React.useEffect(() => {
         if (newEasyQueueItems.length > 0) {
             const newEasyQueue = enqueue(easyQueue, newEasyQueueItems)
             setEasyQueue(newEasyQueue)
-            // console.log("EASY QUEUE:")
-            // console.log(newEasyQueue)
+            window.localStorage.setItem("easyQueue", JSON.stringify(newEasyQueue))
         }
     }, [newEasyQueueItems])
 
@@ -280,14 +319,12 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
         if (newHardQueueItems.length > 0) {
             const newHardQueue = enqueue(hardQueue, newHardQueueItems)
             setHardQueue(newHardQueue)
-            // console.log("EASY QUEUE:")
-            // console.log(newEasyQueue)
+            window.localStorage.setItem("hardQueue", JSON.stringify(newHardQueue))
         }
     }, [newHardQueueItems])
 
     React.useEffect(() => {
         if (newGeneratedWords.easy.length > 0 || newGeneratedWords.hard.length > 0) {
-            console.log("WOAHH")
             const newEasy = enqueue(generatedWords.easy, newGeneratedWords.easy, GEN_WORDS_STORED_LIMIT)
             const newHard = enqueue(generatedWords.hard, newGeneratedWords.hard, GEN_WORDS_STORED_LIMIT)
             // TODO: shuffle words
@@ -296,60 +333,26 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
                 hard: newHard
             }
             setGeneratedWords(updatedGeneratedWords)
-            // console.log("GENERATED WORDS:")
-            // console.log(updatedGeneratedWords)
+            window.localStorage.setItem("generatedWords", JSON.stringify(updatedGeneratedWords))
         }
     }, [newGeneratedWords])
 
     // initialize generatedWords and mnemonicQueues on mount
     React.useEffect(() => {
-        async function initialize() {
-            const newWordsObj = await generateRandomWordsGPT(language)
-            const newWords = {
-                easy: newWordsObj.beginner_vocabulary,
-                hard: newWordsObj.advanced_vocabulary
-            }
-            // setNewGeneratedWords(newWords)
-            console.log("GENERATED WORDS:")
-            console.log(newWords)
-            // const newEasyMnemonics = await refillQueue(newWords, "easy")
-
-            const firstEasyWords = newWords.easy.slice(0, MNEMONICS_REFILL_AMT)
-            const easyMnemonics = await Promise.all(firstEasyWords.map(vocabWord => makeGPTCall(vocabWord, language)))
-            setNewEasyQueueItems(easyMnemonics)
-            const otherEasyWords = newWords.easy.slice(MNEMONICS_REFILL_AMT)
-
-            const firstHardWords = newWords.hard.slice(0, MNEMONICS_REFILL_AMT)
-            const hardMnemonics = await Promise.all(firstHardWords.map(vocabWord => makeGPTCall(vocabWord, language)))
-            setNewHardQueueItems(hardMnemonics)
-            const otherHardWords = newWords.hard.slice(MNEMONICS_REFILL_AMT)
-
-            const startGeneratedWords = {
-                easy: otherEasyWords,
-                hard: otherHardWords
-            }
-            setNewGeneratedWords(startGeneratedWords)
-
-            // updatedGeneratedWords = {
-            //     ...currentGeneratedWords,
-            //     easy: otherWords
-            // }
-            // setGeneratedWords(updatedGeneratedWords)
-
-            // setNewEasyQueueItems(newEasyMnemonics)
-            // console.log("EASY QUEUE")
-            // console.log(newEasyMnemonics)
-            // const newHardMnemonics = await refillQueue(newWords, "hard")
-            // console.log("HARD QUEUE")
-            // console.log(newHardMnemonics)
-            // setNewEasyQueueItems(newEasyMnemonics)
-            // setNewHardQueueItems(newHardMnemonics)
-        }
         // avoid re-render (otherwise it runs this code twice)
         if (!hasInitialized.current) {
             hasInitialized.current = true
         } else {
-            initialize()
+            const storedGeneratedWords = JSON.parse(window.localStorage.getItem("generatedWords"))
+            const storedEasyQueue = JSON.parse(window.localStorage.getItem("easyQueue"))
+            const storedHardQueue = JSON.parse(window.localStorage.getItem("hardQueue"))
+            if (!storedGeneratedWords || !storedEasyQueue || !storedHardQueue) {
+                initialize()
+            } else {
+                setGeneratedWords(storedGeneratedWords)
+                setEasyQueue(storedEasyQueue)
+                setHardQueue(storedHardQueue)
+            }
         }
     }, [])
 
@@ -357,7 +360,7 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
         <div className="ll-generate-random-container">
             <button 
                 className="submit-btn ll-btn ll-generate-random-btn"
-                onClick={() => getRandomWord(selectedDifficulty, generatedWords, setGeneratedWords, language, easyQueue)} 
+                onClick={() => getRandomWord()} 
             >
                     Generate Word
             </button>
