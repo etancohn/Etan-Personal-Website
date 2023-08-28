@@ -276,13 +276,18 @@ function LinguaGenerateRandom( {language, setIsGenerating, selectedDifficulty, s
         shuffleArray(newWordsObj.advanced_vocabulary)
 
         const firstEasyWords = newWordsObj.beginner_vocabulary.slice(0, START_MNEMONICS_AMT)
-        const easyMnemonics = await Promise.all(firstEasyWords.map(vocabWord => makeGPTCall(vocabWord, language)))
+        const firstHardWords = newWordsObj.advanced_vocabulary.slice(0, START_MNEMONICS_AMT)
+
+        const [easyMnemonics, hardMnemonics] = await Promise.all([
+            Promise.all(firstEasyWords.map(vocabWord => makeGPTCall(vocabWord, language))),
+            Promise.all(firstHardWords.map(vocabWord => makeGPTCall(vocabWord, language)))
+        ])
+
+
         setEasyQueue([])
         setNewEasyQueueItems(easyMnemonics)
         const otherEasyWords = newWordsObj.beginner_vocabulary.slice(START_MNEMONICS_AMT)
 
-        const firstHardWords = newWordsObj.advanced_vocabulary.slice(0, START_MNEMONICS_AMT)
-        const hardMnemonics = await Promise.all(firstHardWords.map(vocabWord => makeGPTCall(vocabWord, language)))
         setHardQueue([])
         setNewHardQueueItems(hardMnemonics)
         const otherHardWords = newWordsObj.advanced_vocabulary.slice(START_MNEMONICS_AMT)
