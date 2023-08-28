@@ -139,6 +139,7 @@ function LinguaGenerateRandom( {language, selectedDifficulty, makeGPTCall, setCu
     const [newGeneratedWords, setNewGeneratedWords] = React.useState(initialGeneratedWords)
     const [refilling, setRefilling] = React.useState(false)
     const [showGenWordErrorModal, setShowGenWordErrorModal] = React.useState(false)
+    const [initializing, setInitializing] = React.useState(false)
 
     const hasInitialized = React.useRef(false)
 
@@ -185,10 +186,10 @@ function LinguaGenerateRandom( {language, selectedDifficulty, makeGPTCall, setCu
 
         if (invalid()) {
             setShowGenWordErrorModal(true)
-            if (!easyQueue || !hardQueue) {
+            if (!initializing) {
                 initialize()
+                return
             }
-            return
         }
 
         if (selectedDifficulty === "easy") {
@@ -273,6 +274,7 @@ function LinguaGenerateRandom( {language, selectedDifficulty, makeGPTCall, setCu
     }
 
     async function initialize() {
+        setInitializing(true)
         setEasyQueue([])
         setHardQueue([])
         setGeneratedWords(initialGeneratedWords)
@@ -303,6 +305,8 @@ function LinguaGenerateRandom( {language, selectedDifficulty, makeGPTCall, setCu
         console.log("initialized.")
         setGeneratedWords(initialGeneratedWords)
         setNewGeneratedWords(newWords)
+        setInitializing(false)
+        return
     }
 
     React.useEffect(() => {
@@ -353,7 +357,6 @@ function LinguaGenerateRandom( {language, selectedDifficulty, makeGPTCall, setCu
         // avoid re-render (otherwise it runs this code twice)
         if (!hasInitialized.current) {
             hasInitialized.current = true
-        } else {
             const storedGeneratedWords = JSON.parse(window.localStorage.getItem("generatedWords"))
             const storedEasyQueue = JSON.parse(window.localStorage.getItem("easyQueue"))
             const storedHardQueue = JSON.parse(window.localStorage.getItem("hardQueue"))
@@ -365,6 +368,22 @@ function LinguaGenerateRandom( {language, selectedDifficulty, makeGPTCall, setCu
                 setHardQueue(storedHardQueue)
             }
         }
+
+        // // avoid re-render (otherwise it runs this code twice)
+        // if (!hasInitialized.current) {
+        //     hasInitialized.current = true
+        // } else {
+        //     const storedGeneratedWords = JSON.parse(window.localStorage.getItem("generatedWords"))
+        //     const storedEasyQueue = JSON.parse(window.localStorage.getItem("easyQueue"))
+        //     const storedHardQueue = JSON.parse(window.localStorage.getItem("hardQueue"))
+        //     if (!storedGeneratedWords || !storedEasyQueue || !storedHardQueue) {
+        //         initialize()
+        //     } else {
+        //         setGeneratedWords(storedGeneratedWords)
+        //         setEasyQueue(storedEasyQueue)
+        //         setHardQueue(storedHardQueue)
+        //     }
+        // }
     }, [])
 
     return (
