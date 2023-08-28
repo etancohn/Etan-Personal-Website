@@ -186,7 +186,7 @@ function LinguaGenerateRandom( {language, selectedDifficulty, makeGPTCall, setCu
 
         if (invalid()) {
             setShowGenWordErrorModal(true)
-            if (!initializing) {
+            if (!initializing && (!easyQueue || !hardQueue)) {
                 initialize()
                 return
             }
@@ -368,22 +368,6 @@ function LinguaGenerateRandom( {language, selectedDifficulty, makeGPTCall, setCu
                 setHardQueue(storedHardQueue)
             }
         }
-
-        // // avoid re-render (otherwise it runs this code twice)
-        // if (!hasInitialized.current) {
-        //     hasInitialized.current = true
-        // } else {
-        //     const storedGeneratedWords = JSON.parse(window.localStorage.getItem("generatedWords"))
-        //     const storedEasyQueue = JSON.parse(window.localStorage.getItem("easyQueue"))
-        //     const storedHardQueue = JSON.parse(window.localStorage.getItem("hardQueue"))
-        //     if (!storedGeneratedWords || !storedEasyQueue || !storedHardQueue) {
-        //         initialize()
-        //     } else {
-        //         setGeneratedWords(storedGeneratedWords)
-        //         setEasyQueue(storedEasyQueue)
-        //         setHardQueue(storedHardQueue)
-        //     }
-        // }
     }, [])
 
     return (
