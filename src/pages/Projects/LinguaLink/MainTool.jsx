@@ -165,9 +165,6 @@ async function makeGPTCallWrapper(vocabWord, setIsLoading, setCurrentWord,
 
 // GPT call to get the word mnemonic, mental image, etc.
 async function makeGPTCall(vocabWord, language, meaning="") {
-    // if (vocabWord.trim() === "") { return }
-    // setIsLoading(true)
-    // console.log(`vocabWord: ${vocabWord}`)
     // Query string for the API request
     const systemMsgContent = import.meta.env.VITE_SYSTEM_MESSAGE_CONTENT
     const example1Prompt = import.meta.env.VITE_EXAMPLE_1_PROMPT

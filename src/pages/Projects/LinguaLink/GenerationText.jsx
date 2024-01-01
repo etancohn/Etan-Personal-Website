@@ -2,6 +2,7 @@ import React from 'react'
 
 // generates text, one letter at a time. slowness effects how quickly the text gets generated
 function GenerationText( { text="", slowness, triggerGeneration, onCompletion, triggerBlank, numHistoryClicks } ) {
+  console.log("GEN TEXT")
     const [content, setContent] = React.useState('')
 
     // set the content immediately to the word when a history item gets clicked

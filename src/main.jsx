@@ -11,6 +11,7 @@ import ProjectsPage from './pages/ProjectsPage/ProjectsPage.jsx'
 import SlangTranslator from './pages/Projects/SlangTranslator/SlangTranslator.jsx'
 import EmojiGenerator from './pages/Projects/EmojiGenerator/EmojiGenerator.jsx'
 import LinguaLink from './pages/Projects/LinguaLink/LinguaLink.jsx'
+import MusicResume from './pages/MusicResume/MusicResume.jsx'
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
    {
     path: "pages/software-resume",
     element: <SoftwareResume />
+   },
+   {
+    path: "pages/music-resume",
+    element: <MusicResume />
    },
    {
     path: "pages/projects-page",

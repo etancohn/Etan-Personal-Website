@@ -9,7 +9,7 @@ import InfoModal from './InfoModal'
 import PhoneHistory from './PhoneHistory'
 import LLSidebar from './LLSidebar'
 import Languages from './Languages'
-import main_logo from './pics/main_logo.png'
+// import main_logo from './pics/main_logo.png'
 
 
 function LinguaLink() {

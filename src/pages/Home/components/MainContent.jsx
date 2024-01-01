@@ -68,7 +68,7 @@ export default function MainContent() {
             {/* Resumes */}
             <div className="resume-btns">
                 <DarkGreenButton text="Software Resume" width="10rem" url="pages/software-resume" />
-                <DarkGreenButton text="Music Resume" width="10rem" />
+                <DarkGreenButton text="Music Resume" width="10rem" url="pages/music-resume" />
             </div>
 
             {/* Line Separation */}
