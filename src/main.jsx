@@ -36,7 +36,7 @@ const router = createBrowserRouter([
     element: <SoftwareResume />
    },
    {
-    path: "pages/music-resume",
+    path: "pages/music",
     element: <MusicResume />
    },
    {

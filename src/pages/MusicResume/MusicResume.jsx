@@ -9,7 +9,7 @@ function MusicResume() {
     <div className="software-resume">
         <GreenNavbar />
         <div className="software-page-content">
-            <h1 className="software-resume-title">Music Resume</h1>
+            <h1 className="software-resume-title">Recent Music Experience</h1>
             <img src={musicResumePhoto} alt="Etan's music resume" 
                 className="resume-img"/>
         </div>
